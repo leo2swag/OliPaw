@@ -1,0 +1,111 @@
+/*
+  文件：widgets/profile/profile_info_card.dart
+  说明：
+  - 个人资料信息卡片组件
+  - 显示品种、性别和个性签名
+
+  优化（v2.5）：
+  - 从 ProfileScreen 中提取，提高代码复用性
+*/
+import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
+import '../../models/types.dart';
+
+/// 个人资料信息卡片
+///
+/// 显示宠物的品种、性别和个性签名
+class ProfileInfoCard extends StatelessWidget {
+  /// 宠物数据
+  final Pet pet;
+
+  const ProfileInfoCard({
+    super.key,
+    required this.pet,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 10,
+            )
+          ],
+        ),
+        child: Column(
+          children: [
+            // 品种和性别
+            Row(
+              children: [
+                _buildInfoColumn(pet.breed, "BREED"),
+                _buildDivider(),
+                _buildInfoColumn("Male", "GENDER"),
+              ],
+            ),
+            const Divider(height: 30),
+
+            // 个性签名
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  LucideIcons.quote,
+                  color: Colors.orange.shade300,
+                  size: 20,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    pet.bio,
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey.shade700,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// 构建信息列
+  Widget _buildInfoColumn(String val, String label) {
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            val,
+            style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 9,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF14B8A6),
+              letterSpacing: 0.5,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// 构建分隔线
+  Widget _buildDivider() => Container(
+        width: 1,
+        height: 30,
+        color: Colors.grey.shade200,
+      );
+}
