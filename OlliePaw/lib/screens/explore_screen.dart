@@ -294,7 +294,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: UIDimensions.spacingS, vertical: 6),
                               decoration: BoxDecoration(color: AppColors.lightOrangeBg, borderRadius: BorderRadius.circular(UIDimensions.radiusL)),
-                              child: const Text("Visit", style: TextStyle(color: AppColors.primaryOrange, fontWeight: FontWeight.bold, fontSize: 12)),
+                              child: const Text("View Profile", style: TextStyle(color: AppColors.primaryOrange, fontWeight: FontWeight.bold, fontSize: 12)),
                             )
                           ],
                         ),

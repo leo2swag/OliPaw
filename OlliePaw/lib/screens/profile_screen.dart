@@ -33,6 +33,7 @@ import '../widgets/profile/timeline_item.dart';
 import '../widgets/profile/born_milestone.dart';
 import '../core/extensions/date_extensions.dart';
 import '../widgets/common/app_button.dart';
+import '../widgets/common/empty_state.dart';
 
 class ProfileScreen extends StatefulWidget {
   final Pet? pet;
@@ -244,7 +245,13 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     ]),
                   ),
                 ),
-                IconButton(onPressed: () => _showSettings(context), icon: const Icon(LucideIcons.settings, color: Colors.black87, size: 22)),
+                Tooltip(
+                  message: 'Settings',
+                  child: IconButton(
+                    onPressed: () => _showSettings(context),
+                    icon: const Icon(LucideIcons.settings, color: Colors.black87, size: 22),
+                  ),
+                ),
               ],
             ],
           ),
@@ -340,7 +347,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                 ),
                 // 相册 Tab
                 isLocked
-                  ? const Center(child: Text("Follow to unlock moments!"))
+                  ? EmptyState(
+                      icon: LucideIcons.lock,
+                      title: 'Moments Locked',
+                      subtitle: 'Follow ${_displayPet!.name} to unlock their moments',
+                    )
                   : GridView.builder(
                       padding: const EdgeInsets.all(16),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 8, mainAxisSpacing: 8),
