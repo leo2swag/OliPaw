@@ -8,14 +8,14 @@
   使用方式：
   ```dart
   // 之前：需要多行导入
-  import 'package:ollie_paw/utils/date_utils.dart';
+  import 'package:ollie_paw/core/extensions/date_extensions.dart';
   import 'package:ollie_paw/utils/chart_utils.dart';
 
   // 现在：单行导入
   import 'package:ollie_paw/utils/utils.dart';
 
   // 然后可以直接使用所有工具类
-  String age = AppDateUtils.calculateAge('2021-05-10');
+  String age = DateTime.parse('2021-05-10').calculateAge();
   double interval = ChartUtils.calculateYAxisInterval([29.0, 29.2, 30.1]);
   ```
 
@@ -23,10 +23,14 @@
   - 减少导入语句数量
   - 统一管理导出
   - 更好的代码组织
+
+  v2.8 更新：
+  - 移除重复的 date_utils.dart（已合并到 date_extensions.dart）
+  - 添加 date_extensions 导出以便统一访问
 */
 
-// 日期工具
-export 'date_utils.dart';
+// 日期扩展（统一的日期工具）
+export '../core/extensions/date_extensions.dart';
 
 // 图表工具
 export 'chart_utils.dart';

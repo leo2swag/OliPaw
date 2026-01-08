@@ -362,31 +362,11 @@ class AppConstants {
   }
 
   // ==================== 辅助方法 ====================
-
-  /// 获取今天日期字符串
-  static String getTodayString() {
-    return DateTime.now().toIso8601String().split('T')[0];
-  }
-
-  /// 格式化日期
-  static String formatDate(DateTime date) {
-    return date.toIso8601String().split('T')[0];
-  }
-
-  /// 解析日期
-  static DateTime? parseDate(String? dateString) {
-    if (dateString == null || dateString.isEmpty) return null;
-    try {
-      return DateTime.parse(dateString);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  /// 检查是否是今天
-  static bool isToday(String dateString) {
-    return dateString == getTodayString();
-  }
+  // Note: Date utilities have been consolidated into DateFormatting extension
+  // See: lib/core/extensions/date_extensions.dart
+  // - Use DateTime.now().toIso8601String().split('T')[0] for today's date
+  // - Use date.isToday for checking if date is today
+  // - Use DateTime.parse() for parsing dates
 
   /// 验证邮箱格式
   static String? validateEmail(String? value) {
@@ -421,25 +401,5 @@ class AppConstants {
       return 'Passwords do not match';
     }
     return null;
-  }
-
-  /// 计算年龄
-  static String calculateAge(String birthDate) {
-    try {
-      final birth = DateTime.parse(birthDate);
-      final now = DateTime.now();
-      final difference = now.difference(birth);
-
-      if (difference.inDays < 60) {
-        return "${difference.inDays}d";
-      }
-
-      final years = (difference.inDays / 365).floor();
-      final months = ((difference.inDays % 365) / 30).floor();
-
-      return years > 0 ? "${years}y ${months}m" : "${months}m";
-    } catch (e) {
-      return "N/A";
-    }
   }
 }
