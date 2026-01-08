@@ -23,6 +23,7 @@ import '../../core/constants/ui_constants.dart';
 import '../../core/theme/app_input_decoration.dart';
 import '../../utils/snackbar_helper.dart';
 import '../../widgets/password_form_field.dart';
+import '../../widgets/common/app_button.dart';
 import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -161,33 +162,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   // 登录按钮
                   Consumer<AuthProvider>(
                     builder: (context, authProvider, child) {
-                      return ElevatedButton(
+                      return AppButton.primary(
+                        label: 'Sign In',
                         onPressed: authProvider.isLoading ? null : _handleLogin,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryOrange,
-                          foregroundColor: AppColors.white,
-                          padding: const EdgeInsets.symmetric(vertical: UIDimensions.spacingM),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(UIDimensions.radiusS),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: authProvider.isLoading
-                            ? const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : const Text(
-                                'Sign In',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                        isLoading: authProvider.isLoading,
+                        fullWidth: true,
                       );
                     },
                   ),

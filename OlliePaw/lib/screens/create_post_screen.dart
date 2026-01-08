@@ -28,6 +28,7 @@ import '../providers/pet_provider.dart';
 import '../providers/currency_provider.dart';
 import '../services/gemini_service.dart';
 import '../widgets/common/loading_overlay.dart';
+import '../widgets/common/app_button.dart';
 import '../widgets/create_post/mood_selector.dart';
 import '../widgets/create_post/post_input_field.dart';
 import '../widgets/create_post/media_picker.dart';
@@ -187,17 +188,11 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         foregroundColor: Colors.black,
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-            child: ElevatedButton(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: AppButton.primary(
+              label: 'Post',
               onPressed: () => Navigator.pop(context),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange.shade600,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                elevation: 2,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              ),
-              child: const Text("Post", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+              size: AppButtonSize.small,
             ),
           )
         ],

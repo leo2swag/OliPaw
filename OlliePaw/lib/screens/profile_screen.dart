@@ -32,6 +32,7 @@ import '../widgets/profile/profile_info_card.dart';
 import '../widgets/profile/timeline_item.dart';
 import '../widgets/profile/born_milestone.dart';
 import '../core/extensions/date_extensions.dart';
+import '../widgets/common/app_button.dart';
 
 class ProfileScreen extends StatefulWidget {
   final Pet? pet;
@@ -149,14 +150,13 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               ),
             ),
             const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              height: 52,
-              child: ElevatedButton(
-                onPressed: () { petProvider.updatePetProfile(nameCtrl.text, bioCtrl.text); Navigator.pop(ctx); },
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.orange.shade600, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-                child: const Text("Save Changes", style: TextStyle(fontWeight: FontWeight.bold)),
-              ),
+            AppButton.primary(
+              label: 'Save Changes',
+              onPressed: () {
+                petProvider.updatePetProfile(nameCtrl.text, bioCtrl.text);
+                Navigator.pop(ctx);
+              },
+              fullWidth: true,
             ),
             const Spacer(),
             TextButton(
@@ -268,11 +268,17 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   if (!_isOwner)
                     Padding(
                       padding: const EdgeInsets.all(16),
-                      child: SizedBox(width: double.infinity, height: 48, child: ElevatedButton(
-                        onPressed: () => setState(() => _isFollowing = !_isFollowing),
-                        style: ElevatedButton.styleFrom(backgroundColor: _isFollowing ? Colors.grey.shade200 : Colors.orange.shade600, foregroundColor: _isFollowing ? Colors.black : Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24))),
-                        child: Text(_isFollowing ? "Following" : "Follow", style: const TextStyle(fontWeight: FontWeight.bold)),
-                      )),
+                      child: _isFollowing
+                          ? AppButton.outlined(
+                              label: 'Following',
+                              onPressed: () => setState(() => _isFollowing = false),
+                              fullWidth: true,
+                            )
+                          : AppButton.primary(
+                              label: 'Follow',
+                              onPressed: () => setState(() => _isFollowing = true),
+                              fullWidth: true,
+                            ),
                     ),
 
                   // Tabs
