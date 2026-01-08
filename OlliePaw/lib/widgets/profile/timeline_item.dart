@@ -9,6 +9,7 @@
 */
 import 'package:flutter/material.dart';
 import '../../models/types.dart';
+import '../../core/theme/app_dimensions.dart';
 
 /// 时间轴条目
 ///
@@ -151,7 +152,7 @@ class TimelineItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: AppRadius.allMD,
         boxShadow: [
           BoxShadow(
             color: textCol.withValues(alpha: 0.1),

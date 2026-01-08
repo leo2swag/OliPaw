@@ -11,6 +11,7 @@
 */
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
+import '../../core/theme/app_dimensions.dart';
 
 /// 心情选择器
 ///
@@ -65,7 +66,7 @@ class MoodSelector extends StatelessWidget {
                   margin: const EdgeInsets.only(right: 10),
                   decoration: BoxDecoration(
                     color: isSelected ? AppColors.lightOrangeBg : AppColors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: AppRadius.allMD,
                     border: Border.all(
                       color: isSelected ? AppColors.primaryOrange : AppColors.grey200,
                       width: 2,

@@ -10,6 +10,7 @@
   - 使用 MediaType 枚举进行类型判断
 */
 import 'package:flutter/material.dart';
+import '../../core/theme/app_dimensions.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../core/enums/media_type.dart';
@@ -49,7 +50,7 @@ class MediaPicker extends StatelessWidget {
               height: 100,
               decoration: BoxDecoration(
                 color: isImageSelected ? Colors.orange.shade50 : Colors.white,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: AppRadius.allLG,
                 border: Border.all(
                   color: isImageSelected ? Colors.orange.shade300 : Colors.grey.shade200,
                   width: 2,
@@ -86,7 +87,7 @@ class MediaPicker extends StatelessWidget {
               height: 100,
               decoration: BoxDecoration(
                 color: isVideoSelected ? Colors.blue.shade50 : Colors.white,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: AppRadius.allLG,
                 border: Border.all(
                   color: isVideoSelected ? Colors.blue.shade300 : Colors.grey.shade200,
                   width: 2,

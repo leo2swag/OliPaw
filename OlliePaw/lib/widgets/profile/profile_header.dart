@@ -10,6 +10,7 @@
 */
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
+import '../../core/theme/app_dimensions.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../models/types.dart';
 
@@ -107,7 +108,7 @@ class ProfileHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: AppRadius.allMD,
         boxShadow: [
           BoxShadow(
             color: textCol.withValues(alpha: 0.1),

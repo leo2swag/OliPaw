@@ -13,6 +13,7 @@
 */
 
 import 'package:flutter/material.dart';
+import '../../core/theme/app_dimensions.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 import '../models/types.dart';
@@ -141,7 +142,7 @@ class _AddVaccineDialogState extends State<AddVaccineDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: AppRadius.allXXL,
       ),
       child: Container(
         constraints: const BoxConstraints(maxWidth: 400),
@@ -160,7 +161,7 @@ class _AddVaccineDialogState extends State<AddVaccineDialog> {
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: Colors.teal.shade50,
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: AppRadius.allMD,
                       ),
                       child: const Icon(
                         LucideIcons.syringe,
@@ -234,7 +235,7 @@ class _AddVaccineDialogState extends State<AddVaccineDialog> {
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: AppRadius.allMD,
                           ),
                           side: BorderSide(color: Colors.grey.shade300),
                         ),
@@ -258,7 +259,7 @@ class _AddVaccineDialogState extends State<AddVaccineDialog> {
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: AppRadius.allMD,
                           ),
                           elevation: 0,
                         ),
@@ -341,13 +342,13 @@ class _AddVaccineDialogState extends State<AddVaccineDialog> {
         // 日期显示容器（可点击）
         InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: AppRadius.allMD,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
               color: Colors.grey.shade50,
               border: Border.all(color: Colors.grey.shade200),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: AppRadius.allMD,
             ),
             child: Row(
               children: [

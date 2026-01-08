@@ -7,6 +7,7 @@
   注意：增强 UI 设计，添加媒体上传功能
 */
 import 'package:flutter/material.dart';
+import '../../core/theme/app_dimensions.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -157,7 +158,7 @@ class _AiAssistantState extends State<AiAssistant> {
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.orange.shade50,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: AppRadius.allMD,
                 ),
                 child: const Icon(LucideIcons.image, color: Colors.orange),
               ),
@@ -173,7 +174,7 @@ class _AiAssistantState extends State<AiAssistant> {
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.blue.shade50,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: AppRadius.allMD,
                 ),
                 child: const Icon(LucideIcons.video, color: Colors.blue),
               ),
@@ -302,7 +303,7 @@ class _AiAssistantState extends State<AiAssistant> {
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: AppRadius.allXL,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.1),
@@ -333,7 +334,7 @@ class _AiAssistantState extends State<AiAssistant> {
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: AppRadius.allMD,
                     ),
                     child: Text(
                       "$_cost 🦴/msg",
@@ -373,7 +374,7 @@ class _AiAssistantState extends State<AiAssistant> {
                         )
                       : null,
                     color: isUser ? null : Colors.white,
-                    borderRadius: BorderRadius.circular(20).copyWith(
+                    borderRadius: AppRadius.allXL.copyWith(
                       topRight: isUser ? Radius.zero : const Radius.circular(20),
                       topLeft: isUser ? const Radius.circular(20) : Radius.zero,
                     ),
@@ -433,7 +434,7 @@ class _AiAssistantState extends State<AiAssistant> {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: AppRadius.allLG,
             ),
             child: Row(
               children: [
@@ -441,7 +442,7 @@ class _AiAssistantState extends State<AiAssistant> {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: AppRadius.allMD,
                     image: _selectedMedia!.path.isVideo
                       ? null
                       : DecorationImage(
@@ -505,7 +506,7 @@ class _AiAssistantState extends State<AiAssistant> {
                     gradient: LinearGradient(
                       colors: [Colors.purple.shade400, Colors.indigo.shade400],
                     ),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: AppRadius.allMD,
                   ),
                   child: const Icon(LucideIcons.paperclip, color: Colors.white, size: 20),
                 ),

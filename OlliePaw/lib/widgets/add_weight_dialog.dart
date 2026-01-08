@@ -12,6 +12,7 @@
 */
 
 import 'package:flutter/material.dart';
+import '../../core/theme/app_dimensions.dart';
 import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
@@ -160,7 +161,7 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
 
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: AppRadius.allXXL,
       ),
       child: Container(
         constraints: const BoxConstraints(maxWidth: 400),
@@ -178,7 +179,7 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: Colors.blue.shade50,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: AppRadius.allMD,
                     ),
                     child: const Icon(
                       LucideIcons.scale,
@@ -267,7 +268,7 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: changeInfo.$2.withValues(alpha:0.1),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: AppRadius.allMD,
                     border: Border.all(
                       color: changeInfo.$2.withValues(alpha:0.3),
                     ),
@@ -311,13 +312,13 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
 
                   InkWell(
                     onTap: _selectDate,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: AppRadius.allMD,
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade50,
                         border: Border.all(color: Colors.grey.shade200),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: AppRadius.allMD,
                       ),
                       child: Row(
                         children: [
@@ -355,7 +356,7 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: AppRadius.allMD,
                         ),
                         side: BorderSide(color: Colors.grey.shade300),
                       ),
@@ -379,7 +380,7 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: AppRadius.allMD,
                         ),
                         elevation: 0,
                       ),

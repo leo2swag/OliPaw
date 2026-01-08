@@ -6,6 +6,7 @@
   注意：本文件仅添加中文注释，不改变逻辑。
 */
 import 'package:flutter/material.dart';
+import '../../core/theme/app_dimensions.dart';
 import '../core/constants/app_colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -76,7 +77,7 @@ class _FeedCardState extends State<FeedCard> with SingleTickerProviderStateMixin
       decoration: BoxDecoration(
         // 广告帖使用淡黄色背景
         color: widget.post.isAd ? const Color(0xFFFFFBEB) : Colors.white,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: AppRadius.allXXL,
         border: Border.all(
           color: widget.post.isAd ? Colors.amber.shade200 : AppColors.grey100,
         ),
@@ -146,7 +147,7 @@ class _FeedCardState extends State<FeedCard> with SingleTickerProviderStateMixin
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: Colors.purple.shade50,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: AppRadius.allSM,
                     ),
                     child: Text("Current Mood: ${widget.post.mood}", 
                       style: TextStyle(color: Colors.purple.shade600, fontSize: 12, fontWeight: FontWeight.bold)),

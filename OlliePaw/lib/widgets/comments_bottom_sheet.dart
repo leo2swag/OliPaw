@@ -12,6 +12,7 @@
 */
 
 import 'package:flutter/material.dart';
+import '../../core/theme/app_dimensions.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../models/types.dart';
 
@@ -450,7 +451,7 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: const Color(0xFFFFFBEB),
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: AppRadius.allXXL,
               ),
               child: TextField(
                 controller: _commentController,

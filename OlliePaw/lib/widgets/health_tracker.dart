@@ -6,6 +6,7 @@
   注意：本文件仅添加中文注释，不改变逻辑。
 */
 import 'package:flutter/material.dart';
+import '../../core/theme/app_dimensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../models/types.dart';
@@ -89,7 +90,7 @@ class _HealthTrackerState extends State<HealthTracker> {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             gradient: const LinearGradient(colors: [Color(0xFF14B8A6), Color(0xFF10B981)]),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: AppRadius.allLG,
             boxShadow: [BoxShadow(color: Colors.teal.withValues(alpha:0.3), blurRadius: 10, offset: const Offset(0, 4))],
           ),
           child: Row(
@@ -135,7 +136,7 @@ class _HealthTrackerState extends State<HealthTracker> {
                 backgroundColor: Colors.teal,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(borderRadius: AppRadius.allMD),
                 elevation: 0,
               ),
             ),
@@ -144,7 +145,7 @@ class _HealthTrackerState extends State<HealthTracker> {
         const SizedBox(height: 12),
         Container(
           padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.grey.shade100)),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: AppRadius.allLG, border: Border.all(color: Colors.grey.shade100)),
           child: _vaccines.isEmpty
               ? _buildEmptyState('还没有疫苗记录', '点击上方按钮添加疫苗记录', LucideIcons.syringe)
               : Column(
@@ -177,7 +178,7 @@ class _HealthTrackerState extends State<HealthTracker> {
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(borderRadius: AppRadius.allMD),
                 elevation: 0,
               ),
             ),
@@ -187,7 +188,7 @@ class _HealthTrackerState extends State<HealthTracker> {
         Container(
           height: 200,
           padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.grey.shade100)),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: AppRadius.allLG, border: Border.all(color: Colors.grey.shade100)),
           child: _weightHistory.isEmpty
               ? _buildEmptyState('还没有体重记录', '点击上方按钮记录体重', LucideIcons.scale)
               : Builder(
@@ -372,7 +373,7 @@ class _VaccineRow extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
               color: isOverdue ? Colors.red.shade50 : Colors.green.shade50,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: AppRadius.allSM,
               border: Border.all(color: isOverdue ? Colors.red.shade100 : Colors.green.shade100),
             ),
             child: Row(

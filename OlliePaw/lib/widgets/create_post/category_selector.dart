@@ -10,6 +10,7 @@
   - 使用回调函数处理选择事件
 */
 import 'package:flutter/material.dart';
+import '../../core/theme/app_dimensions.dart';
 
 /// 分类选择器
 ///
@@ -60,7 +61,7 @@ class CategorySelector extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                   decoration: BoxDecoration(
                     color: isSelected ? Colors.orange.shade100 : Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: AppRadius.allMD,
                     border: Border.all(
                       color: isSelected ? Colors.orange.shade300 : Colors.grey.shade200,
                       width: 2,

@@ -11,6 +11,7 @@
   注意：本文件仅添加中文注释，不改变逻辑。
 */
 import 'package:flutter/material.dart';
+import '../../core/theme/app_dimensions.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'home_screen.dart';
 import 'explore_screen.dart';
@@ -61,7 +62,7 @@ class _MainLayoutState extends State<MainLayout> {
         height: 60,
         margin: const EdgeInsets.only(top: 20),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: AppRadius.allLG,
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -79,7 +80,7 @@ class _MainLayoutState extends State<MainLayout> {
           onPressed: _onFabPressed,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(borderRadius: AppRadius.allLG),
           child: const Icon(LucideIcons.plus, color: Colors.white, size: 28),
         ),
       ),

@@ -33,6 +33,7 @@ import '../widgets/profile/timeline_item.dart';
 import '../widgets/profile/born_milestone.dart';
 import '../core/extensions/date_extensions.dart';
 import '../core/theme/app_input_decoration.dart';
+import '../core/theme/app_dimensions.dart';
 import '../widgets/common/app_button.dart';
 import '../widgets/common/empty_state.dart';
 
@@ -232,7 +233,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   builder: (ctx, currencyProvider, _) => Container(
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(color: const Color(0xFFFFF4E6), borderRadius: BorderRadius.circular(20)),
+                    decoration: BoxDecoration(color: const Color(0xFFFFF4E6), borderRadius: AppRadius.allXL),
                     child: Row(children: [
                       const Icon(LucideIcons.bone, size: 14, color: Color(0xFFD97706)),
                       const SizedBox(width: 4),
@@ -288,7 +289,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     padding: const EdgeInsets.all(16),
                     child: Container(
                       padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(20)),
+                      decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: AppRadius.allXL),
                       child: TabBar(
                         controller: _tabController,
                         indicator: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18)),
@@ -351,7 +352,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                       padding: const EdgeInsets.all(16),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 8, mainAxisSpacing: 8),
                       itemCount: MockData.moments.length,
-                      itemBuilder: (ctx, i) => ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(MockData.moments[i].mediaUrl, fit: BoxFit.cover)),
+                      itemBuilder: (ctx, i) => ClipRRect(borderRadius: AppRadius.allMD, child: Image.network(MockData.moments[i].mediaUrl, fit: BoxFit.cover)),
                     ),
               ],
             ),

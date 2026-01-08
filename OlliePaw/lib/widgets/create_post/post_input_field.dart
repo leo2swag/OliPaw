@@ -11,6 +11,7 @@
 */
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../../core/theme/app_dimensions.dart';
 
 /// 帖子输入框
 ///
@@ -42,7 +43,7 @@ class PostInputField extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: AppRadius.allLG,
         border: Border.all(color: Colors.grey.shade200),
       ),
       child: Column(
@@ -90,7 +91,7 @@ class PostInputField extends StatelessWidget {
                     foregroundColor: Colors.orange.shade700,
                     backgroundColor: Colors.orange.shade50,
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(borderRadius: AppRadius.allMD),
                   ),
                 )
             ],

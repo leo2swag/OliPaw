@@ -8,6 +8,7 @@
   - 从 ProfileScreen 中提取，提高代码复用性
 */
 import 'package:flutter/material.dart';
+import '../../core/theme/app_dimensions.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../models/types.dart';
 
@@ -31,7 +32,7 @@ class ProfileInfoCard extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: AppRadius.allXL,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.04),
