@@ -16,7 +16,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
-import '../../providers/user_provider.dart';
 import '../../models/types.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/constants/app_colors.dart';
@@ -57,7 +56,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     final authProvider = context.read<AuthProvider>();
-    final userProvider = context.read<UserProvider>();
 
     final success = await authProvider.signUp(
       email: _emailController.text.trim(),
@@ -70,7 +68,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if (success) {
       // Create UserProfile based on user type
-      final authUser = authProvider.currentUser;
+      final authUser = authProvider.authUser;
 
       // Null check for safety
       if (authUser == null) {
@@ -80,13 +78,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       final userProfile = UserProfile(
         id: authUser.uid,
-        type: _selectedUserType == 'GUEST' ? UserType.GUEST : UserType.OWNER,
+        type: _selectedUserType == 'guest' ? UserType.guest : UserType.owner,
         name: authUser.displayName ?? authUser.email.split('@')[0],
         avatarUrl: authUser.photoUrl,
       );
 
-      // Save to UserProvider
-      userProvider.login(userProfile);
+      // Save to AuthProvider
+      authProvider.login(userProfile);
 
       // 注册成功，导航到主页
       Navigator.of(context).pushReplacementNamed('/home');
@@ -197,7 +195,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ),
                                 ),
                                 const SizedBox(height: UIDimensions.spacingXS),
-                                Text(
+                                const Text(
                                   'Share your pet\'s life',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -250,10 +248,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ),
                                 ),
                                 const SizedBox(height: UIDimensions.spacingXS),
-                                Text(
+                                const Text(
                                   'Explore and browse',
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 11,
                                     color: AppColors.textMedium,
                                   ),

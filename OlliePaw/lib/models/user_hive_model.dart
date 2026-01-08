@@ -63,7 +63,7 @@ class UserHiveModel {
   UserProfile toUserProfile() {
     return UserProfile(
       id: id,
-      type: type == 'OWNER' ? UserType.OWNER : UserType.GUEST,
+      type: type == 'OWNER' ? UserType.owner : UserType.guest,
       name: name,
       breed: breed,
       bio: bio,

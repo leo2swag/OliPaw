@@ -15,6 +15,8 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import '../services/auth_service.dart';
+import '../services/persistence_service.dart';
+import '../models/types.dart';
 
 /// 认证状态枚举
 enum AuthStatus {
@@ -36,6 +38,7 @@ enum AuthStatus {
 /// 管理用户认证状态，包装 AuthService
 class AuthProvider extends ChangeNotifier {
   final AuthService _authService;
+  final PersistenceService _persistence;
 
   /// 当前认证状态
   AuthStatus _status = AuthStatus.uninitialized;
@@ -43,16 +46,22 @@ class AuthProvider extends ChangeNotifier {
   /// 当前用户
   AuthUser? _currentUser;
 
+  /// 当前用户档案 (UserProfile from persistence)
+  UserProfile? _currentUserProfile;
+
   /// 错误消息
   String? _errorMessage;
 
   /// 是否正在加载
   bool _isLoading = false;
 
+  /// 启动页是否已完成
+  bool _splashFinished = false;
+
   /// Stream subscription for auth state changes
   StreamSubscription<AuthUser?>? _authSubscription;
 
-  AuthProvider(this._authService) {
+  AuthProvider(this._authService, this._persistence) {
     _init();
   }
 
@@ -61,8 +70,11 @@ class AuthProvider extends ChangeNotifier {
   /// 认证状态
   AuthStatus get status => _status;
 
-  /// 当前用户
-  AuthUser? get currentUser => _currentUser;
+  /// 当前 AuthUser (Firebase user)
+  AuthUser? get authUser => _currentUser;
+
+  /// 当前用户 (兼容 UserProvider API - 返回 UserProfile)
+  UserProfile? get currentUser => _currentUserProfile;
 
   /// 用户ID（简写）
   String? get uid => _currentUser?.uid;
@@ -85,6 +97,12 @@ class AuthProvider extends ChangeNotifier {
   /// 错误消息
   String? get errorMessage => _errorMessage;
 
+  /// 启动页完成状态
+  bool get splashFinished => _splashFinished;
+
+  /// 是否已登录 (兼容 UserProvider)
+  bool get isLoggedIn => _status == AuthStatus.authenticated || _currentUserProfile != null;
+
   // ==================== 初始化 ====================
 
   /// 初始化
@@ -95,6 +113,9 @@ class AuthProvider extends ChangeNotifier {
     try {
       // 初始化 AuthService
       await _authService.initialize();
+
+      // Load user from persistence
+      await _loadFromStorage();
 
       // 监听认证状态变化 - 存储订阅以便后续取消
       _authSubscription = _authService.authStateChanges.listen((user) {
@@ -111,6 +132,15 @@ class AuthProvider extends ChangeNotifier {
       _errorMessage = 'Failed to initialize auth: $e';
       _status = AuthStatus.unauthenticated;
       notifyListeners();
+    }
+  }
+
+  /// 从本地存储加载用户数据
+  Future<void> _loadFromStorage() async {
+    final userId = _persistence.getCurrentUserId();
+    if (userId != null) {
+      _currentUserProfile = _persistence.getUser(userId);
+      _splashFinished = true; // 已登录用户跳过启动页
     }
   }
 
@@ -183,14 +213,45 @@ class AuthProvider extends ChangeNotifier {
     try {
       await _authService.signOut();
       _currentUser = null;
+      _currentUserProfile = null;
       _status = AuthStatus.unauthenticated;
       _isLoading = false;
+      // DON'T reset _splashFinished - we want to go to LoginScreen, not SplashScreen
+      await _persistence.logout();
       notifyListeners();
     } catch (e) {
       _errorMessage = 'Logout failed: $e';
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  /// 标记启动页已完成 (兼容 UserProvider API)
+  void finishSplash() {
+    _splashFinished = true;
+    notifyListeners();
+  }
+
+  /// 用户登录 (兼容 UserProvider API)
+  void login(UserProfile profile) {
+    _currentUserProfile = profile;
+    _splashFinished = true; // 登录成功后跳过启动页
+    _persistence.saveUser(profile);
+    _persistence.saveCurrentUserId(profile.id);
+    _status = AuthStatus.authenticated;
+    notifyListeners();
+  }
+
+  /// 登出 (兼容 UserProvider API)
+  Future<void> logout() async {
+    await signOut();
+  }
+
+  /// 更新用户信息 (兼容 UserProvider API)
+  void updateUser(UserProfile profile) {
+    _currentUserProfile = profile;
+    _persistence.saveUser(profile);
+    notifyListeners();
   }
 
   /// 删除账户

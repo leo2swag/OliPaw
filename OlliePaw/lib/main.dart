@@ -30,7 +30,6 @@ import 'services/gemini_service.dart';
 import 'services/auth_service.dart';
 
 // 新的模块化 Providers（v2.0）
-import 'providers/user_provider.dart';
 import 'providers/pet_provider.dart';
 import 'providers/currency_provider.dart';
 import 'providers/checkin_provider.dart';
@@ -44,7 +43,7 @@ import 'screens/auth/login_screen.dart';
 /// 应用程序入口
 ///
 /// 使用 MultiProvider 注册 4 个独立的状态管理器：
-/// 1. UserProvider - 用户认证和启动流程
+/// 1. AuthProvider - 用户认证和启动流程 (v2.6 - 替代 UserProvider)
 /// 2. PetProvider - 宠物档案管理
 /// 3. CurrencyProvider - Treats 货币系统
 /// 4. CheckInProvider - 每日签到系统
@@ -88,16 +87,12 @@ Future<void> main() async {
         // 优化：单例模式，避免重复初始化
         Provider<GeminiService>(create: (_) => GeminiService()),
 
-        // 认证 Provider（v2.5 - Firebase 准备）
-        // 职责：用户注册、登录、登出、认证状态管理
-        // 当前：Mock 认证实现
+        // 认证 Provider（v2.6 - 统一认证管理）
+        // 职责：用户注册、登录、登出、认证状态管理、启动页控制
+        // 整合了原 UserProvider 的持久化和启动流程功能
+        // 当前：Mock 认证实现 + 持久化
         // 未来：替换为 Firebase Authentication
-        ChangeNotifierProvider(create: (_) => AuthProvider(authService)),
-
-        // 用户认证 Provider（遗留，将逐步迁移到 AuthProvider）
-        // 职责：登录/登出、用户信息、启动页状态
-        // 持久化：自动加载已登录用户，跳过启动页
-        ChangeNotifierProvider(create: (_) => UserProvider(persistence)),
+        ChangeNotifierProvider(create: (_) => AuthProvider(authService, persistence)),
 
         // 宠物档案 Provider
         // 职责：当前宠物信息、宠物切换、档案更新
@@ -140,7 +135,7 @@ void _validateEnvironmentVariables() {
 /// 应用根部件
 ///
 /// 构建 MaterialApp 并配置全局主题
-/// 使用 UserProvider 监听认证状态，动态切换首页
+/// 使用 AuthProvider 监听认证状态，动态切换首页 (v2.6 - 统一到 AuthProvider)
 class OlliePawApp extends StatelessWidget {
   const OlliePawApp({super.key});
 
@@ -162,16 +157,16 @@ class OlliePawApp extends StatelessWidget {
         '/home': (context) => const MainLayout(),
         '/login': (context) => const LoginScreen(),
       },
-      home: Consumer2<UserProvider, AuthProvider>(
-        // 监听 UserProvider 和 AuthProvider 的变化
-        builder: (context, userProvider, authProvider, _) {
+      home: Consumer<AuthProvider>(
+        // 监听 AuthProvider 的变化 (v2.6 - 统一认证管理)
+        builder: (context, authProvider, _) {
           // 启动画面未结束 -> 先显示 SplashScreen
-          if (!userProvider.splashFinished) {
+          if (!authProvider.splashFinished) {
             return const SplashScreen();
           }
 
-          // 检查认证状态（优先 AuthProvider，兼容 UserProvider）
-          final isAuthenticated = authProvider.isAuthenticated || userProvider.isLoggedIn;
+          // 检查认证状态
+          final isAuthenticated = authProvider.isLoggedIn;
 
           // 根据认证状态返回对应页面
           return isAuthenticated ? const MainLayout() : const LoginScreen();

@@ -46,7 +46,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   void _showBarkTranslator(BuildContext context, Pet pet) async {
     final currencyProvider = context.read<CurrencyProvider>();
     if (!currencyProvider.spendTreats(GameBalance.barkTranslatorCost)) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Need ${GameBalance.barkTranslatorCost} Treats!")));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Need ${GameBalance.barkTranslatorCost} Treats!")));
       return;
     }
 
@@ -79,7 +79,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   void _showTimeMachine(BuildContext context, Pet pet) async {
     final currencyProvider = context.read<CurrencyProvider>();
     if (!currencyProvider.spendTreats(GameBalance.growthPredictorCost)) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Need ${GameBalance.growthPredictorCost} Treats!")));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Need ${GameBalance.growthPredictorCost} Treats!")));
       return;
     }
 
@@ -177,7 +177,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(colors: [Colors.indigo, Colors.blue]),
                           borderRadius: BorderRadius.circular(UIDimensions.radiusL),
-                          boxShadow: [BoxShadow(color: Colors.blue.withOpacity(0.3), blurRadius: 10)],
+                          boxShadow: [BoxShadow(color: Colors.blue.withValues(alpha: 0.3), blurRadius: 10)],
                         ),
                         child: Stack(
                           children: [
@@ -195,15 +195,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: UIDimensions.spacingS, vertical: UIDimensions.spacingXS),
                                 decoration: BoxDecoration(
-                                  color: AppColors.white.withOpacity(0.2),
+                                  color: AppColors.white.withValues(alpha: 0.2),
                                   borderRadius: BorderRadius.circular(UIDimensions.radiusS),
                                 ),
-                                child: Row(
+                                child: const Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Icon(LucideIcons.bone, size: 12, color: AppColors.white),
-                                    const SizedBox(width: 4),
-                                    Text("${GameBalance.growthPredictorCost}", style: const TextStyle(color: AppColors.white, fontWeight: FontWeight.bold)),
+                                    Icon(LucideIcons.bone, size: 12, color: AppColors.white),
+                                    SizedBox(width: 4),
+                                    Text("${GameBalance.growthPredictorCost}", style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold)),
                                   ],
                                 ),
                               ),
@@ -225,7 +225,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           color: AppColors.white,
                           borderRadius: BorderRadius.circular(UIDimensions.radiusL),
                           border: Border.all(color: AppColors.border),
-                          boxShadow: [BoxShadow(color: AppColors.primaryOrange.withOpacity(0.15), blurRadius: 8)],
+                          boxShadow: [BoxShadow(color: AppColors.primaryOrange.withValues(alpha: 0.15), blurRadius: 8)],
                         ),
                         child: Stack(
                           children: [
@@ -243,15 +243,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: UIDimensions.spacingS, vertical: UIDimensions.spacingXS),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primaryOrange.withOpacity(0.1),
+                                  color: AppColors.primaryOrange.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(UIDimensions.radiusS),
                                 ),
-                                child: Row(
+                                child: const Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Icon(LucideIcons.bone, size: 12, color: AppColors.primaryOrange),
-                                    const SizedBox(width: 4),
-                                    Text("${GameBalance.barkTranslatorCost}", style: const TextStyle(color: AppColors.darkOrange, fontWeight: FontWeight.bold)),
+                                    Icon(LucideIcons.bone, size: 12, color: AppColors.primaryOrange),
+                                    SizedBox(width: 4),
+                                    Text("${GameBalance.barkTranslatorCost}", style: TextStyle(color: AppColors.darkOrange, fontWeight: FontWeight.bold)),
                                   ],
                                 ),
                               ),

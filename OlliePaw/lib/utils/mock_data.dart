@@ -31,7 +31,7 @@ class MockData {
   static final Pet initialPet = Pet(
     id: 'p1',
     name: 'Barnaby',
-    type: PetType.DOG,
+    type: PetType.dog,
     breed: 'Golden Retriever',
     birthDate: '2021-05-10',
     avatarUrl: 'https://picsum.photos/id/1025/200/200',
@@ -62,7 +62,7 @@ class MockData {
     Pet(
       id: 'p2',
       name: 'Luna',
-      type: PetType.DOG,
+      type: PetType.dog,
       breed: 'Husky',
       birthDate: '2022-01-15',
       avatarUrl: 'https://picsum.photos/id/237/200/200',
@@ -76,7 +76,7 @@ class MockData {
     Pet(
       id: 'p3',
       name: 'Mochi',
-      type: PetType.CAT,
+      type: PetType.cat,
       breed: 'Scottish Fold',
       birthDate: '2020-08-20',
       avatarUrl: 'https://picsum.photos/id/40/200/200',
@@ -90,7 +90,7 @@ class MockData {
     Pet(
       id: 'p4',
       name: 'Charlie',
-      type: PetType.DOG,
+      type: PetType.dog,
       breed: 'Corgi',
       birthDate: '2023-01-01',
       avatarUrl: 'https://picsum.photos/id/200/200/200',

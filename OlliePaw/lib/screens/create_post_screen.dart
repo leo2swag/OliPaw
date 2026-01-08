@@ -48,7 +48,7 @@ class CreatePostScreen extends StatefulWidget {
 /// - 组件化重构，分离关注点
 class _CreatePostScreenState extends State<CreatePostScreen> {
   final TextEditingController _textCtrl = TextEditingController();
-  bool _isGenerating = false;
+  final bool _isGenerating = false;
   String _selectedMood = 'Happy';
   String _selectedCategory = 'Pics';
   final ImagePicker _picker = ImagePicker();

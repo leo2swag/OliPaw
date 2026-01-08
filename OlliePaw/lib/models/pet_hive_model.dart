@@ -120,7 +120,7 @@ class PetHiveModel {
       name: name,
       type: PetType.values.firstWhere(
         (e) => e.name == type,
-        orElse: () => PetType.DOG,
+        orElse: () => PetType.dog,
       ),
       breed: breed,
       birthDate: birthDate,

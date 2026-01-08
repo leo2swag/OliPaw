@@ -90,7 +90,7 @@ class _HealthTrackerState extends State<HealthTracker> {
           decoration: BoxDecoration(
             gradient: const LinearGradient(colors: [Color(0xFF14B8A6), Color(0xFF10B981)]),
             borderRadius: BorderRadius.circular(16),
-            boxShadow: [BoxShadow(color: Colors.teal.withOpacity(0.3), blurRadius: 10, offset: const Offset(0, 4))],
+            boxShadow: [BoxShadow(color: Colors.teal.withValues(alpha:0.3), blurRadius: 10, offset: const Offset(0, 4))],
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -90,12 +90,12 @@ class PetProvider extends ChangeNotifier {
   /// - OWNER 类型：根据用户信息创建宠物档案
   /// - GUEST 类型：使用 Mock 数据
   void initializePetFromUser(UserProfile userProfile) {
-    if (userProfile.type == UserType.OWNER) {
+    if (userProfile.type == UserType.owner) {
       // 根据用户信息创建宠物档案
       _currentPet = Pet(
         id: userProfile.id,
         name: userProfile.name.split(' ')[0], // 提取名字部分
-        type: PetType.DOG, // 默认为狗
+        type: PetType.dog, // 默认为狗
         breed: 'Mixed Breed', // 默认品种
         birthDate: DateTime.now()
             .subtract(const Duration(days: 365))

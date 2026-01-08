@@ -16,7 +16,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
-import '../../providers/user_provider.dart';
 import '../../models/types.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/constants/app_colors.dart';
@@ -51,7 +50,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     final authProvider = context.read<AuthProvider>();
-    final userProvider = context.read<UserProvider>();
 
     final success = await authProvider.signIn(
       email: _emailController.text.trim(),
@@ -62,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (success) {
       // Create UserProfile based on logged in user
-      final authUser = authProvider.currentUser;
+      final authUser = authProvider.authUser;
 
       // Null check for safety
       if (authUser == null) {
@@ -72,13 +70,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
       final userProfile = UserProfile(
         id: authUser.uid,
-        type: authUser.userType == 'GUEST' ? UserType.GUEST : UserType.OWNER,
+        type: authUser.userType == 'guest' ? UserType.guest : UserType.owner,
         name: authUser.displayName ?? authUser.email.split('@')[0],
         avatarUrl: authUser.photoUrl,
       );
 
-      // Save to UserProvider
-      userProvider.login(userProfile);
+      // Save to AuthProvider
+      authProvider.login(userProfile);
 
       // 登录成功，导航到主页
       Navigator.of(context).pushReplacementNamed('/home');
@@ -122,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: UIDimensions.spacingS),
-                  Text(
+                  const Text(
                     'Welcome back! Sign in to continue',
                     textAlign: TextAlign.center,
                     style: TextStyle(

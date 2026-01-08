@@ -296,10 +296,10 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: changeInfo.$2.withOpacity(0.1),
+                    color: changeInfo.$2.withValues(alpha:0.1),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: changeInfo.$2.withOpacity(0.3),
+                      color: changeInfo.$2.withValues(alpha:0.3),
                     ),
                   ),
                   child: Row(

@@ -7,7 +7,7 @@
 
   架构变更（v2.0）：
   - 从 AppState 迁移到专用 Providers
-  - UserProvider: 用户登录状态和登出
+  - AuthProvider: 用户登录状态和登出
   - PetProvider: 宠物资料管理
   - CurrencyProvider: Treats 余额显示
 
@@ -22,7 +22,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../models/types.dart';
-import '../providers/user_provider.dart';
 import '../providers/pet_provider.dart';
 import '../providers/currency_provider.dart';
 import '../providers/auth_provider.dart';
@@ -86,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
     if (!context.mounted) return;
 
-    final userProvider = context.read<UserProvider>();
+    final userProvider = context.read<AuthProvider>();
     final authProvider = context.read<AuthProvider>();
 
     // Perform logout - await both to ensure clean state
@@ -184,7 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   Widget build(BuildContext context) {
     // Performance optimization: Use select() instead of watch()
     // Only rebuild when specific fields change, not entire provider
-    final currentUser = context.select<UserProvider, UserProfile?>((p) => p.currentUser);
+    final currentUser = context.select<AuthProvider, UserProfile?>((p) => p.currentUser);
     final currentPet = context.select<PetProvider, Pet>((p) => p.currentPet);
 
     // Determine context (My Profile vs Other Profile)
@@ -193,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       _isOwner = false;
       _isGuestSelf = false;
     } else {
-      if (currentUser?.type == UserType.GUEST) {
+      if (currentUser?.type == UserType.guest) {
          _isGuestSelf = true;
          _displayPet = null;
          _isOwner = true;

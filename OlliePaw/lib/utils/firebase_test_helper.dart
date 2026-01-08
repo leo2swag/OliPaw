@@ -26,7 +26,7 @@ class FirebaseTestHelper {
       final testPet = Pet(
         id: 'test_${DateTime.now().millisecondsSinceEpoch}',
         name: 'Firebase Test Pet',
-        type: PetType.DOG,
+        type: PetType.dog,
         breed: 'Test Breed',
         birthDate: '2024-01-01',
         avatarUrl: 'https://example.com/test.jpg',

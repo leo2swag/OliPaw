@@ -25,12 +25,12 @@ class ChallengeCard extends StatelessWidget {
       // 点击进入创建动态页面（鼓励完成挑战）
       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CreatePostScreen())),
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
+        margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
         padding: AppSpacing.card,
         decoration: BoxDecoration(
           gradient: AppColors.challengeGradient,
           borderRadius: AppRadius.allXL,
-          boxShadow: [BoxShadow(color: AppColors.challengePrimary.withOpacity(0.3), blurRadius: 10, offset: const Offset(0, 4))],
+          boxShadow: [BoxShadow(color: AppColors.challengePrimary.withValues(alpha:0.3), blurRadius: 10, offset: const Offset(0, 4))],
         ),
         child: Stack(
           children: [
@@ -46,7 +46,7 @@ class ChallengeCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: AppColors.white.withOpacity(0.2),
+                    color: AppColors.white.withValues(alpha:0.2),
                     borderRadius: AppRadius.allMD,
                   ),
                   child: Text(challenge.icon, style: const TextStyle(fontSize: 24)),
@@ -56,17 +56,17 @@ class ChallengeCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("DAILY CHALLENGE", style: const TextStyle(color: AppColors.challengeTextLight, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1)),
+                      const Text("DAILY CHALLENGE", style: TextStyle(color: AppColors.challengeTextLight, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1)),
                       Text(challenge.title, style: const TextStyle(color: AppColors.white, fontWeight: FontWeight.bold, fontSize: 16)),
                       const SizedBox(height: 2),
-                      Text(challenge.description, style: TextStyle(color: AppColors.white.withOpacity(0.9), fontSize: 12)),
+                      Text(challenge.description, style: TextStyle(color: AppColors.white.withValues(alpha:0.9), fontSize: 12)),
                     ],
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.white.withOpacity(0.2),
+                    color: AppColors.white.withValues(alpha:0.2),
                     borderRadius: AppRadius.allSM,
                   ),
                   child: Column(

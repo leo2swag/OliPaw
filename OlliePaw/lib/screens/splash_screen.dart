@@ -3,15 +3,15 @@
   说明：
   - 应用启动页，展示简单的品牌动画与加载条。
   - 使用 AnimationController 实现图标的缩放动画，2 秒钟往返重复。
-  - 约 2.5 秒后调用 UserProvider.finishSplash() 告知应用可以进入下一阶段。
+  - 约 2.5 秒后调用 AuthProvider.finishSplash() 告知应用可以进入下一阶段。
 
   架构变更（v2.0）：
-  - 从 AppState 迁移到 UserProvider
-  - UserProvider 负责启动流程控制
+  - 从 AppState 迁移到 AuthProvider
+  - AuthProvider 负责启动流程控制
 */
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/user_provider.dart';
+import '../providers/auth_provider.dart';
 
 /// 启动页：展示应用品牌与加载进度的过场页面
 class SplashScreen extends StatefulWidget {
@@ -40,10 +40,10 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     // 让动画往返重复（缩放往返）
     _controller.repeat(reverse: true);
 
-    // 启动后延时 2.5 秒，通知 UserProvider 结束 Splash 进入下一阶段
+    // 启动后延时 2.5 秒，通知 AuthProvider 结束 Splash 进入下一阶段
     Future.delayed(const Duration(milliseconds: 2500), () {
       if (mounted) {
-        context.read<UserProvider>().finishSplash();
+        context.read<AuthProvider>().finishSplash();
       }
     });
   }
@@ -79,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(30),
-                      boxShadow: [BoxShadow(color: Colors.amber.withOpacity(0.3), blurRadius: 20, spreadRadius: 5)],
+                      boxShadow: [BoxShadow(color: Colors.amber.withValues(alpha:0.3), blurRadius: 20, spreadRadius: 5)],
                       border: Border.all(color: Colors.amber.shade50, width: 4),
                     ),
                     // 主图标：Material 的宠物图标
@@ -127,12 +127,12 @@ class _BlurBlob extends StatelessWidget {
     return Container(
       width: size, height: size,
       decoration: BoxDecoration(
-        color: color.withOpacity(0.5), 
+        color: color.withValues(alpha:0.5), 
         shape: BoxShape.circle,
         // 通过阴影达到类似模糊的效果，避免使用 BlendMode 带来的兼容问题
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.6),
+            color: color.withValues(alpha:0.6),
             blurRadius: 60,
             spreadRadius: 10,
           )

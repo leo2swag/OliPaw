@@ -17,15 +17,15 @@
   import 'package:ollie_paw/providers/providers.dart';
 
   // 然后可以直接使用所有 Provider
-  UserProvider()
+  AuthProvider() (v2.6 - 统一认证管理)
   PetProvider()
   CurrencyProvider()
   CheckInProvider()
   ```
 */
 
-// 用户认证 Provider
-export 'user_provider.dart';
+// 认证 Provider (v2.6 - 统一认证管理，替代原 UserProvider)
+export 'auth_provider.dart';
 
 // 宠物档案 Provider
 export 'pet_provider.dart';
@@ -35,6 +35,3 @@ export 'currency_provider.dart';
 
 // 每日签到 Provider
 export 'checkin_provider.dart';
-
-// Firebase 认证 Provider
-export 'auth_provider.dart';

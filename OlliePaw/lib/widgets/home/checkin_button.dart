@@ -38,11 +38,11 @@ class CheckInButton extends StatelessWidget {
 
       // 显示成功提示
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
             '签到成功！获得 ${GameBalance.dailyCheckInReward} Treats 🎉',
           ),
-          duration: const Duration(seconds: 2),
+          duration: Duration(seconds: 2),
           backgroundColor: AppColors.success,
         ),
       );

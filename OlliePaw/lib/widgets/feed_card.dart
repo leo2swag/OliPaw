@@ -81,7 +81,7 @@ class _FeedCardState extends State<FeedCard> with SingleTickerProviderStateMixin
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha:0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           )
@@ -279,7 +279,7 @@ class _ActionButton extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: isActive ? activeColor.withOpacity(0.1) : Colors.grey.shade100,
+              color: isActive ? activeColor.withValues(alpha:0.1) : Colors.grey.shade100,
               shape: BoxShape.circle,
             ),
             child: Icon(icon, size: 20, color: isActive ? activeColor : Colors.grey),

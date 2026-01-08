@@ -21,7 +21,7 @@ class AppConstants {
   // ==================== 默认值 ====================
 
   /// 默认宠物类型
-  static const PetType defaultPetType = PetType.DOG;
+  static const PetType defaultPetType = PetType.dog;
 
   /// 默认品种
   static const String defaultBreed = 'Mixed Breed';
