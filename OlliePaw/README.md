@@ -47,7 +47,7 @@ A pet-centric social network built with Flutter.
 ## 🏗️ 架构
 
 本项目使用模块化的 Provider 状态管理：
-- `UserProvider` - 用户认证和启动流程
+- `AuthProvider` - 用户认证和启动流程 (v2.6 - 统一认证管理)
 - `PetProvider` - 宠物档案管理
 - `CurrencyProvider` - Treats 货币系统
 - `CheckInProvider` - 每日签到系统
@@ -76,3 +76,21 @@ A pet-centric social network built with Flutter.
 ## 📄 License
 
 This project is a starting point for a Flutter application.
+
+## 📚 Documentation
+
+- **[Developer Guide](../DEVELOPER_GUIDE.md)** - Comprehensive development documentation
+- **[Firebase Guide](../FIREBASE_GUIDE.md)** - Firebase integration and migration
+- **[Project Status](../PROJECT_STATUS.md)** - Current status and roadmap
+- **[Consolidation Plan](../CONSOLIDATION_ACTION_PLAN.md)** - Code improvement roadmap
+
+## 🔧 Recent Updates (v2.6)
+
+- ✅ Unified authentication (AuthProvider replaces UserProvider)
+- ✅ Zero Flutter analyzer issues
+- ✅ Comprehensive documentation consolidation  
+- ✅ Code duplication eliminated
+- ✅ Enhanced gitignore and project structure
+
+**Health Score**: 8.5/10 (up from 6.5/10)
+

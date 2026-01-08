@@ -25,7 +25,7 @@ import '../utils/mock_data.dart';
 import '../widgets/feed_card.dart';
 import '../widgets/challenge_card.dart';
 import '../widgets/home/welcome_header.dart';
-import '../widgets/home/treats_badge.dart';
+import '../widgets/common/treats_badge.dart';
 import '../widgets/home/checkin_button.dart';
 import '../widgets/home/category_button.dart';
 import '../models/types.dart';
