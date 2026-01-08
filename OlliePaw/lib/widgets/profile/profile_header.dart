@@ -9,6 +9,7 @@
   - 使用工具方法处理年龄计算
 */
 import 'package:flutter/material.dart';
+import '../../core/constants/app_colors.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../models/types.dart';
 
@@ -58,7 +59,7 @@ class ProfileHeader extends StatelessWidget {
         Text(
           pet.breed,
           style: TextStyle(
-            color: Colors.grey.shade600,
+            color: AppColors.grey600,
             fontWeight: FontWeight.w600,
             fontSize: 11,
           ),

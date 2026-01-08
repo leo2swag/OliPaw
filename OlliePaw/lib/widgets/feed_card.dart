@@ -6,6 +6,7 @@
   注意：本文件仅添加中文注释，不改变逻辑。
 */
 import 'package:flutter/material.dart';
+import '../core/constants/app_colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../models/types.dart';
@@ -77,7 +78,7 @@ class _FeedCardState extends State<FeedCard> with SingleTickerProviderStateMixin
         color: widget.post.isAd ? const Color(0xFFFFFBEB) : Colors.white,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: widget.post.isAd ? Colors.amber.shade200 : Colors.grey.shade100,
+          color: widget.post.isAd ? Colors.amber.shade200 : AppColors.grey100,
         ),
         boxShadow: [
           BoxShadow(
@@ -120,15 +121,15 @@ class _FeedCardState extends State<FeedCard> with SingleTickerProviderStateMixin
                       if (widget.post.location != null)
                         Row(
                           children: [
-                            const Icon(LucideIcons.mapPin, size: 12, color: Colors.grey),
+                            const Icon(LucideIcons.mapPin, size: 12, color: AppColors.grey500),
                             const SizedBox(width: 4),
-                            Text(widget.post.location!, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                            Text(widget.post.location!, style: const TextStyle(fontSize: 12, color: AppColors.grey500)),
                           ],
                         )
                     ],
                   ),
                 ),
-                const Icon(LucideIcons.moreHorizontal, color: Colors.grey),
+                const Icon(LucideIcons.moreHorizontal, color: AppColors.grey500),
               ],
             ),
           ),
@@ -169,28 +170,28 @@ class _FeedCardState extends State<FeedCard> with SingleTickerProviderStateMixin
                 memCacheHeight: 800,
                 // 加载状态优化（v2.5）
                 placeholder: (context, url) => Container(
-                  color: Colors.grey.shade100,
+                  color: AppColors.grey100,
                   child: const Center(
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: Colors.grey,
+                      color: AppColors.grey500,
                     ),
                   ),
                 ),
                 errorWidget: (context, url, error) => Container(
-                  color: Colors.grey.shade200,
+                  color: AppColors.grey200,
                   child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         LucideIcons.image,
                         size: 48,
-                        color: Colors.grey,
+                        color: AppColors.grey500,
                       ),
                       SizedBox(height: 8),
                       Text(
                         'Failed to load image',
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                        style: TextStyle(color: AppColors.grey500, fontSize: 12),
                       ),
                     ],
                   ),
@@ -243,7 +244,7 @@ class _FeedCardState extends State<FeedCard> with SingleTickerProviderStateMixin
                     ),
                   ],
                 ),
-                const Icon(LucideIcons.share2, color: Colors.grey),
+                const Icon(LucideIcons.share2, color: AppColors.grey500),
               ],
             ),
           )
@@ -279,10 +280,10 @@ class _ActionButton extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: isActive ? activeColor.withValues(alpha:0.1) : Colors.grey.shade100,
+              color: isActive ? activeColor.withValues(alpha:0.1) : AppColors.grey100,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, size: 20, color: isActive ? activeColor : Colors.grey),
+            child: Icon(icon, size: 20, color: isActive ? activeColor : AppColors.grey500),
           ),
           const SizedBox(height: 4),
           Text(label, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),

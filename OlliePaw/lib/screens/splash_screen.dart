@@ -10,6 +10,7 @@
   - AuthProvider 负责启动流程控制
 */
 import 'package:flutter/material.dart';
+import '../core/constants/app_colors.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 
@@ -61,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   /// - 中心区域为缩放动画 Logo、标题与简易加载条
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFBEB),
+      backgroundColor: AppColors.screenBg,
       body: Stack(
         children: [
           // 背景圆形光斑（使用阴影模拟模糊效果）

@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final dateLabel = '$weekday, $month ${now.day}';
     
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFBEB),
+      backgroundColor: AppColors.screenBg,
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: _handleRefresh,

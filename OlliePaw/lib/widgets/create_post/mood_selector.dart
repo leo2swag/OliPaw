@@ -10,6 +10,7 @@
   - 使用回调函数处理选择事件
 */
 import 'package:flutter/material.dart';
+import '../../core/constants/app_colors.dart';
 
 /// 心情选择器
 ///
@@ -42,7 +43,7 @@ class MoodSelector extends StatelessWidget {
           style: TextStyle(
             fontSize: 11,
             fontWeight: FontWeight.w900,
-            color: Colors.grey,
+            color: AppColors.grey500,
             letterSpacing: 1,
           ),
         ),
@@ -63,10 +64,10 @@ class MoodSelector extends StatelessWidget {
                   width: 70,
                   margin: const EdgeInsets.only(right: 10),
                   decoration: BoxDecoration(
-                    color: isSelected ? Colors.orange.shade100 : Colors.white,
+                    color: isSelected ? AppColors.lightOrangeBg : AppColors.white,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: isSelected ? Colors.orange.shade300 : Colors.grey.shade200,
+                      color: isSelected ? AppColors.primaryOrange : AppColors.grey200,
                       width: 2,
                     ),
                   ),
@@ -83,7 +84,7 @@ class MoodSelector extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 10,
-                          color: isSelected ? Colors.orange.shade800 : Colors.grey.shade700,
+                          color: isSelected ? AppColors.darkOrange : AppColors.grey700,
                         ),
                       ),
                     ],

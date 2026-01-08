@@ -21,6 +21,7 @@
     - CategorySelector: 分类选择器
 */
 import 'package:flutter/material.dart';
+import '../core/constants/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import '../providers/pet_provider.dart';
@@ -178,11 +179,11 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     final petName = context.watch<PetProvider>().currentPet.name;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFBEB),
+      backgroundColor: AppColors.screenBg,
       appBar: AppBar(
         title: const Text("Create Post", style: TextStyle(fontWeight: FontWeight.w700)),
         elevation: 0,
-        backgroundColor: const Color(0xFFFFFBEB),
+        backgroundColor: AppColors.screenBg,
         foregroundColor: Colors.black,
         actions: [
           Padding(

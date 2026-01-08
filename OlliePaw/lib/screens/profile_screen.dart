@@ -19,6 +19,7 @@
     - BornMilestone: 出生里程碑
 */
 import 'package:flutter/material.dart';
+import '../core/constants/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../models/types.dart';
@@ -221,7 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     final isLocked = !_isOwner && !_isFollowing;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFBEB),
+      backgroundColor: AppColors.screenBg,
       body: CustomScrollView(
         slivers: [
           // 1. PINNED APP BAR (Action icons only)
@@ -306,7 +307,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               children: [
                 // 时间线 Tab
                 Container(
-                  color: const Color(0xFFFEF3C7),
+                  color: AppColors.lightScreenBg,
                   child: Builder(
                     builder: (context) {
                       final posts = MockData.posts.where((p) => p.authorId == _displayPet!.id).toList();

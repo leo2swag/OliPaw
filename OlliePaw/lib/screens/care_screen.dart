@@ -11,6 +11,7 @@
   - PetProvider: 获取当前宠物信息
 */
 import 'package:flutter/material.dart';
+import '../core/constants/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../providers/pet_provider.dart';
@@ -46,9 +47,9 @@ class _CareScreenState extends State<CareScreen> with SingleTickerProviderStateM
     final pet = context.watch<PetProvider>().currentPet;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFBEB),
+      backgroundColor: AppColors.screenBg,
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFFFBEB),
+        backgroundColor: AppColors.screenBg,
         elevation: 0,
         title: const Text("Care Center", style: TextStyle(fontWeight: FontWeight.w900, color: Colors.black)),
         centerTitle: false,

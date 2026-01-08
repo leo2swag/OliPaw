@@ -36,7 +36,8 @@
 */
 
 import 'package:flutter/material.dart';
-import '../../theme/app_theme.dart';
+import '../../core/constants/app_colors.dart';
+import '../../core/theme/app_dimensions.dart';
 
 /// 空状态展示组件
 ///
@@ -46,8 +47,13 @@ import '../../theme/app_theme.dart';
 /// 特点：
 /// - 图标 + 标题 + 副标题的标准布局
 /// - 可自定义图标颜色和大小
+/// - 支持可选的操作按钮
 /// - 居中显示，自带合适的内边距
 /// - 文本自动居中对齐
+///
+/// v2.7 更新：
+/// - 添加 action 按钮支持
+/// - 使用 AppColors 和 AppSpacing 常量
 class EmptyState extends StatelessWidget {
   /// 图标
   final IconData icon;
@@ -63,8 +69,13 @@ class EmptyState extends StatelessWidget {
   /// 图标颜色（可选，默认使用 grey400）
   final Color? iconColor;
 
-  /// 图标大小（默认 48px）
+  /// 图标大小（默认 64px）
   final double iconSize;
+
+  /// 操作按钮（可选）
+  ///
+  /// 用于提供用户可执行的操作（如"添加"、"重试"等）
+  final Widget? action;
 
   const EmptyState({
     super.key,
@@ -72,14 +83,15 @@ class EmptyState extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.iconColor,
-    this.iconSize = 48.0,
+    this.iconSize = 64.0,
+    this.action,
   });
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(AppTheme.space3XL),
+        padding: const EdgeInsets.all(AppSpacing.xxxl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -87,32 +99,38 @@ class EmptyState extends StatelessWidget {
             Icon(
               icon,
               size: iconSize,
-              color: iconColor ?? AppTheme.grey400,
+              color: iconColor ?? AppColors.grey400,
             ),
-            const SizedBox(height: AppTheme.spaceL),
+            const SizedBox(height: AppSpacing.lg),
 
             // 标题
             Text(
               title,
-              style: TextStyle(
-                fontSize: AppTheme.fontSizeL,
-                fontWeight: AppTheme.fontWeightBold,
-                color: AppTheme.grey700,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: AppColors.grey700,
               ),
               textAlign: TextAlign.center,
             ),
 
             // 副标题（可选）
             if (subtitle != null) ...[
-              const SizedBox(height: AppTheme.spaceS),
+              const SizedBox(height: AppSpacing.sm),
               Text(
                 subtitle!,
-                style: TextStyle(
-                  fontSize: AppTheme.fontSizeSM,
-                  color: AppTheme.grey500,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: AppColors.grey500,
                 ),
                 textAlign: TextAlign.center,
               ),
+            ],
+
+            // 操作按钮（可选）
+            if (action != null) ...[
+              const SizedBox(height: AppSpacing.xl),
+              action!,
             ],
           ],
         ),

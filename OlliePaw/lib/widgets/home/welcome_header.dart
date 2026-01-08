@@ -10,6 +10,7 @@
   - 避免整个页面因宠物信息变化而重建
 */
 import 'package:flutter/material.dart';
+import '../../core/constants/app_colors.dart';
 import 'package:provider/provider.dart';
 import '../../providers/pet_provider.dart';
 
@@ -33,7 +34,7 @@ class WelcomeHeader extends StatelessWidget {
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
-                color: Colors.grey.shade600,
+                color: AppColors.grey600,
               ),
             ),
             const SizedBox(height: 4),

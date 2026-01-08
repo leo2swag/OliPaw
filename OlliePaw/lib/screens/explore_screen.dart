@@ -114,7 +114,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     final myPet = context.read<PetProvider>().currentPet;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFBEB),
+      backgroundColor: AppColors.screenBg,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(UIDimensions.spacingM),
