@@ -17,6 +17,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 import '../models/types.dart';
 import '../utils/date_picker_helper.dart';
+import '../core/theme/app_input_decoration.dart';
 
 /// 显示添加疫苗记录对话框
 ///
@@ -304,31 +305,10 @@ class _AddVaccineDialogState extends State<AddVaccineDialog> {
         TextFormField(
           controller: controller,
           validator: validator,
-          decoration: InputDecoration(
+          decoration: AppInputDecoration.compact(
+            labelText: label,
             hintText: hint,
-            prefixIcon: Icon(icon, size: 20),
-            filled: true,
-            fillColor: Colors.grey.shade50,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.grey.shade200),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Colors.teal, width: 2),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Colors.red),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
-            ),
+            prefixIcon: icon,
           ),
         ),
       ],

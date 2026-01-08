@@ -17,6 +17,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 import '../models/types.dart';
 import '../utils/date_picker_helper.dart';
+import '../core/theme/app_input_decoration.dart';
 
 /// 显示添加体重记录对话框
 ///
@@ -240,35 +241,15 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
 
                       return null;
                     },
-                    decoration: InputDecoration(
+                    decoration: AppInputDecoration.compact(
+                      labelText: 'Weight',
                       hintText: '例如：29.5',
-                      prefixIcon: const Icon(LucideIcons.scale, size: 20),
+                      prefixIcon: LucideIcons.scale,
+                    ).copyWith(
                       suffixText: 'kg',
                       suffixStyle: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.grey,
-                      ),
-                      filled: true,
-                      fillColor: Colors.grey.shade50,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.grey.shade200),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.blue, width: 2),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.red),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 14,
                       ),
                     ),
                     style: const TextStyle(

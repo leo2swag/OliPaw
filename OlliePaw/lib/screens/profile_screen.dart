@@ -32,6 +32,7 @@ import '../widgets/profile/profile_info_card.dart';
 import '../widgets/profile/timeline_item.dart';
 import '../widgets/profile/born_milestone.dart';
 import '../core/extensions/date_extensions.dart';
+import '../core/theme/app_input_decoration.dart';
 import '../widgets/common/app_button.dart';
 import '../widgets/common/empty_state.dart';
 
@@ -132,22 +133,16 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             const SizedBox(height: 24),
             TextField(
               controller: nameCtrl,
-              decoration: InputDecoration(
+              decoration: AppInputDecoration.standard(
                 labelText: "Pet Name",
-                filled: true,
-                fillColor: Colors.grey.shade50,
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
               ),
             ),
             const SizedBox(height: 16),
             TextField(
               controller: bioCtrl,
               maxLines: 3,
-              decoration: InputDecoration(
+              decoration: AppInputDecoration.textArea(
                 labelText: "Bio",
-                filled: true,
-                fillColor: Colors.grey.shade50,
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
               ),
             ),
             const SizedBox(height: 24),
