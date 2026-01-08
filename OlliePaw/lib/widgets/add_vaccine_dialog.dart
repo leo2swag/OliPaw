@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 import '../models/types.dart';
+import '../utils/date_picker_helper.dart';
 
 /// 显示添加疫苗记录对话框
 ///
@@ -72,23 +73,11 @@ class _AddVaccineDialogState extends State<AddVaccineDialog> {
   /// 选择接种日期
   /// 说明：打开日期选择器，限制不能选择未来日期
   Future<void> _selectAdministeredDate() async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
+    final DateTime? picked = await DatePickerHelper.showOrange(
+      context,
       initialDate: _administeredDate,
       firstDate: DateTime(2000),
       lastDate: DateTime.now(), // 不能选择未来日期
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: Colors.orange, // 主题色
-              onPrimary: Colors.white,
-              surface: Colors.white,
-            ),
-          ),
-          child: child!,
-        );
-      },
     );
 
     if (picked != null && picked != _administeredDate) {
@@ -103,23 +92,11 @@ class _AddVaccineDialogState extends State<AddVaccineDialog> {
   /// 选择到期提醒日期
   /// 说明：打开日期选择器，限制必须在接种日期之后
   Future<void> _selectDueDate() async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
+    final DateTime? picked = await DatePickerHelper.showTeal(
+      context,
       initialDate: _dueDate,
       firstDate: _administeredDate, // 必须在接种日期之后
       lastDate: DateTime.now().add(const Duration(days: 3650)), // 最多 10 年
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: Colors.teal,
-              onPrimary: Colors.white,
-              surface: Colors.white,
-            ),
-          ),
-          child: child!,
-        );
-      },
     );
 
     if (picked != null && picked != _dueDate) {

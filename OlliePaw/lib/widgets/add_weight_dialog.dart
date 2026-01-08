@@ -16,6 +16,7 @@ import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 import '../models/types.dart';
+import '../utils/date_picker_helper.dart';
 
 /// 显示添加体重记录对话框
 ///
@@ -74,23 +75,11 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
   /// 选择记录日期
   /// 说明：打开日期选择器，限制不能选择未来日期
   Future<void> _selectDate() async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
+    final DateTime? picked = await DatePickerHelper.showBlue(
+      context,
       initialDate: _recordDate,
       firstDate: DateTime.now().subtract(const Duration(days: 365 * 2)), // 最多回溯 2 年
       lastDate: DateTime.now(), // 不能选择未来
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: Colors.blue,
-              onPrimary: Colors.white,
-              surface: Colors.white,
-            ),
-          ),
-          child: child!,
-        );
-      },
     );
 
     if (picked != null && picked != _recordDate) {
