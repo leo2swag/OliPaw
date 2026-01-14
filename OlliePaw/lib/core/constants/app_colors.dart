@@ -4,6 +4,11 @@
   - 集中管理应用程序中的所有颜色值
   - 避免硬编码颜色，提高可维护性
   - 确保UI一致性
+
+  v3.0 更新：温暖友好的配色方案
+  - 灵感来自 Moodiary 的柔和、有机美学
+  - 更温暖的色调，更高的可接近性
+  - 柔和的背景色和生动的强调色
 */
 
 import 'package:flutter/material.dart';
@@ -11,49 +16,50 @@ import 'package:flutter/material.dart';
 /// 应用颜色常量
 ///
 /// 集中定义所有颜色值，确保UI一致性
+/// v3.0: 温暖、友好、家庭感的配色方案
 class AppColors {
   // 防止实例化
   AppColors._();
 
-  // ==================== 主色调 ====================
+  // ==================== 主色调 (更温暖柔和) ====================
 
-  /// 主要橙色 (Primary Orange)
+  /// 主要橙色 (Warm Orange) - 更柔和的橙色
   /// 用于：主按钮、强调元素、品牌色
-  static const Color primaryOrange = Color(0xFFFB923C);
+  static const Color primaryOrange = Color(0xFFFFB366);
 
-  /// 深橙色 (Dark Orange)
+  /// 深橙色 (Peachy Orange) - 温暖的桃色
   /// 用于：按钮按下状态、深色强调
-  static const Color darkOrange = Color(0xFFEA580C);
+  static const Color darkOrange = Color(0xFFFFB88C);
 
-  /// 浅橙色背景 (Light Orange Background)
+  /// 浅橙色背景 (Soft Peach Background)
   /// 用于：卡片背景、浅色区域
-  static const Color lightOrangeBg = Color(0xFFFED7AA);
+  static const Color lightOrangeBg = Color(0xFFFFE5CC);
 
-  // ==================== 类别颜色 ====================
+  // ==================== 类别颜色 (柔和有机色) ====================
 
-  /// 快照类别颜色 (Snapshot Category)
-  static const Color categorySnapshot = Color(0xFFEA580C);
-  static const Color categorySnapshotBg = Color(0xFFFED7AA);
+  /// 快照类别颜色 (Snapshot Category) - 温暖黄色
+  static const Color categorySnapshot = Color(0xFFFFD88C);
+  static const Color categorySnapshotBg = Color(0xFFFFF4E0);
 
-  /// 睡觉类别颜色 (Sleepy Category)
-  static const Color categorySleepy = Color(0xFF2563EB);
-  static const Color categorySleepyBg = Color(0xFFBFDBFE);
+  /// 睡觉类别颜色 (Sleepy Category) - 柔和薰衣草
+  static const Color categorySleepy = Color(0xFFC5B3E6);
+  static const Color categorySleepyBg = Color(0xFFEFE9F7);
 
-  /// 散步类别颜色 (Walk Category)
-  static const Color categoryWalk = Color(0xFF16A34A);
-  static const Color categoryWalkBg = Color(0xFFBBF7D0);
+  /// 散步类别颜色 (Walk Category) - 柔和绿色
+  static const Color categoryWalk = Color(0xFFA8D5BA);
+  static const Color categoryWalkBg = Color(0xFFE8F5ED);
 
-  /// 玩耍类别颜色 (Play Category)
-  static const Color categoryPlay = Color(0xFFDB2777);
-  static const Color categoryPlayBg = Color(0xFFFCE7F3);
+  /// 玩耍类别颜色 (Play Category) - 天蓝色
+  static const Color categoryPlay = Color(0xFFA3D5E8);
+  static const Color categoryPlayBg = Color(0xFFE5F4F9);
 
-  /// 成就类别颜色 (Milestone Category)
-  static const Color categoryMilestone = Color(0xFF7C3AED);
-  static const Color categoryMilestoneBg = Color(0xFFEDE9FE);
+  /// 成就类别颜色 (Milestone Category) - 柔和紫色
+  static const Color categoryMilestone = Color(0xFFB8A8E6);
+  static const Color categoryMilestoneBg = Color(0xFFEEE9F7);
 
-  /// 健康类别颜色 (Health Category)
-  static const Color categoryHealth = Color(0xFF10B981);
-  static const Color categoryHealthBg = Color(0xFFD1FAE5);
+  /// 健康类别颜色 (Health Category) - 薄荷绿
+  static const Color categoryHealth = Color(0xFFB8E6D5);
+  static const Color categoryHealthBg = Color(0xFFE8F7F2);
 
   // ==================== 功能颜色 ====================
 
@@ -90,13 +96,17 @@ class AppColors {
   /// 背景颜色
   static const Color background = Color(0xFFF9FAFB);
 
-  /// 主屏幕背景色 (奶油色/米色)
-  /// 用于：所有主要屏幕的背景
-  static const Color screenBg = Color(0xFFFFFBEB);
+  /// 主屏幕背景色 (温暖奶油色)
+  /// 用于：所有主要屏幕的背景 - 更温暖柔和
+  static const Color screenBg = Color(0xFFFFF8F0);
 
-  /// 浅奶油色背景
-  /// 用于：标签页内容区域背景
-  static const Color lightScreenBg = Color(0xFFFEF3C7);
+  /// 卡片背景色 (柔和米色)
+  /// 用于：卡片容器、标签页内容区域
+  static const Color cardBg = Color(0xFFF5E6D3);
+
+  /// 深色背景 (深海军蓝) - Moodiary inspired
+  /// 用于：深色模式、对比背景
+  static const Color darkBg = Color(0xFF1E2139);
 
   /// 灰色阴影系列
   static const Color grey100 = Color(0xFFF3F4F6);
@@ -156,23 +166,79 @@ class AppColors {
     end: Alignment.bottomRight,
   );
 
-  // ==================== 卡片阴影 ====================
+  // ==================== 心情/情绪颜色 (有机blob色) ====================
 
-  /// 卡片阴影
+  /// 开心心情 - 温暖黄色
+  static const Color moodHappy = Color(0xFFFFD88C);
+  static const Color moodHappyBg = Color(0xFFFFF4E0);
+
+  /// 兴奋心情 - 亮粉色
+  static const Color moodExcited = Color(0xFFFFB3D9);
+  static const Color moodExcitedBg = Color(0xFFFFE5F3);
+
+  /// 平静心情 - 薄荷绿
+  static const Color moodCalm = Color(0xFFB8E6D5);
+  static const Color moodCalmBg = Color(0xFFE8F7F2);
+
+  /// 玩耍心情 - 天蓝色
+  static const Color moodPlayful = Color(0xFFA3D5E8);
+  static const Color moodPlayfulBg = Color(0xFFE5F4F9);
+
+  /// 困倦心情 - 柔和薰衣草
+  static const Color moodSleepy = Color(0xFFC5B3E6);
+  static const Color moodSleepyBg = Color(0xFFEFE9F7);
+
+  /// 能量心情 - 桃橙色
+  static const Color moodEnergetic = Color(0xFFFFB88C);
+  static const Color moodEnergeticBg = Color(0xFFFFE5CC);
+
+  /// 爱心情 - 柔和粉色
+  static const Color moodLove = Color(0xFFFFB3C1);
+  static const Color moodLoveBg = Color(0xFFFFE5E9);
+
+  /// 自然心情 - 柔和绿色
+  static const Color moodNature = Color(0xFFA8D5BA);
+  static const Color moodNatureBg = Color(0xFFE8F5ED);
+
+  // ==================== 卡片阴影 (更柔和) ====================
+
+  /// 卡片阴影 - 更柔和扩散
   static const List<BoxShadow> cardShadow = [
     BoxShadow(
-      color: Color.fromRGBO(0, 0, 0, 0.05),
-      blurRadius: 10,
+      color: Color.fromRGBO(0, 0, 0, 0.08),
+      blurRadius: 20,
       offset: Offset(0, 4),
+      spreadRadius: 0,
     ),
   ];
 
   /// 轻阴影
   static const List<BoxShadow> lightShadow = [
     BoxShadow(
-      color: Color.fromRGBO(0, 0, 0, 0.03),
-      blurRadius: 6,
+      color: Color.fromRGBO(0, 0, 0, 0.04),
+      blurRadius: 12,
       offset: Offset(0, 2),
+      spreadRadius: 0,
+    ),
+  ];
+
+  /// 浮动阴影 - 强调深度
+  static const List<BoxShadow> floatingShadow = [
+    BoxShadow(
+      color: Color.fromRGBO(0, 0, 0, 0.12),
+      blurRadius: 32,
+      offset: Offset(0, 8),
+      spreadRadius: 0,
+    ),
+  ];
+
+  /// 柔和阴影 - 极轻微
+  static const List<BoxShadow> softShadow = [
+    BoxShadow(
+      color: Color.fromRGBO(0, 0, 0, 0.02),
+      blurRadius: 8,
+      offset: Offset(0, 1),
+      spreadRadius: 0,
     ),
   ];
 }

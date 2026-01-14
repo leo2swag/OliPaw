@@ -29,7 +29,7 @@ class WelcomeHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 12),
-            Text(
+            const Text(
               'Good Morning,',
               style: TextStyle(
                 fontSize: 15,

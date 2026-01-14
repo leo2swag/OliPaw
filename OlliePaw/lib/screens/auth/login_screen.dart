@@ -21,6 +21,7 @@ import '../../core/constants/app_constants.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/ui_constants.dart';
 import '../../core/theme/app_input_decoration.dart';
+import '../../core/theme/app_dimensions.dart';
 import '../../utils/snackbar_helper.dart';
 import '../../widgets/password_form_field.dart';
 import '../../widgets/common/app_button.dart';
@@ -220,10 +221,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: AppRadius.allMD, // v3.0: 更柔和的圆角
                       ),
                       side: const BorderSide(
-                        color: Color(0xFFFB923C),
+                        color: AppColors.primaryOrange,
                         width: 2,
                       ),
                     ),

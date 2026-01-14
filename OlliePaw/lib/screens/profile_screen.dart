@@ -316,7 +316,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               children: [
                 // 时间线 Tab
                 Container(
-                  color: AppColors.lightScreenBg,
+                  color: AppColors.screenBg,
                   child: Builder(
                     builder: (context) {
                       final posts = MockData.posts.where((p) => p.authorId == _displayPet!.id).toList();

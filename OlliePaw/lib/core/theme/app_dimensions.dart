@@ -190,80 +190,80 @@ class AppRadius {
   AppRadius._();
 
   // ==========================================================================
-  // 基础圆角
+  // 基础圆角 (v3.0: 更柔和圆润)
   // ==========================================================================
 
   /// 无圆角
   static const double none = 0.0;
 
-  /// 超小圆角 - 4px
+  /// 超小圆角 - 8px (加倍柔和)
   ///
   /// 用途：小徽章、标签
-  static const double xs = 4.0;
+  static const double xs = 8.0;
 
-  /// 小圆角 - 8px
+  /// 小圆角 - 16px (更圆润)
   ///
   /// 用途：按钮、输入框
-  static const double sm = 8.0;
+  static const double sm = 16.0;
 
-  /// 中圆角 - 12px（最常用）
+  /// 中圆角 - 24px (v3.0 新标准)
   ///
-  /// 用途：卡片、容器
-  static const double md = 12.0;
+  /// 用途：卡片、容器 - 温暖友好
+  static const double md = 24.0;
 
-  /// 大圆角 - 16px
+  /// 大圆角 - 32px (更有机)
   ///
   /// 用途：大卡片、对话框
-  static const double lg = 16.0;
+  static const double lg = 32.0;
 
-  /// 超大圆角 - 20px
+  /// 超大圆角 - 40px (blob感)
   ///
-  /// 用途：特殊容器、徽章
-  static const double xl = 20.0;
+  /// 用途：特殊容器、有机形状
+  static const double xl = 40.0;
 
-  /// 巨大圆角 - 24px
+  /// 巨大圆角 - 48px (极柔和)
   ///
-  /// 用途：底部弹窗顶部
-  static const double xxl = 24.0;
+  /// 用途：底部弹窗、大型卡片
+  static const double xxl = 48.0;
 
-  /// 超巨大圆角 - 30px
+  /// 超巨大圆角 - 56px
   ///
-  /// 用途：特殊设计
-  static const double xxxl = 30.0;
+  /// 用途：特殊有机设计
+  static const double xxxl = 56.0;
 
-  /// 超超巨大圆角 - 32px
+  /// 超超巨大圆角 - 64px
   ///
-  /// 用途：大型容器顶部/底部
-  static const double xxxxl = 32.0;
+  /// 用途：极大型容器、装饰性元素
+  static const double xxxxl = 64.0;
 
-  /// 完全圆角 - 999px
+  /// 完全圆角 - 999px (pill shape)
   ///
-  /// 用途：圆形按钮、圆形容器
+  /// 用途：药丸形按钮、圆形容器
   static const double full = 999.0;
 
   // ==========================================================================
-  // 特定用途圆角
+  // 特定用途圆角 (v3.0: pill-shaped & organic)
   // ==========================================================================
 
-  /// 按钮圆角
-  static const double button = xl;
+  /// 按钮圆角 - 药丸形状
+  static const double button = full; // pill-shaped for warmth
 
-  /// 输入框圆角
-  static const double input = xxl;
+  /// 输入框圆角 - 柔和
+  static const double input = md; // 24px
 
-  /// 卡片圆角
-  static const double card = lg;
+  /// 卡片圆角 - 温暖
+  static const double card = md; // 24px standard
 
-  /// 对话框圆角
-  static const double dialog = lg;
+  /// 对话框圆角 - 大
+  static const double dialog = lg; // 32px
 
-  /// 底部弹窗圆角
-  static const double bottomSheet = xxl;
+  /// 底部弹窗圆角 - 极柔和
+  static const double bottomSheet = xxl; // 48px
 
-  /// 徽章圆角
-  static const double badge = xl;
+  /// 徽章圆角 - 有机
+  static const double badge = xl; // 40px
 
-  /// 头像圆角
+  /// 头像圆角 - 完全圆形
   static const double avatar = full;
 
   // ==========================================================================

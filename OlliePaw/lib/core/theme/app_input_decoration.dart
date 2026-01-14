@@ -4,6 +4,7 @@
   - 统一的输入框装饰样式
   - 提供多种预设装饰工厂方法
   - 消除重复的 InputDecoration 代码
+  - v3.0: 使用更柔和的圆角以匹配温暖UI设计
 
   用途：
   - 替代所有重复的 InputDecoration 配置
@@ -33,6 +34,8 @@
 */
 
 import 'package:flutter/material.dart';
+import 'app_dimensions.dart';
+import '../constants/app_colors.dart';
 
 /// 应用输入框装饰样式
 ///
@@ -42,20 +45,20 @@ class AppInputDecoration {
 
   // ==================== 样式常量 ====================
 
-  /// 边框圆角半径
-  static const double borderRadius = 12.0;
+  /// 边框圆角半径 (v3.0: 使用AppRadius.input = 24px)
+  static const double borderRadius = AppRadius.input;
 
-  /// 填充颜色
-  static final Color fillColor = Colors.grey.shade50;
+  /// 填充颜色 (v3.0: 使用温暖的背景色)
+  static const Color fillColor = AppColors.cardBg;
 
-  /// 边框颜色
-  static final Color borderColor = Colors.grey.shade300;
+  /// 边框颜色 (v3.0: 柔和的灰色)
+  static const Color borderColor = AppColors.grey300;
 
-  /// 聚焦边框颜色
-  static const Color focusedBorderColor = Color(0xFFFB923C); // 橙色
+  /// 聚焦边框颜色 (v3.0: 温暖的橙色)
+  static const Color focusedBorderColor = AppColors.primaryOrange;
 
   /// 错误边框颜色
-  static const Color errorBorderColor = Colors.red;
+  static const Color errorBorderColor = AppColors.error;
 
   // ==================== 工厂方法 ====================
 
@@ -81,11 +84,11 @@ class AppInputDecoration {
       suffixIcon: suffixIcon,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius),
-        borderSide: BorderSide(color: borderColor),
+        borderSide: const BorderSide(color: borderColor),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius),
-        borderSide: BorderSide(color: borderColor),
+        borderSide: const BorderSide(color: borderColor),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius),
@@ -121,11 +124,11 @@ class AppInputDecoration {
       hintText: hintText,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius),
-        borderSide: BorderSide(color: borderColor),
+        borderSide: const BorderSide(color: borderColor),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius),
-        borderSide: BorderSide(color: borderColor),
+        borderSide: const BorderSide(color: borderColor),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius),
@@ -166,11 +169,11 @@ class AppInputDecoration {
       suffixIcon: suffixIcon,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius),
-        borderSide: BorderSide(color: borderColor),
+        borderSide: const BorderSide(color: borderColor),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius),
-        borderSide: BorderSide(color: borderColor),
+        borderSide: const BorderSide(color: borderColor),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(borderRadius),

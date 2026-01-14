@@ -59,7 +59,7 @@ class ProfileHeader extends StatelessWidget {
         // 品种
         Text(
           pet.breed,
-          style: TextStyle(
+          style: const TextStyle(
             color: AppColors.grey600,
             fontWeight: FontWeight.w600,
             fontSize: 11,

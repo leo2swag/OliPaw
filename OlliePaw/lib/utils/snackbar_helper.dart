@@ -14,10 +14,14 @@
   - 添加图标和副标题支持
   - 使用 AppColors 确保一致性
   - 添加操作按钮支持
+
+  v3.0 更新 - 温暖UI设计：
+  - 使用更柔和的圆角（24px）
 */
 
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
+import '../core/theme/app_dimensions.dart';
 
 /// SnackBar 辅助工具类
 ///
@@ -180,7 +184,7 @@ class SnackBarHelper {
         action: action,
         duration: duration,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: AppRadius.allMD, // v3.0: 更柔和的圆角
         ),
         margin: const EdgeInsets.all(16),
       ),

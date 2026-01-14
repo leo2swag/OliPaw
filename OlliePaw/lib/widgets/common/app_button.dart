@@ -4,6 +4,7 @@
   - 统一的按钮组件系统
   - 提供 Primary、Secondary、Outlined、Icon 等变体
   - 标准化按钮样式和尺寸
+  - v3.0: 使用pill-shaped设计（完全圆角）营造温暖友好的感觉
 
   使用示例：
   ```dart
@@ -75,6 +76,7 @@
 
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
+import '../../core/theme/app_dimensions.dart';
 
 /// 按钮尺寸枚举
 ///
@@ -336,7 +338,7 @@ class AppButton extends StatelessWidget {
         backgroundColor: backgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
-            borderRadius ?? AppTheme.radiusM,
+            borderRadius ?? AppRadius.md, // v3.0: 更柔和的圆角
           ),
         ),
         padding: EdgeInsets.all(size.verticalPadding),
@@ -357,7 +359,7 @@ class AppButton extends StatelessWidget {
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
-            borderRadius ?? AppTheme.radiusL,
+            borderRadius ?? AppRadius.button, // v3.0: pill-shaped为温暖感
           ),
         ),
       ),
@@ -380,7 +382,7 @@ class AppButton extends StatelessWidget {
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
-            borderRadius ?? AppTheme.radiusL,
+            borderRadius ?? AppRadius.button, // v3.0: pill-shaped为温暖友好
           ),
         ),
         elevation: 0,
