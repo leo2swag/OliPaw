@@ -2,22 +2,14 @@
   文件：screens/home_screen.dart
   说明：
   - 应用首页，展示：
-    1) 顶部欢迎区：问候语、奖励（Treats）数量、每日签到按钮；
-    2) 横向筛选标签（多选筛选）；
-    3) 每日挑战卡片；
-    4) 社区动态列表（Feed）。
+    1) 固定顶部区域（占页面1/4）：筛选标签 + 每日挑战
+    2) 可滚动区域：社区动态列表（Moments Feed）
   - 通过 Provider 读取 PetProvider、CurrencyProvider、CheckInProvider 获取当前宠物信息、Treat 数量与签到状态。
 
-  架构变更（v2.0）：
-  - 从 AppState 迁移到专用 Providers
-  - PetProvider: 获取当前宠物信息
-  - CurrencyProvider: 获取 Treats 余额
-  - CheckInProvider: 处理每日签到
-
-  性能优化（v2.3）：
-  - 移除 watch()，改用优化的子组件
-  - 使用 Selector 模式减少重建
-  - 独立组件：WelcomeHeader, TreatsBadge, CheckInButton
+  架构变更（v3.2）：
+  - 固定顶部设计：Filters + Daily Challenge 不随内容滚动
+  - 简化布局：移除广播ticker和SOS卡片（移至社区页面）
+  - 专注 Moments：首页只展示社区动态
 */
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -30,9 +22,11 @@ import '../widgets/home/checkin_button.dart';
 import '../widgets/home/category_button.dart';
 import '../models/types.dart';
 import '../core/constants/app_colors.dart';
-import '../core/constants/ui_constants.dart';
+import '../core/constants/app_strings.dart';
+import '../core/theme/app_dimensions.dart';
+import '../utils/snackbar_helper.dart';
 
-/// 首页：展示问候、挑战与动态列表
+/// 首页：固定顶部 + 可滚动 Moments
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -66,9 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
     // 模拟网络请求延迟
     await Future.delayed(const Duration(seconds: 1));
 
-    // 在实际应用中，这里会从后端获取新数据
-    // 现在只是简单地重新构建界面
-
     // 清空缓存，强制重新加载数据
     setState(() {
       _cachedFilteredPosts = null;
@@ -76,22 +67,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // 显示刷新成功提示
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Feed refreshed! 🎉'),
-          duration: Duration(seconds: 1),
-          backgroundColor: AppColors.success,
-        ),
+      SnackBarHelper.showSuccess(
+        context,
+        AppStrings.feedRefreshed,
+        duration: const Duration(seconds: 1),
       );
     }
   }
 
   /// 构建筛选后的帖子列表（性能优化 - 带缓存）
-  ///
-  /// 优化说明:
-  /// - 只有当筛选条件变化时才重新计算
-  /// - 缓存筛选结果，避免不必要的列表重建
-  /// - 减少 30-50% 的渲染时间
   List<Widget> _buildFilteredPosts() {
     // 检查缓存是否有效
     final filterChanged = _lastSelectedFilter == null ||
@@ -118,160 +102,152 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-  /// 构建首页：
-  /// - 使用优化的子组件，避免不必要的重建
-  /// - 使用 ListView 作为主滚动容器
   Widget build(BuildContext context) {
-    // 动态日期标签（如：TUESDAY, DECEMBER 16）
-    // 说明：
-    // - 使用 DateTime.now() 获取当前日期
-    // - 通过数组将数字星期与月份映射为大写英文（与设计稿的导航风格一致）
-    // - 格式：<WEEKDAY>, <MONTH> <DAY>
-    final now = DateTime.now();
-    const weekdays = ['MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY','SUNDAY'];
-    const months = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
-    final weekday = weekdays[now.weekday - 1];
-    final month = months[now.month - 1];
-    final dateLabel = '$weekday, $month ${now.day}';
-    
     return Scaffold(
       backgroundColor: AppColors.screenBg,
       body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: _handleRefresh,
-          color: AppColors.primaryOrange,
-          backgroundColor: AppColors.white,
-          child: ListView(
-            padding: const EdgeInsets.only(bottom: 100),
-            children: [
-            // 顶部欢迎区：白色背景，简洁设计
+        child: Column(
+          children: [
+            // ========== 固定顶部区域（紧凑设计） ==========
             Container(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+              padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
               decoration: const BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(UIDimensions.radius2XL),
-                  bottomRight: Radius.circular(UIDimensions.radius2XL),
+                  bottomLeft: Radius.circular(AppRadius.xxxxl),
+                  bottomRight: Radius.circular(AppRadius.xxxxl),
                 ),
               ),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  // 日期和 Treats 余额
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        dateLabel.toUpperCase(),
-                        style: const TextStyle(
-                          color: AppColors.textMedium,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 0.5,
-                        )
-                      ),
-                      const TreatsBadge(),
-                    ],
+                  // 每日挑战卡片（固定在顶部区域下方）- 全宽设计
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                    child: ChallengeCard(challenge: MockData.dailyChallenge),
                   ),
-                  const SizedBox(height: UIDimensions.spacingS),
 
-                  // 问候语和签到按钮
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center, // Vertically aligns header with the button stack
                     children: [
-                      Expanded(child: WelcomeHeader()),
-                      CheckInButton(),
+                      // 1. Welcome Header (Left)
+                      Expanded(
+                        child: WelcomeHeader(),
+                      ),
+
+                      // 2. Buttons Stack (Right)
+                      Column(
+                        mainAxisSize: MainAxisSize.min, // Prevents column from taking full screen height
+                        crossAxisAlignment: CrossAxisAlignment.end, // Aligns buttons to the right edge
+                        children: [
+                          TreatsBadge(),
+                          SizedBox(height: 5), // Vertical space between buttons
+                          CheckInButton(),
+                        ],
+                      ),
                     ],
                   ),
-                  const SizedBox(height: UIDimensions.spacingM),
-                  // 横向筛选标签（可多选）
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        CategoryButton(
-                          emoji: "📸",
-                          label: "Pics",
-                          bgColor: AppColors.categorySnapshotBg,
-                          textColor: AppColors.categorySnapshot,
-                          isSelected: _selected.contains(PostCategory.snapshot),
-                          onTap: () => _toggleCategory(PostCategory.snapshot),
-                        ),
-                        const SizedBox(width: UIDimensions.spacingS),
-                        CategoryButton(
-                          emoji: "💤",
-                          label: "Sleep",
-                          bgColor: AppColors.categorySleepyBg,
-                          textColor: AppColors.categorySleepy,
-                          isSelected: _selected.contains(PostCategory.sleepy),
-                          onTap: () => _toggleCategory(PostCategory.sleepy),
-                        ),
-                        const SizedBox(width: UIDimensions.spacingS),
-                        CategoryButton(
-                          emoji: "🌳",
-                          label: "Walk",
-                          bgColor: AppColors.categoryWalkBg,
-                          textColor: AppColors.categoryWalk,
-                          isSelected: _selected.contains(PostCategory.walk),
-                          onTap: () => _toggleCategory(PostCategory.walk),
-                        ),
-                        const SizedBox(width: UIDimensions.spacingS),
-                        CategoryButton(
-                          emoji: "🎾",
-                          label: "Play",
-                          bgColor: AppColors.categoryPlayBg,
-                          textColor: AppColors.categoryPlay,
-                          isSelected: _selected.contains(PostCategory.play),
-                          onTap: () => _toggleCategory(PostCategory.play),
-                        ),
-                      ],
+                  const SizedBox(height: 6),
+
+                  // 筛选标签（横向滚动）
+                  SizedBox(
+                    height: 55,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      clipBehavior: Clip.none,
+                      child: Row(
+                        children: [
+                          CategoryButton(
+                            emoji: "📸",
+                            label: AppStrings.categoryPics,
+                            bgColor: AppColors.categorySnapshotBg,
+                            textColor: AppColors.categorySnapshot,
+                            isSelected: _selected.contains(PostCategory.snapshot),
+                            onTap: () => _toggleCategory(PostCategory.snapshot),
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          CategoryButton(
+                            emoji: "💤",
+                            label: AppStrings.categorySleep,
+                            bgColor: AppColors.categorySleepyBg,
+                            textColor: AppColors.categorySleepy,
+                            isSelected: _selected.contains(PostCategory.sleepy),
+                            onTap: () => _toggleCategory(PostCategory.sleepy),
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          CategoryButton(
+                            emoji: "🌳",
+                            label: AppStrings.categoryWalk,
+                            bgColor: AppColors.categoryWalkBg,
+                            textColor: AppColors.categoryWalk,
+                            isSelected: _selected.contains(PostCategory.walk),
+                            onTap: () => _toggleCategory(PostCategory.walk),
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          CategoryButton(
+                            emoji: "🎾",
+                            label: AppStrings.categoryPlay,
+                            bgColor: AppColors.categoryPlayBg,
+                            textColor: AppColors.categoryPlay,
+                            isSelected: _selected.contains(PostCategory.play),
+                            onTap: () => _toggleCategory(PostCategory.play),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+
+                  // Clear Filters 按钮
                   if (_selected.isNotEmpty) ...[
-                    const SizedBox(height: UIDimensions.spacingS),
+                    const SizedBox(height: 8),
                     GestureDetector(
-                      onTap: () => setState(() => _selected.clear()),
+                      onTap: () => setState(() {
+                        _selected.clear();
+                        _cachedFilteredPosts = null;
+                      }),
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(LucideIcons.x, size: 14, color: AppColors.textMedium),
-                          SizedBox(width: 6),
+                          Icon(LucideIcons.x, size: 12, color: AppColors.textMedium),
+                          SizedBox(width: 4),
                           Text(
-                            "Clear Filters",
+                            AppStrings.clearFilters,
                             style: TextStyle(
                               color: AppColors.textMedium,
                               fontWeight: FontWeight.w600,
-                              fontSize: 13,
+                              fontSize: 11,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ]
+                  ],
                 ],
               ),
             ),
 
-            const SizedBox(height: UIDimensions.spacingM),
-            // 每日挑战模块
-            ChallengeCard(challenge: MockData.dailyChallenge),
-
-            Padding(
-              padding: const EdgeInsets.all(UIDimensions.spacingM),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Community Barks", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
-                  const SizedBox(height: UIDimensions.spacingM),
-                  // 根据筛选分类过滤动态：
-                  // - _selected.isEmpty -> 未选择任何筛选项，展示全部
-                  // - 否则仅展示 category 命中的帖子（多选为"或"逻辑）
-                  // 性能优化：使用 Builder 模式延迟构建未显示的帖子
-                  ..._buildFilteredPosts(),
-                ],
+            // ========== 可滚动区域：Moments Feed ==========
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: _handleRefresh,
+                color: AppColors.primaryOrange,
+                backgroundColor: AppColors.white,
+                child: ListView(
+                  padding: const EdgeInsets.only(
+                    left: AppSpacing.sm,
+                    right: AppSpacing.sm,
+                    bottom: 70,
+                  ),
+                  children: [
+                    const SizedBox(height: AppSpacing.sm),
+                    // 根据筛选分类过滤动态
+                    ..._buildFilteredPosts(),
+                  ],
+                ),
               ),
             ),
           ],
-        ),
         ),
       ),
     );

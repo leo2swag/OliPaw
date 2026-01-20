@@ -8,6 +8,8 @@
   - 从 ProfileScreen 中提取，提高代码复用性
 */
 import 'package:flutter/material.dart';
+import '../../core/constants/app_colors.dart';
+import '../../core/theme/app_dimensions.dart';
 
 /// 出生里程碑
 ///
@@ -31,9 +33,9 @@ class BornMilestone extends StatelessWidget {
           width: 14,
           height: 14,
           decoration: BoxDecoration(
-            color: const Color(0xFFDB2777),
+            color: AppColors.celebration,
             shape: BoxShape.circle,
-            border: Border.all(color: Colors.white, width: 2),
+            border: Border.all(color: AppColors.white, width: 2),
           ),
         ),
         const SizedBox(width: 14),
@@ -43,9 +45,9 @@ class BornMilestone extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: const Color(0xFFFCE7F3),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: const Color(0xFFF9A8D4)),
+              color: AppColors.celebrationBg,
+              borderRadius: AppRadius.allSM,
+              border: Border.all(color: AppColors.celebrationBorder),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +56,7 @@ class BornMilestone extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.celebration,
-                      color: Color(0xFFDB2777),
+                      color: AppColors.celebration,
                       size: 20,
                     ),
                     SizedBox(width: 6),
@@ -63,7 +65,7 @@ class BornMilestone extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w900,
-                        color: Color(0xFFDB2777),
+                        color: AppColors.celebration,
                       ),
                     ),
                   ],
@@ -73,7 +75,7 @@ class BornMilestone extends StatelessWidget {
                   "Welcome to the world, $petName! 🎉",
                   style: const TextStyle(
                     fontSize: 12,
-                    color: Color(0xFF9F1239),
+                    color: AppColors.celebrationTextDark,
                   ),
                 ),
               ],

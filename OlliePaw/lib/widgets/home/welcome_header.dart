@@ -10,8 +10,10 @@
   - 避免整个页面因宠物信息变化而重建
 */
 import 'package:flutter/material.dart';
-import '../../core/constants/app_colors.dart';
 import 'package:provider/provider.dart';
+import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_strings.dart';
+import '../../core/theme/app_dimensions.dart';
 import '../../providers/pet_provider.dart';
 
 /// 欢迎头部
@@ -28,22 +30,22 @@ class WelcomeHeader extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.xs + 1),
             const Text(
-              'Good Morning,',
+              AppStrings.goodMorning,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: AppColors.grey600,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 1),
             Text(
               petName,
               style: const TextStyle(
-                fontSize: 32,
+                fontSize: 25,
                 fontWeight: FontWeight.w900,
-                color: Colors.black87,
+                color: AppColors.textDark,
                 letterSpacing: -0.5,
               ),
             ),

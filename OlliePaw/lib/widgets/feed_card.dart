@@ -6,12 +6,14 @@
   注意：本文件仅添加中文注释，不改变逻辑。
 */
 import 'package:flutter/material.dart';
-import '../../core/theme/app_dimensions.dart';
-import '../core/constants/app_colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../core/constants/app_colors.dart';
+import '../core/constants/app_strings.dart';
+import '../core/theme/app_dimensions.dart';
 import '../models/types.dart';
 import 'comments_bottom_sheet.dart';
+import 'common/pill_badge.dart';
 
 /// 动态卡片：展示帖子与交互操作
 class FeedCard extends StatefulWidget {
@@ -73,17 +75,17 @@ class _FeedCardState extends State<FeedCard> with SingleTickerProviderStateMixin
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
-      margin: const EdgeInsets.only(bottom: 24),
+      margin: const EdgeInsets.only(bottom: AppSpacing.xxl),
       decoration: BoxDecoration(
         // 广告帖使用淡黄色背景
-        color: widget.post.isAd ? const Color(0xFFFFFBEB) : Colors.white,
+        color: widget.post.isAd ? AppColors.categorySnapshotBg : AppColors.white,
         borderRadius: AppRadius.allXXL,
         border: Border.all(
-          color: widget.post.isAd ? Colors.amber.shade200 : AppColors.grey100,
+          color: widget.post.isAd ? AppColors.warning : AppColors.grey100,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha:0.05),
+            color: AppColors.black.withValues(alpha:0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           )
@@ -93,14 +95,14 @@ class _FeedCardState extends State<FeedCard> with SingleTickerProviderStateMixin
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: AppSpacing.allLG,
             child: Row(
               children: [
                 CircleAvatar(
                   backgroundImage: NetworkImage(widget.post.authorAvatar),
-                  radius: 24,
+                  radius: AppSpacing.xxl,
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,16 +116,16 @@ class _FeedCardState extends State<FeedCard> with SingleTickerProviderStateMixin
                           if (widget.post.isAd)
                              // 广告帖带认证/推广徽章
                              const Padding(
-                               padding: EdgeInsets.only(left: 4),
-                               child: Icon(LucideIcons.badgeCheck, size: 16, color: Colors.blue),
+                               padding: EdgeInsets.only(left: AppSpacing.xs),
+                               child: Icon(LucideIcons.badgeCheck, size: AppSizes.iconSM, color: AppColors.info),
                              )
                         ],
                       ),
                       if (widget.post.location != null)
                         Row(
                           children: [
-                            const Icon(LucideIcons.mapPin, size: 12, color: AppColors.grey500),
-                            const SizedBox(width: 4),
+                            const Icon(LucideIcons.mapPin, size: AppSizes.iconXS, color: AppColors.grey500),
+                            const SizedBox(width: AppSpacing.xs),
                             Text(widget.post.location!, style: const TextStyle(fontSize: 12, color: AppColors.grey500)),
                           ],
                         )
@@ -136,28 +138,27 @@ class _FeedCardState extends State<FeedCard> with SingleTickerProviderStateMixin
           ),
           
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: AppSpacing.horizontalLG,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (widget.post.mood != null)
-                  // 当前心��标签（紫色系）
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 8),
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.purple.shade50,
-                      borderRadius: AppRadius.allSM,
+                  // 当前心情标签（紫色系）
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                    child: PillBadge(
+                      text: 'Current Mood: ${widget.post.mood}',
+                      backgroundColor: AppColors.moodSleepyBg,
+                      textColor: AppColors.moodSleepy,
+                      showShadow: false,
                     ),
-                    child: Text("Current Mood: ${widget.post.mood}", 
-                      style: TextStyle(color: Colors.purple.shade600, fontSize: 12, fontWeight: FontWeight.bold)),
                   ),
                 Text(widget.post.content, style: const TextStyle(fontSize: 15, height: 1.4)),
               ],
             ),
           ),
-          
-          const SizedBox(height: 12),
+
+          const SizedBox(height: AppSpacing.md),
 
           if (widget.post.imageUrl != null)
             SizedBox(
@@ -186,12 +187,12 @@ class _FeedCardState extends State<FeedCard> with SingleTickerProviderStateMixin
                     children: [
                       Icon(
                         LucideIcons.image,
-                        size: 48,
+                        size: AppSizes.iconXXXL,
                         color: AppColors.grey500,
                       ),
-                      SizedBox(height: 8),
+                      SizedBox(height: AppSpacing.sm),
                       Text(
-                        'Failed to load image',
+                        AppStrings.errorOccurred,
                         style: TextStyle(color: AppColors.grey500, fontSize: 12),
                       ),
                     ],
@@ -203,7 +204,7 @@ class _FeedCardState extends State<FeedCard> with SingleTickerProviderStateMixin
             ),
 
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: AppSpacing.allLG,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -214,13 +215,13 @@ class _FeedCardState extends State<FeedCard> with SingleTickerProviderStateMixin
                       scale: _likeScaleAnimation,
                       child: _ActionButton(
                         icon: LucideIcons.bone,
-                        label: "$likes Treats",
+                        label: AppStrings.treatsCount(likes),
                         isActive: hasLiked,
-                        activeColor: Colors.orange,
+                        activeColor: AppColors.primaryOrange,
                         onTap: _toggleLike,
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: AppSpacing.lg),
                     _ActionButton(
                       icon: LucideIcons.messageCircle,
                       label: "${widget.post.comments} Barks",
@@ -268,7 +269,7 @@ class _ActionButton extends StatelessWidget {
     required this.label,
     required this.onTap,
     this.isActive = false,
-    this.activeColor = Colors.blue,
+    this.activeColor = AppColors.info,
   });
 
   @override
@@ -279,14 +280,14 @@ class _ActionButton extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: AppSpacing.allSM,
             decoration: BoxDecoration(
-              color: isActive ? activeColor.withValues(alpha:0.1) : AppColors.grey100,
+              color: isActive ? activeColor.withValues(alpha: 0.1) : AppColors.grey100,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, size: 20, color: isActive ? activeColor : AppColors.grey500),
+            child: Icon(icon, size: AppSizes.iconMD, color: isActive ? activeColor : AppColors.grey500),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSpacing.xs),
           Text(label, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
         ],
       ),

@@ -18,7 +18,7 @@
   OrganicBlob.irregular(
     width: 150,
     height: 120,
-    color: AppColors.moodPlayful.withOpacity(0.3),
+    color: AppColors.moodPlayful.withValues(alpha: 0.3),
   )
 
   // 作为背景装饰
@@ -29,7 +29,7 @@
         right: -40,
         child: OrganicBlob(
           size: 200,
-          color: AppColors.moodCalm.withOpacity(0.2),
+          color: AppColors.moodCalm.withValues(alpha: 0.2),
         ),
       ),
       // 您的内容...
@@ -41,6 +41,7 @@
 */
 
 import 'package:flutter/material.dart';
+import '../../core/theme/app_dimensions.dart';
 
 /// 有机形状装饰组件
 ///
@@ -281,7 +282,7 @@ class BlobCard extends StatelessWidget {
       padding: padding,
       decoration: BoxDecoration(
         color: backgroundColor ?? const Color(0xFFF5E6D3),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: AppRadius.allMD,
         boxShadow: const [
           BoxShadow(
             color: Color.fromRGBO(0, 0, 0, 0.08),

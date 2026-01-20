@@ -19,70 +19,73 @@ class ChallengeCard extends StatelessWidget {
   const ChallengeCard({super.key, required this.challenge});
 
   @override
-  /// 卡片布局：背景渐变 + 奖杯装饰 + 信息区 + 奖励徽标
+  /// 卡片布局：紧凑设计，突出任务内容
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击进入创建动态页面（鼓励完成挑战）
       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CreatePostScreen())),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
-        padding: AppSpacing.card,
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm + 2, vertical: AppSpacing.sm),
         decoration: BoxDecoration(
           gradient: AppColors.challengeGradient,
-          borderRadius: AppRadius.allXL,
-          boxShadow: [BoxShadow(color: AppColors.challengePrimary.withValues(alpha:0.3), blurRadius: 10, offset: const Offset(0, 4))],
+          borderRadius: AppRadius.allLG,
+          boxShadow: [BoxShadow(color: AppColors.challengePrimary.withValues(alpha: 0.25), blurRadius: AppSpacing.sm, offset: const Offset(0, 3))],
         ),
-        child: Stack(
+        child: Row(
           children: [
-            const Positioned(
-              right: -10, top: -10,
-              child: Opacity(
-                opacity: 0.1,
-                child: Icon(LucideIcons.trophy, size: 80, color: Colors.white),
+            // 任务图标
+            Container(
+              padding: const EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                color: AppColors.white.withValues(alpha: 0.25),
+                borderRadius: AppRadius.allMD,
+              ),
+              child: Text(challenge.icon, style: const TextStyle(fontSize: 20)),
+            ),
+            const SizedBox(width: AppSpacing.md),
+
+            // 任务内容（高亮显示）
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // 任务描述
+                  Text(
+                    challenge.description,
+                    style: TextStyle(
+                      color: AppColors.white.withValues(alpha: 0.95),
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ],
               ),
             ),
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppColors.white.withValues(alpha:0.2),
-                    borderRadius: AppRadius.allMD,
+            const SizedBox(width: AppSpacing.md),
+
+            // 奖励徽标
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm + 2, vertical: AppSpacing.sm),
+              decoration: BoxDecoration(
+                color: AppColors.white.withValues(alpha: 0.25),
+                borderRadius: AppRadius.allMD,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(LucideIcons.bone, size: AppSizes.iconXS + 2, color: AppColors.white),
+                  const SizedBox(width: AppSpacing.xs),
+                  Text(
+                    "${challenge.reward}",
+                    style: const TextStyle(
+                      color: AppColors.white,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 14,
+                    ),
                   ),
-                  child: Text(challenge.icon, style: const TextStyle(fontSize: 24)),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("DAILY CHALLENGE", style: TextStyle(color: AppColors.challengeTextLight, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1)),
-                      Text(challenge.title, style: const TextStyle(color: AppColors.white, fontWeight: FontWeight.bold, fontSize: 16)),
-                      const SizedBox(height: 2),
-                      Text(challenge.description, style: TextStyle(color: AppColors.white.withValues(alpha:0.9), fontSize: 12)),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: AppColors.white.withValues(alpha:0.2),
-                    borderRadius: AppRadius.allSM,
-                  ),
-                  child: Column(
-                    children: [
-                      const Text("REWARD", style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: AppColors.challengeTextLight)),
-                      Row(
-                        children: [
-                          const Icon(LucideIcons.bone, size: 12, color: AppColors.white),
-                          const SizedBox(width: 2),
-                          Text("${challenge.reward}", style: const TextStyle(color: AppColors.white, fontWeight: FontWeight.w900, fontSize: 12)),
-                        ],
-                      )
-                    ],
-                  ),
-                )
-              ],
+                ],
+              ),
             ),
           ],
         ),

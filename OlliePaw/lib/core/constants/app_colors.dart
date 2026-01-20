@@ -79,6 +79,14 @@ class AppColors {
   static const Color info = Colors.indigo;
   static const Color infoBg = Color(0xFFDEE5FF);
 
+  /// 徽章橙色 (年龄徽章)
+  static const Color badgeOrangeBg = Color(0xFFFEF3C7);
+  static const Color badgeOrangeText = Color(0xFFB45309);
+
+  /// 徽章蓝色 (体重徽章)
+  static const Color badgeBlueBg = Color(0xFFDBEAFE);
+  static const Color badgeBlueText = Color(0xFF1E40AF);
+
   // ==================== 中性颜色 ====================
 
   /// 深灰色文本
@@ -148,6 +156,27 @@ class AppColors {
     end: Alignment.bottomRight,
   );
 
+  /// AI 助手头部渐变 (AI Assistant Header)
+  static const LinearGradient aiAssistantHeaderGradient = LinearGradient(
+    colors: [info, success],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  );
+
+  /// AI 助手按钮渐变 (AI Button)
+  static const LinearGradient aiAssistantButtonGradient = LinearGradient(
+    colors: [primaryOrange, warning],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  );
+
+  /// 健康追踪渐变 (Health Tracker)
+  static const LinearGradient healthGradient = LinearGradient(
+    colors: [info, success],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  );
+
   // ==================== 挑战卡片颜色 ====================
 
   /// 挑战卡片主色 (紫色)
@@ -196,6 +225,12 @@ class AppColors {
   static const Color moodLove = Color(0xFFFFB3C1);
   static const Color moodLoveBg = Color(0xFFFFE5E9);
 
+  /// 庆祝/出生 - 深玫瑰色
+  static const Color celebration = Color(0xFFDB2777);
+  static const Color celebrationBg = Color(0xFFFCE7F3);
+  static const Color celebrationBorder = Color(0xFFF9A8D4);
+  static const Color celebrationTextDark = Color(0xFF9F1239);
+
   /// 自然心情 - 柔和绿色
   static const Color moodNature = Color(0xFFA8D5BA);
   static const Color moodNatureBg = Color(0xFFE8F5ED);
@@ -241,4 +276,31 @@ class AppColors {
       spreadRadius: 0,
     ),
   ];
+
+  /// 信息蓝阴影 - 用于 AI 卡片等
+  static const List<BoxShadow> infoShadow = [
+    BoxShadow(
+      color: Color.fromRGBO(63, 81, 181, 0.3), // info color with 0.3 alpha
+      blurRadius: 10,
+      offset: Offset(0, 4),
+      spreadRadius: 0,
+    ),
+  ];
+
+  // ==================== 透明颜色常量 ====================
+
+  /// 白色 25% 透明度
+  static const Color white25 = Color(0x40FFFFFF);
+
+  /// 白色 20% 透明度
+  static const Color white20 = Color(0x33FFFFFF);
+
+  /// 白色 10% 透明度
+  static const Color white10 = Color(0x1AFFFFFF);
+
+  /// 黑色 5% 透明度
+  static const Color black05 = Color(0x0D000000);
+
+  /// 黑色 10% 透明度
+  static const Color black10 = Color(0x1A000000);
 }

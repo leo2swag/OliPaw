@@ -55,6 +55,7 @@
 
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
+import '../../core/constants/app_colors.dart';
 
 /// 统一的对话框组件
 ///
@@ -253,7 +254,7 @@ class AppDialog extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: color ?? AppTheme.primaryOrange,
-        foregroundColor: Colors.white,
+        foregroundColor: AppColors.white,
         padding: const EdgeInsets.symmetric(
           horizontal: AppTheme.spaceL,
           vertical: AppTheme.spaceM,
@@ -289,8 +290,8 @@ class AppDialog extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.red,
-        foregroundColor: Colors.white,
+        backgroundColor: AppColors.error,
+        foregroundColor: AppColors.white,
         padding: const EdgeInsets.symmetric(
           horizontal: AppTheme.spaceL,
           vertical: AppTheme.spaceM,

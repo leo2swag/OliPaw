@@ -12,6 +12,7 @@
 */
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
+import '../core/theme/app_dimensions.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../providers/pet_provider.dart';
@@ -51,7 +52,7 @@ class _CareScreenState extends State<CareScreen> with SingleTickerProviderStateM
       appBar: AppBar(
         backgroundColor: AppColors.screenBg,
         elevation: 0,
-        title: const Text("Care Center", style: TextStyle(fontWeight: FontWeight.w900, color: Colors.black)),
+        title: const Text("Care Center", style: TextStyle(fontWeight: FontWeight.w900, color: AppColors.black)),
         centerTitle: false,
       ),
       body: Column(
@@ -62,12 +63,12 @@ class _CareScreenState extends State<CareScreen> with SingleTickerProviderStateM
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.teal.shade400, Colors.cyan.shade300],
+                colors: [AppColors.success, AppColors.success.withValues(alpha: 0.7)],
               ),
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: AppRadius.allLG,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.teal.withValues(alpha: 0.3),
+                  color: AppColors.success.withValues(alpha: 0.3),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 )
@@ -76,18 +77,18 @@ class _CareScreenState extends State<CareScreen> with SingleTickerProviderStateM
             child: TabBar(
               controller: _tabController,
               indicator: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(25),
+                color: AppColors.white,
+                borderRadius: AppRadius.allMD,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
+                    color: AppColors.black.withValues(alpha: 0.1),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   )
                 ],
               ),
-              labelColor: Colors.teal.shade700,
-              unselectedLabelColor: Colors.white,
+              labelColor: AppColors.success,
+              unselectedLabelColor: AppColors.white,
               labelStyle: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
               unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
               indicatorSize: TabBarIndicatorSize.tab,

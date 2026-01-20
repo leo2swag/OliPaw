@@ -12,6 +12,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../core/theme/app_dimensions.dart';
+import '../../core/constants/app_colors.dart';
 
 /// 帖子输入框
 ///
@@ -42,9 +43,9 @@ class PostInputField extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: AppRadius.allLG,
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: AppColors.grey200),
       ),
       child: Column(
         children: [
@@ -53,7 +54,7 @@ class PostInputField extends StatelessWidget {
             maxLines: 4,
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: TextStyle(color: Colors.grey.shade400),
+              hintStyle: const TextStyle(color: AppColors.grey400),
               border: InputBorder.none,
             ),
             style: const TextStyle(fontSize: 15),
@@ -71,12 +72,12 @@ class PostInputField extends StatelessWidget {
                       SizedBox(
                         width: 14,
                         height: 14,
-                        child: CircularProgressIndicator(strokeWidth: 2, color: Colors.orange),
+                        child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primaryOrange),
                       ),
                       SizedBox(width: 8),
                       Text(
                         "Generating...",
-                        style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontSize: 13),
+                        style: TextStyle(color: AppColors.primaryOrange, fontWeight: FontWeight.bold, fontSize: 13),
                       ),
                     ],
                   ),
@@ -88,8 +89,8 @@ class PostInputField extends StatelessWidget {
                   icon: const Icon(LucideIcons.sparkles, size: 16),
                   label: const Text("AI Assist (5🦴)", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
                   style: TextButton.styleFrom(
-                    foregroundColor: Colors.orange.shade700,
-                    backgroundColor: Colors.orange.shade50,
+                    foregroundColor: AppColors.primaryOrange,
+                    backgroundColor: AppColors.lightOrangeBg,
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     shape: RoundedRectangleBorder(borderRadius: AppRadius.allMD),
                   ),

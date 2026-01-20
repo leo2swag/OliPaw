@@ -19,7 +19,7 @@ import '../../providers/auth_provider.dart';
 import '../../models/types.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/constants/app_colors.dart';
-import '../../core/constants/ui_constants.dart';
+import '../../core/constants/app_strings.dart';
 import '../../core/theme/app_input_decoration.dart';
 import '../../core/theme/app_dimensions.dart';
 import '../../utils/snackbar_helper.dart';
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       // Null check for safety
       if (authUser == null) {
-        SnackBarHelper.showError(context, 'Login failed: user data not available');
+        SnackBarHelper.showError(context, AppStrings.loginFailed);
         return;
       }
 
@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // 显示错误消息
       SnackBarHelper.showError(
         context,
-        authProvider.errorMessage ?? 'Login failed',
+        authProvider.errorMessage ?? AppStrings.loginFailed,
       );
     }
   }
@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -111,9 +111,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     size: 80,
                     color: AppColors.primaryOrange,
                   ),
-                  const SizedBox(height: UIDimensions.spacingM),
+                  const SizedBox(height: AppSpacing.lg),
                   const Text(
-                    'OlliePaw',
+                    AppStrings.appName,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 32,
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: AppColors.primaryOrange,
                     ),
                   ),
-                  const SizedBox(height: UIDimensions.spacingS),
+                  const SizedBox(height: AppSpacing.sm),
                   const Text(
                     'Welcome back! Sign in to continue',
                     textAlign: TextAlign.center,
@@ -130,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: AppColors.textMedium,
                     ),
                   ),
-                  const SizedBox(height: UIDimensions.spacingXL),
+                  const SizedBox(height: AppSpacing.xxxl),
 
                   // 邮箱输入
                   TextFormField(
@@ -138,27 +138,27 @@ class _LoginScreenState extends State<LoginScreen> {
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: false,
                     decoration: AppInputDecoration.standard(
-                      labelText: 'Email',
+                      labelText: AppStrings.email,
                       hintText: 'Enter your email',
                       prefixIcon: Icons.email_outlined,
                     ),
                     validator: AppConstants.validateEmail,
                   ),
-                  const SizedBox(height: UIDimensions.spacingM),
+                  const SizedBox(height: AppSpacing.lg),
 
                   // 密码输入
                   PasswordFormField(
                     controller: _passwordController,
-                    labelText: 'Password',
+                    labelText: AppStrings.password,
                     hintText: 'Enter your password',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Password is required';
+                        return AppStrings.fieldRequired;
                       }
                       return null;
                     },
                   ),
-                  const SizedBox(height: UIDimensions.spacingL),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // 登录按钮
                   Consumer<AuthProvider>(
@@ -181,30 +181,30 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Password reset coming soon!',
                       );
                     },
-                    child: Text(
-                      'Forgot password?',
+                    child: const Text(
+                      AppStrings.forgotPassword,
                       style: TextStyle(
-                        color: Colors.grey.shade600,
+                        color: AppColors.textMedium,
                       ),
                     ),
                   ),
                   const SizedBox(height: 32),
 
                   // 分隔线
-                  Row(
+                  const Row(
                     children: [
-                      Expanded(child: Divider(color: Colors.grey.shade300)),
+                      Expanded(child: Divider(color: AppColors.grey300)),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
                           'OR',
                           style: TextStyle(
-                            color: Colors.grey.shade600,
+                            color: AppColors.textMedium,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
-                      Expanded(child: Divider(color: Colors.grey.shade300)),
+                      Expanded(child: Divider(color: AppColors.grey300)),
                     ],
                   ),
                   const SizedBox(height: 32),
@@ -229,11 +229,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     child: const Text(
-                      'Create Account',
+                      AppStrings.createAccount,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFFFB923C),
+                        color: AppColors.primaryOrange,
                       ),
                     ),
                   ),

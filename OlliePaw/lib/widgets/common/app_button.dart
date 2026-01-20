@@ -77,6 +77,7 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
 import '../../core/theme/app_dimensions.dart';
+import '../../core/constants/app_colors.dart';
 
 /// 按钮尺寸枚举
 ///
@@ -211,7 +212,7 @@ class AppButton extends StatelessWidget {
           icon: icon,
           onPressed: onPressed,
           backgroundColor: backgroundColor ?? AppTheme.primaryOrange,
-          foregroundColor: Colors.white,
+          foregroundColor: AppColors.white,
           size: size,
           isLoading: isLoading,
           fullWidth: fullWidth,
@@ -238,8 +239,8 @@ class AppButton extends StatelessWidget {
           label: label,
           icon: icon,
           onPressed: onPressed,
-          backgroundColor: backgroundColor ?? Colors.black,
-          foregroundColor: Colors.white,
+          backgroundColor: backgroundColor ?? AppColors.black,
+          foregroundColor: AppColors.white,
           size: size,
           isLoading: isLoading,
           fullWidth: fullWidth,
@@ -405,7 +406,7 @@ class AppButton extends StatelessWidget {
         child: CircularProgressIndicator(
           strokeWidth: 2,
           valueColor: AlwaysStoppedAnimation<Color>(
-            foregroundColor ?? Colors.white,
+            foregroundColor ?? AppColors.white,
           ),
         ),
       );

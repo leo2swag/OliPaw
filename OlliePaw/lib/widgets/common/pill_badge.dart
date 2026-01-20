@@ -37,6 +37,7 @@
 
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
+import '../../core/constants/app_colors.dart';
 
 /// 药丸形徽章组件
 ///
@@ -81,96 +82,61 @@ class PillBadge extends StatelessWidget {
   ///
   /// 用于：主要状态、强调信息
   const PillBadge.orange({
-    Key? key,
-    String? emoji,
-    IconData? icon,
-    required String text,
-    bool showShadow = true,
-  }) : this(
-          key: key,
-          emoji: emoji,
-          icon: icon,
-          text: text,
-          backgroundColor: const Color(0xFFFEF3C7),
-          textColor: const Color(0xFFB45309),
-          showShadow: showShadow,
-        );
+    super.key,
+    this.emoji,
+    this.icon,
+    required this.text,
+    this.showShadow = true,
+  })  : backgroundColor = AppColors.badgeOrangeBg,
+        textColor = AppColors.badgeOrangeText;
 
   /// Blue 主题快捷构造函数
   ///
   /// 用于：体重、健康数据
   const PillBadge.blue({
-    Key? key,
-    String? emoji,
-    IconData? icon,
-    required String text,
-    bool showShadow = true,
-  }) : this(
-          key: key,
-          emoji: emoji,
-          icon: icon,
-          text: text,
-          backgroundColor: const Color(0xFFDBEAFE),
-          textColor: const Color(0xFF1E40AF),
-          showShadow: showShadow,
-        );
+    super.key,
+    this.emoji,
+    this.icon,
+    required this.text,
+    this.showShadow = true,
+  })  : backgroundColor = AppColors.badgeBlueBg,
+        textColor = AppColors.badgeBlueText;
 
   /// Green 主题快捷构造函数
   ///
   /// 用于：成功状态、正向数据
   const PillBadge.green({
-    Key? key,
-    String? emoji,
-    IconData? icon,
-    required String text,
-    bool showShadow = true,
-  }) : this(
-          key: key,
-          emoji: emoji,
-          icon: icon,
-          text: text,
-          backgroundColor: const Color(0xFFD1FAE5),
-          textColor: const Color(0xFF065F46),
-          showShadow: showShadow,
-        );
+    super.key,
+    this.emoji,
+    this.icon,
+    required this.text,
+    this.showShadow = true,
+  })  : backgroundColor = AppColors.successBg,
+        textColor = AppColors.success;
 
   /// Pink 主题快捷构造函数
   ///
   /// 用于：特殊事件、里程碑
   const PillBadge.pink({
-    Key? key,
-    String? emoji,
-    IconData? icon,
-    required String text,
-    bool showShadow = true,
-  }) : this(
-          key: key,
-          emoji: emoji,
-          icon: icon,
-          text: text,
-          backgroundColor: const Color(0xFFFCE7F3),
-          textColor: const Color(0xFFDB2777),
-          showShadow: showShadow,
-        );
+    super.key,
+    this.emoji,
+    this.icon,
+    required this.text,
+    this.showShadow = true,
+  })  : backgroundColor = AppColors.celebrationBg,
+        textColor = AppColors.celebration;
 
   /// Grey 主题快捷构造函数
   ///
   /// 用于：次要信息、中性状态
-  PillBadge.grey({
-    Key? key,
-    String? emoji,
-    IconData? icon,
-    required String text,
-    bool showShadow = true,
-  }) : this(
-          key: key,
-          emoji: emoji,
-          icon: icon,
-          text: text,
-          backgroundColor: AppTheme.grey100,
-          textColor: AppTheme.grey700,
-          showShadow: showShadow,
-        );
+  const PillBadge.grey({
+    super.key,
+    this.emoji,
+    this.icon,
+    required this.text,
+    this.showShadow = true,
+  })  : backgroundColor = AppColors.grey100,
+        textColor = AppColors.grey700;
 
   @override
   Widget build(BuildContext context) {

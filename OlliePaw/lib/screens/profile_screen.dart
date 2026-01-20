@@ -20,6 +20,7 @@
 */
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
+import '../core/constants/app_strings.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../models/types.dart';
@@ -118,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       builder: (ctx) => Container(
         height: MediaQuery.of(context).size.height * 0.85,
         decoration: const BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
         ),
         padding: const EdgeInsets.all(24),
@@ -127,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Settings", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
+                const Text(AppStrings.settings, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
                 IconButton(onPressed: () => Navigator.pop(ctx), icon: const Icon(LucideIcons.x)),
               ],
             ),
@@ -135,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             TextField(
               controller: nameCtrl,
               decoration: AppInputDecoration.standard(
-                labelText: "Pet Name",
+                labelText: AppStrings.petName,
               ),
             ),
             const SizedBox(height: 16),
@@ -143,15 +144,25 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               controller: bioCtrl,
               maxLines: 3,
               decoration: AppInputDecoration.textArea(
-                labelText: "Bio",
+                labelText: AppStrings.bio,
               ),
             ),
             const SizedBox(height: 24),
             AppButton.primary(
-              label: 'Save Changes',
+              label: AppStrings.saveChanges,
               onPressed: () {
                 petProvider.updatePetProfile(nameCtrl.text, bioCtrl.text);
                 Navigator.pop(ctx);
+              },
+              fullWidth: true,
+            ),
+            const SizedBox(height: 16),
+            // SOS 发布按钮
+            AppButton.outlined(
+              label: AppStrings.sosAlert,
+              onPressed: () {
+                Navigator.pop(ctx);
+                Navigator.pushNamed(context, '/sos-create');
               },
               fullWidth: true,
             ),
@@ -163,7 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                 // Then call logout with the parent context
                 _handleLogout(context);
               },
-              child: const Text("Log Out", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+              child: const Text(AppStrings.logout, style: TextStyle(color: AppColors.error, fontWeight: FontWeight.bold)),
             ),
             const SizedBox(height: 20),
           ],
@@ -208,8 +219,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text("👻", style: TextStyle(fontSize: 80)),
-              Text("Hi, ${currentUser!.name}!", style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900)),
-              TextButton(onPressed: () => _handleLogout(context), child: const Text("Sign Out", style: TextStyle(color: Colors.red))),
+              Text("${AppStrings.hello}, ${currentUser!.name}!", style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900)),
+              TextButton(onPressed: () => _handleLogout(context), child: const Text(AppStrings.signOut, style: TextStyle(color: AppColors.error))),
             ],
           ),
         ),
@@ -225,7 +236,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
           // 1. PINNED APP BAR (Action icons only)
           SliverAppBar(
             pinned: true,
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.white,
             elevation: 0,
             actions: [
               if (widget.pet == null) ...[
@@ -233,19 +244,19 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   builder: (ctx, currencyProvider, _) => Container(
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(color: const Color(0xFFFFF4E6), borderRadius: AppRadius.allXL),
+                    decoration: BoxDecoration(color: AppColors.lightOrangeBg, borderRadius: AppRadius.allXL),
                     child: Row(children: [
-                      const Icon(LucideIcons.bone, size: 14, color: Color(0xFFD97706)),
+                      const Icon(LucideIcons.bone, size: 14, color: AppColors.badgeOrangeText),
                       const SizedBox(width: 4),
-                      Text("${currencyProvider.treats}", style: const TextStyle(fontWeight: FontWeight.w800, color: Color(0xFFD97706), fontSize: 12)),
+                      Text("${currencyProvider.treats}", style: const TextStyle(fontWeight: FontWeight.w800, color: AppColors.badgeOrangeText, fontSize: 12)),
                     ]),
                   ),
                 ),
                 Tooltip(
-                  message: 'Settings',
+                  message: AppStrings.settings,
                   child: IconButton(
                     onPressed: () => _showSettings(context),
-                    icon: const Icon(LucideIcons.settings, color: Colors.black87, size: 22),
+                    icon: const Icon(LucideIcons.settings, color: AppColors.textDark, size: 22),
                   ),
                 ),
               ],
@@ -255,7 +266,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
           // 2. DYNAMIC HEADER (Auto-sizes based on content)
           SliverToBoxAdapter(
             child: Container(
-              color: Colors.white,
+              color: AppColors.white,
               child: Column(
                 children: [
                   // 头部组件（头像、名字、徽章）
@@ -267,18 +278,18 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
                   // 信息卡片组件（品种、性别、个性签名）
                   ProfileInfoCard(pet: _displayPet!),
-                  
+
                   if (!_isOwner)
                     Padding(
                       padding: const EdgeInsets.all(16),
                       child: _isFollowing
                           ? AppButton.outlined(
-                              label: 'Following',
+                              label: AppStrings.following,
                               onPressed: () => setState(() => _isFollowing = false),
                               fullWidth: true,
                             )
                           : AppButton.primary(
-                              label: 'Follow',
+                              label: AppStrings.follow,
                               onPressed: () => setState(() => _isFollowing = true),
                               fullWidth: true,
                             ),
@@ -289,17 +300,17 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     padding: const EdgeInsets.all(16),
                     child: Container(
                       padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: AppRadius.allXL),
+                      decoration: BoxDecoration(color: AppColors.grey100, borderRadius: AppRadius.allXL),
                       child: TabBar(
                         controller: _tabController,
-                        indicator: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18)),
-                        labelColor: Colors.black,
-                        unselectedLabelColor: Colors.grey,
+                        indicator: BoxDecoration(color: AppColors.white, borderRadius: AppRadius.allSM),
+                        labelColor: AppColors.textDark,
+                        unselectedLabelColor: AppColors.textMedium,
                         indicatorSize: TabBarIndicatorSize.tab,
                         dividerColor: Colors.transparent,
                         tabs: const [
-                          Tab(height: 40, child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(LucideIcons.clock, size: 14), SizedBox(width: 6), Text("Timeline")])),
-                          Tab(height: 40, child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(LucideIcons.image, size: 14), SizedBox(width: 6), Text("Moments")])),
+                          Tab(height: 40, child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(LucideIcons.clock, size: 14), SizedBox(width: 6), Text(AppStrings.timeline)])),
+                          Tab(height: 40, child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(LucideIcons.image, size: 14), SizedBox(width: 6), Text(AppStrings.moments)])),
                         ],
                       ),
                     ),
@@ -345,8 +356,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                 isLocked
                   ? EmptyState(
                       icon: LucideIcons.lock,
-                      title: 'Moments Locked',
-                      subtitle: 'Follow ${_displayPet!.name} to unlock their moments',
+                      title: AppStrings.momentsLocked,
+                      subtitle: '${AppStrings.follow} ${_displayPet!.name} to unlock their moments',
                     )
                   : GridView.builder(
                       padding: const EdgeInsets.all(16),

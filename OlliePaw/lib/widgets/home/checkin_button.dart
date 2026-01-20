@@ -15,8 +15,10 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../../providers/checkin_provider.dart';
 import '../../providers/currency_provider.dart';
 import '../../core/constants/app_colors.dart';
-import '../../core/constants/ui_constants.dart';
+import '../../core/constants/app_strings.dart';
 import '../../core/constants/game_constants.dart';
+import '../../core/theme/app_dimensions.dart';
+import '../../utils/snackbar_helper.dart';
 
 /// 每日签到按钮
 ///
@@ -37,14 +39,9 @@ class CheckInButton extends StatelessWidget {
       );
 
       // 显示成功提示
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            '签到成功！获得 ${GameBalance.dailyCheckInReward} Treats 🎉',
-          ),
-          duration: Duration(seconds: 2),
-          backgroundColor: AppColors.success,
-        ),
+      SnackBarHelper.showSuccess(
+        context,
+        '签到成功！获得 ${GameBalance.dailyCheckInReward} Treats 🎉',
       );
     }
   }
@@ -57,22 +54,22 @@ class CheckInButton extends StatelessWidget {
         return GestureDetector(
           onTap: isCheckedIn ? null : () => _handleCheckIn(context),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: UIDimensions.spacingM, vertical: UIDimensions.spacingS),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
             decoration: BoxDecoration(
               color: isCheckedIn ? AppColors.checkedInBg : AppColors.primaryOrange,
-              borderRadius: BorderRadius.circular(UIDimensions.radiusL),
+              borderRadius: BorderRadius.circular(AppRadius.xl),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   isCheckedIn ? LucideIcons.check : LucideIcons.sparkles,
-                  size: 14,
+                  size: AppSizes.iconXS + 2,
                   color: isCheckedIn ? AppColors.checkedInText : AppColors.white,
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  'Daily Check-in (+${GameBalance.dailyCheckInReward})',
+                  '${AppStrings.dailyCheckIn} (+${GameBalance.dailyCheckInReward})',
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w700,

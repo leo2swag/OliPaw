@@ -951,3 +951,108 @@ class Moment {
     );
   }
 }
+
+// ============================================================================
+// 评论系统 (Comment System)
+// ============================================================================
+
+/// 评论模型类
+/// 表示帖子下的用户评论
+///
+/// 使用场景：
+/// - 评论列表展示
+/// - 评论互动（点赞）
+/// - 评论通知
+///
+/// 字段说明：
+/// - authorId: 评论者ID
+/// - likes: 评论点赞数（可变）
+/// - hasLiked: 当前用户是否已点赞（可变）
+class Comment {
+  /// 评论唯一ID
+  final String id;
+
+  /// 评论者用户ID
+  final String authorId;
+
+  /// 评论者名称
+  final String authorName;
+
+  /// 评论者头像URL
+  final String authorAvatar;
+
+  /// 评论文本内容
+  final String content;
+
+  /// 评论时间戳（相对时间，例如："2h ago"）
+  final String timestamp;
+
+  /// 点赞数（可变字段）
+  int likes;
+
+  /// 当前用户是否已点赞（可变字段）
+  bool hasLiked;
+
+  /// 构造函数 - 创建评论实例
+  Comment({
+    required this.id,
+    required this.authorId,
+    required this.authorName,
+    required this.authorAvatar,
+    required this.content,
+    required this.timestamp,
+    this.likes = 0,
+    this.hasLiked = false,
+  });
+
+  /// 序列化为 JSON 格式
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'authorId': authorId,
+      'authorName': authorName,
+      'authorAvatar': authorAvatar,
+      'content': content,
+      'timestamp': timestamp,
+      'likes': likes,
+      'hasLiked': hasLiked,
+    };
+  }
+
+  /// 从 JSON 反序列化
+  factory Comment.fromJson(Map<String, dynamic> json) {
+    return Comment(
+      id: json['id'] as String,
+      authorId: json['authorId'] as String,
+      authorName: json['authorName'] as String,
+      authorAvatar: json['authorAvatar'] as String,
+      content: json['content'] as String,
+      timestamp: json['timestamp'] as String,
+      likes: json['likes'] as int? ?? 0,
+      hasLiked: json['hasLiked'] as bool? ?? false,
+    );
+  }
+
+  /// 复制实例并修改部分字段
+  Comment copyWith({
+    String? id,
+    String? authorId,
+    String? authorName,
+    String? authorAvatar,
+    String? content,
+    String? timestamp,
+    int? likes,
+    bool? hasLiked,
+  }) {
+    return Comment(
+      id: id ?? this.id,
+      authorId: authorId ?? this.authorId,
+      authorName: authorName ?? this.authorName,
+      authorAvatar: authorAvatar ?? this.authorAvatar,
+      content: content ?? this.content,
+      timestamp: timestamp ?? this.timestamp,
+      likes: likes ?? this.likes,
+      hasLiked: hasLiked ?? this.hasLiked,
+    );
+  }
+}

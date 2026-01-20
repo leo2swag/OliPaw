@@ -149,7 +149,7 @@ class SnackBarHelper {
       SnackBar(
         content: Row(
           children: [
-            Icon(icon, color: Colors.white, size: 24),
+            Icon(icon, color: AppColors.white, size: 24),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
@@ -161,7 +161,7 @@ class SnackBarHelper {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
-                      color: Colors.white,
+                      color: AppColors.white,
                     ),
                   ),
                   if (subtitle != null) ...[
@@ -170,7 +170,7 @@ class SnackBarHelper {
                       subtitle,
                       style: const TextStyle(
                         fontSize: 12,
-                        color: Colors.white,
+                        color: AppColors.white,
                       ),
                     ),
                   ],

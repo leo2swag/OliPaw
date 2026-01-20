@@ -35,10 +35,18 @@ import 'providers/currency_provider.dart';
 import 'providers/checkin_provider.dart';
 import 'providers/auth_provider.dart';
 
+// SOS 和广播 Providers（v2.9 - Pet SOS Feature）
+import 'providers/sos_provider.dart';
+import 'providers/broadcast_provider.dart';
+import 'services/location_service.dart';
+
 // 页面导入
 import 'screens/main_layout.dart';
 import 'screens/splash_screen.dart';
 import 'screens/auth/login_screen.dart';
+import 'screens/sos_create_screen.dart';
+import 'screens/sos_detail_screen.dart';
+import 'screens/broadcast_create_screen.dart';
 
 /// 应用程序入口
 ///
@@ -108,6 +116,26 @@ Future<void> main() async {
         // 职责：签到状态、签到操作、连续签到统计
         // 持久化：自动加载签到记录和连续天数
         ChangeNotifierProvider(create: (_) => CheckInProvider(persistence)),
+
+        // SOS 紧急寻宠 Provider（v2.9 - Pet SOS Feature）
+        // 职责：SOS 帖子创建、线索收集、搜索范围扩展、宠物找到奖励
+        // 依赖：LocationService (Mock GPS), CurrencyProvider (Treats)
+        ChangeNotifierProvider(
+          create: (context) => SOSProvider(
+            LocationService(),
+            context.read<CurrencyProvider>(),
+          ),
+        ),
+
+        // 社区广播 Provider（v2.9 - Pet SOS Feature）
+        // 职责：社区广播创建、位置过滤、互动追踪、自动过期
+        // 依赖：LocationService (Mock GPS), CurrencyProvider (Treats 费用)
+        ChangeNotifierProvider(
+          create: (context) => BroadcastProvider(
+            LocationService(),
+            context.read<CurrencyProvider>(),
+          ),
+        ),
       ],
       child: const OlliePawApp(),
     ),
@@ -156,6 +184,18 @@ class OlliePawApp extends StatelessWidget {
       routes: {
         '/home': (context) => const MainLayout(),
         '/login': (context) => const LoginScreen(),
+        '/sos-create': (context) => const SOSCreateScreen(),
+        '/broadcast-create': (context) => const BroadcastCreateScreen(),
+      },
+      // 动态路由（需要传递参数）
+      onGenerateRoute: (settings) {
+        if (settings.name == '/sos-detail') {
+          final sosId = settings.arguments as String;
+          return MaterialPageRoute(
+            builder: (context) => SOSDetailScreen(sosId: sosId),
+          );
+        }
+        return null;
       },
       home: Consumer<AuthProvider>(
         // 监听 AuthProvider 的变化 (v2.6 - 统一认证管理)

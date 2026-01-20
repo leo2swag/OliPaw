@@ -11,6 +11,7 @@
 */
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
+import '../core/theme/app_dimensions.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 
@@ -66,9 +67,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       body: Stack(
         children: [
           // 背景圆形光斑（使用阴影模拟模糊效果）
-          Positioned(top: 100, left: 50, child: _BlurBlob(color: Colors.amber.shade200, size: 150)),
-          Positioned(bottom: 100, right: 50, child: _BlurBlob(color: Colors.pink.shade200, size: 200)),
-          
+          Positioned(top: 100, left: 50, child: _BlurBlob(color: AppColors.warning.withValues(alpha: 0.4), size: 150)),
+          Positioned(bottom: 100, right: 50, child: _BlurBlob(color: AppColors.challengeSecondary.withValues(alpha: 0.4), size: 200)),
+
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -78,31 +79,31 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   child: Container(
                     width: 120, height: 120,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [BoxShadow(color: Colors.amber.withValues(alpha:0.3), blurRadius: 20, spreadRadius: 5)],
-                      border: Border.all(color: Colors.amber.shade50, width: 4),
+                      color: AppColors.white,
+                      borderRadius: AppRadius.allLG,
+                      boxShadow: [BoxShadow(color: AppColors.warning.withValues(alpha:0.3), blurRadius: 20, spreadRadius: 5)],
+                      border: Border.all(color: AppColors.warning.withValues(alpha: 0.2), width: 4),
                     ),
                     // 主图标：Material 的宠物图标
-                    child: const Icon(Icons.pets, size: 60, color: Colors.orange),
+                    child: const Icon(Icons.pets, size: 60, color: AppColors.primaryOrange),
                   ),
                 ),
                 const SizedBox(height: 30),
-                const Text("OlliePaw", style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900, color: Colors.black87)),
+                const Text("OlliePaw", style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900, color: AppColors.textDark)),
                 const SizedBox(height: 8),
-                Text("Loading cuteness...", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey.shade500)),
+                const Text("Loading cuteness...", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.grey500)),
                 const SizedBox(height: 40),
                 // 简易加载进度条（静态宽度示意）
                 Container(
                   width: 200, height: 8,
-                  decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(4)),
+                  decoration: BoxDecoration(color: AppColors.grey200, borderRadius: AppRadius.allXS),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Container(
                       width: 140,
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(colors: [Colors.orange, Colors.amber]),
-                        borderRadius: BorderRadius.circular(4),
+                        gradient: const LinearGradient(colors: [AppColors.primaryOrange, AppColors.warning]),
+                        borderRadius: AppRadius.allXS,
                       ),
                     ),
                   ),

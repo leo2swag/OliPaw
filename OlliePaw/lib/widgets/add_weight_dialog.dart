@@ -9,16 +9,23 @@
     4) 表单验证（范围检查）
   - 使用方式：通过 showAddWeightDialog 调用
   注意：体重单位为 kg，支持 0.1 kg 精度
+
+  v3.0 - 使用 AppDialog 和通用组件重构
 */
 
 import 'package:flutter/material.dart';
-import '../../core/theme/app_dimensions.dart';
+import '../core/constants/app_colors.dart';
+import '../core/theme/app_dimensions.dart';
 import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 import '../models/types.dart';
 import '../utils/date_picker_helper.dart';
+import '../utils/snackbar_helper.dart';
 import '../core/theme/app_input_decoration.dart';
+import 'common/app_dialog.dart';
+import 'common/form_field_label.dart';
+import 'common/date_picker_field.dart';
 
 /// 显示添加体重记录对话框
 ///
@@ -64,9 +71,8 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
   // 记录日期
   DateTime _recordDate = DateTime.now();
 
-  // 日期格式化器（简化格式用于显示）
-  final DateFormat _dateFormatter = DateFormat('yyyy-MM-dd');
-  final DateFormat _displayFormatter = DateFormat('MMM'); // 图表显示格式
+  // 日期格式化器（图表显示格式）
+  final DateFormat _displayFormatter = DateFormat('MMM');
 
   @override
   void dispose() {
@@ -115,13 +121,13 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
 
     if (change > 0) {
       // 增重
-      return ('+${change.toStringAsFixed(1)} kg 📈', Colors.green);
+      return ('+${change.toStringAsFixed(1)} kg 📈', AppColors.success);
     } else if (change < 0) {
       // 减重
-      return ('${change.toStringAsFixed(1)} kg 📉', Colors.orange);
+      return ('${change.toStringAsFixed(1)} kg 📉', AppColors.primaryOrange);
     } else {
       // 无变化
-      return ('保持稳定 ➡️', Colors.blue);
+      return ('保持稳定 ➡️', AppColors.info);
     }
   }
 
@@ -145,257 +151,132 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
       Navigator.of(context).pop(record);
 
       // 显示成功提示
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('体重记录已添加！当前 ${weight.toStringAsFixed(1)} kg'),
-          duration: const Duration(seconds: 2),
-          backgroundColor: Colors.blue,
-        ),
-      );
+      SnackBarHelper.showInfo(context, '体重记录已添加！当前 ${weight.toStringAsFixed(1)} kg');
     }
+  }
+
+  /// 构建体重变化提示组件
+  Widget? _buildWeightChangeIndicator() {
+    final changeInfo = _getWeightChangeInfo();
+    if (changeInfo == null) return null;
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: changeInfo.$2.withValues(alpha: 0.1),
+        borderRadius: AppRadius.allMD,
+        border: Border.all(
+          color: changeInfo.$2.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            LucideIcons.trendingUp,
+            size: 16,
+            color: changeInfo.$2,
+          ),
+          const SizedBox(width: 8),
+          Text(
+            '相比上次: ${changeInfo.$1}',
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+              color: changeInfo.$2,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final changeInfo = _getWeightChangeInfo();
+    final changeIndicator = _buildWeightChangeIndicator();
 
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: AppRadius.allXXL,
-      ),
-      child: Container(
-        constraints: const BoxConstraints(maxWidth: 400),
-        padding: const EdgeInsets.all(24),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 标题
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
-                      borderRadius: AppRadius.allMD,
-                    ),
-                    child: const Icon(
-                      LucideIcons.scale,
-                      color: Colors.blue,
-                      size: 24,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  const Text(
-                    '添加体重记录',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-
-              // 体重输入框
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    '体重 (kg)',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-
-                  // 体重数值输入
-                  TextFormField(
-                    controller: _weightController,
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    inputFormatters: [
-                      // 只允许数字和小数点
-                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,1}')),
-                    ],
-                    onChanged: (value) {
-                      // 实时更新体重变化提示
-                      setState(() {});
-                    },
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return '请输入体重';
-                      }
-
-                      final weight = double.tryParse(value);
-                      if (weight == null) {
-                        return '请输入有效的数字';
-                      }
-
-                      // 合理范围检查（0.1 kg ~ 200 kg）
-                      if (weight < 0.1 || weight > 200) {
-                        return '体重范围应在 0.1 - 200 kg 之间';
-                      }
-
-                      return null;
-                    },
-                    decoration: AppInputDecoration.compact(
-                      labelText: 'Weight',
-                      hintText: '例如：29.5',
-                      prefixIcon: LucideIcons.scale,
-                    ).copyWith(
-                      suffixText: 'kg',
-                      suffixStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-
-              // 体重变化提示（如果有历史数据）
-              if (changeInfo != null) ...[
-                const SizedBox(height: 12),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: changeInfo.$2.withValues(alpha:0.1),
-                    borderRadius: AppRadius.allMD,
-                    border: Border.all(
-                      color: changeInfo.$2.withValues(alpha:0.3),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        LucideIcons.trendingUp,
-                        size: 16,
-                        color: changeInfo.$2,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        '相比上次: ${changeInfo.$1}',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                          color: changeInfo.$2,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+    return AppDialog(
+      icon: LucideIcons.scale,
+      iconColor: AppColors.info,
+      title: '添加体重记录',
+      scrollable: true,
+      content: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 体重输入框
+            const FormFieldLabel(label: '体重 (kg)', required: true),
+            TextFormField(
+              controller: _weightController,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,1}')),
               ],
+              onChanged: (value) {
+                setState(() {});
+              },
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return '请输入体重';
+                }
 
-              const SizedBox(height: 16),
+                final weight = double.tryParse(value);
+                if (weight == null) {
+                  return '请输入有效的数字';
+                }
 
-              // 日期选择器
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    '记录日期',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
+                if (weight < 0.1 || weight > 200) {
+                  return '体重范围应在 0.1 - 200 kg 之间';
+                }
 
-                  InkWell(
-                    onTap: _selectDate,
-                    borderRadius: AppRadius.allMD,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade50,
-                        border: Border.all(color: Colors.grey.shade200),
-                        borderRadius: AppRadius.allMD,
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(LucideIcons.calendar, size: 20, color: Colors.blue),
-                          const SizedBox(width: 12),
-                          Text(
-                            _dateFormatter.format(_recordDate),
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const Spacer(),
-                          Icon(
-                            LucideIcons.chevronRight,
-                            size: 20,
-                            color: Colors.grey.shade400,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                return null;
+              },
+              decoration: AppInputDecoration.compact(
+                labelText: '体重',
+                hintText: '例如：29.5',
+                prefixIcon: LucideIcons.scale,
+              ).copyWith(
+                suffixText: 'kg',
+                suffixStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.grey500,
+                ),
               ),
-
-              const SizedBox(height: 24),
-
-              // 底部按钮组
-              Row(
-                children: [
-                  // 取消按钮
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: AppRadius.allMD,
-                        ),
-                        side: BorderSide(color: Colors.grey.shade300),
-                      ),
-                      child: const Text(
-                        '取消',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-
-                  // 保存按钮
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: _saveWeight,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: AppRadius.allMD,
-                        ),
-                        elevation: 0,
-                      ),
-                      child: const Text(
-                        '保存',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ],
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
+            ),
+
+            // 体重变化提示（如果有历史数据）
+            if (changeIndicator != null) ...[
+              const SizedBox(height: 12),
+              changeIndicator,
             ],
-          ),
+
+            const SizedBox(height: 16),
+
+            // 日期选择器
+            DatePickerField(
+              label: '记录日期',
+              date: _recordDate,
+              icon: LucideIcons.calendar,
+              iconColor: AppColors.info,
+              onTap: _selectDate,
+            ),
+          ],
         ),
       ),
+      actions: [
+        AppDialog.cancelButton(context),
+        AppDialog.confirmButton(
+          context,
+          onPressed: _saveWeight,
+          label: '保存',
+          color: AppColors.info,
+        ),
+      ],
     );
   }
 }

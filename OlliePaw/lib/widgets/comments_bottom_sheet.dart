@@ -12,32 +12,12 @@
 */
 
 import 'package:flutter/material.dart';
-import '../../core/theme/app_dimensions.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../core/constants/app_colors.dart';
+import '../core/constants/app_strings.dart';
+import '../core/theme/app_dimensions.dart';
 import '../models/types.dart';
-
-/// 评论数据模型（临时，将来移至 types.dart）
-class Comment {
-  final String id;
-  final String authorId;
-  final String authorName;
-  final String authorAvatar;
-  final String content;
-  final String timestamp;
-  int likes;
-  bool hasLiked;
-
-  Comment({
-    required this.id,
-    required this.authorId,
-    required this.authorName,
-    required this.authorAvatar,
-    required this.content,
-    required this.timestamp,
-    this.likes = 0,
-    this.hasLiked = false,
-  });
-}
+import '../utils/snackbar_helper.dart';
 
 /// 评论底部弹窗
 ///
@@ -152,9 +132,7 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
 
     // 验证评论内容
     if (text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('评论不能为空！')),
-      );
+      SnackBarHelper.showWarning(context, AppStrings.fieldRequired);
       return;
     }
 
@@ -186,12 +164,10 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
 
     // 显示成功提示
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('评论发表成功！ 🎉'),
-          duration: Duration(seconds: 1),
-          backgroundColor: Colors.green,
-        ),
+      SnackBarHelper.showSuccess(
+        context,
+        AppStrings.commentAdded,
+        duration: const Duration(seconds: 1),
       );
 
       // 通知外部评论数已增加
@@ -216,8 +192,8 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
       maxChildSize: 0.95,    // 最大高度 95%
       builder: (context, scrollController) => Container(
         decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          color: AppColors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.md)),
         ),
         child: Column(
           children: [
@@ -232,7 +208,7 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                   ? _buildEmptyState()
                   : ListView.builder(
                       controller: scrollController,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: AppSpacing.verticalLG,
                       itemCount: _comments.length,
                       itemBuilder: (context, index) => _buildCommentItem(index),
                     ),
@@ -252,19 +228,19 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
   /// 说明：包含拖拽指示条、评论数量显示、关闭按钮
   Widget _buildHeader() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.lg),
       child: Column(
         children: [
           // 拖拽指示条
           Container(
-            width: 40,
-            height: 4,
+            width: AppSizes.avatarLG,
+            height: AppSpacing.xs,
             decoration: BoxDecoration(
-              color: Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(2),
+              color: AppColors.grey300,
+              borderRadius: BorderRadius.circular(AppSpacing.xxs),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSpacing.lg),
           // 标题行
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -280,7 +256,7 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                 icon: const Icon(LucideIcons.x),
                 onPressed: () => Navigator.pop(context),
                 style: IconButton.styleFrom(
-                  backgroundColor: Colors.grey.shade100,
+                  backgroundColor: AppColors.grey100,
                   shape: const CircleBorder(),
                 ),
               ),
@@ -294,30 +270,30 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
   /// 构建空状态视图
   /// 说明：当没有评论时显示
   Widget _buildEmptyState() {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             LucideIcons.messageCircle,
-            size: 64,
-            color: Colors.grey.shade300,
+            size: AppSizes.iconXXXL,
+            color: AppColors.grey300,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: AppSpacing.lg),
           Text(
-            '还没有评论',
+            AppStrings.noComments,
             style: TextStyle(
               fontSize: 16,
-              color: Colors.grey.shade600,
+              color: AppColors.textMedium,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: AppSpacing.sm),
           Text(
-            '来发表第一条 Bark 吧！',
+            AppStrings.noCommentsDesc,
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey.shade500,
+              color: AppColors.textLight,
             ),
           ),
         ],
@@ -335,16 +311,16 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
     final comment = _comments[index];
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.md),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // 作者头像
           CircleAvatar(
-            radius: 20,
+            radius: AppSpacing.xl,
             backgroundImage: NetworkImage(comment.authorAvatar),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: AppSpacing.md),
 
           // 评论内容区域
           Expanded(
@@ -361,12 +337,12 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                         fontSize: 14,
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: AppSpacing.sm),
                     Text(
                       comment.timestamp,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
-                        color: Colors.grey.shade600,
+                        color: AppColors.textMedium,
                       ),
                     ),
                   ],
@@ -381,7 +357,7 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                     height: 1.4,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: AppSpacing.sm),
 
                 // 点赞按钮
                 GestureDetector(
@@ -393,20 +369,20 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                         comment.hasLiked
                             ? LucideIcons.heart
                             : LucideIcons.heart,
-                        size: 16,
+                        size: AppSizes.iconSM,
                         color: comment.hasLiked
-                            ? Colors.red
-                            : Colors.grey.shade600,
+                            ? AppColors.error
+                            : AppColors.textMedium,
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: AppSpacing.xs),
                       Text(
                         '${comment.likes}',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: comment.hasLiked
-                              ? Colors.red
-                              : Colors.grey.shade600,
+                              ? AppColors.error
+                              : AppColors.textMedium,
                         ),
                       ),
                     ],
@@ -428,16 +404,16 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
   Widget _buildCommentInput() {
     return Container(
       padding: EdgeInsets.only(
-        left: 20,
-        right: 20,
-        top: 12,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 12, // 适配键盘高度
+        left: AppSpacing.xl,
+        right: AppSpacing.xl,
+        top: AppSpacing.md,
+        bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.md,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha:0.05),
+            color: AppColors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),
@@ -448,9 +424,9 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
           // 输入框
           Expanded(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
               decoration: BoxDecoration(
-                color: const Color(0xFFFFFBEB),
+                color: AppColors.lightOrangeBg,
                 borderRadius: AppRadius.allXXL,
               ),
               child: TextField(
@@ -460,7 +436,7 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                 textInputAction: TextInputAction.send,
                 onSubmitted: (_) => _sendComment(),
                 decoration: const InputDecoration(
-                  hintText: '写下你的 Bark...',
+                  hintText: AppStrings.commentPlaceholder,
                   border: InputBorder.none,
                   isDense: true,
                   contentPadding: EdgeInsets.zero,
@@ -469,35 +445,35 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: AppSpacing.md),
 
           // 发送按钮
           GestureDetector(
             onTap: _isSending ? null : _sendComment,
             child: Container(
-              width: 44,
-              height: 44,
+              width: AppSizes.buttonHeightMD,
+              height: AppSizes.buttonHeightMD,
               decoration: BoxDecoration(
                 gradient: _isSending
                     ? null
                     : const LinearGradient(
-                        colors: [Colors.orange, Colors.amber],
+                        colors: [AppColors.primaryOrange, AppColors.warning],
                       ),
-                color: _isSending ? Colors.grey.shade300 : null,
+                color: _isSending ? AppColors.grey300 : null,
                 shape: BoxShape.circle,
               ),
               child: _isSending
                   ? const Padding(
-                      padding: EdgeInsets.all(12),
+                      padding: AppSpacing.allMD,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                        valueColor: AlwaysStoppedAnimation(AppColors.white),
                       ),
                     )
                   : const Icon(
                       LucideIcons.send,
-                      color: Colors.white,
-                      size: 20,
+                      color: AppColors.white,
+                      size: AppSizes.iconMD,
                     ),
             ),
           ),

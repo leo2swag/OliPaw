@@ -10,6 +10,8 @@
 import 'package:flutter/material.dart';
 import '../../models/types.dart';
 import '../../core/theme/app_dimensions.dart';
+import '../../core/constants/app_colors.dart';
+import '../common/pill_badge.dart';
 
 /// 时间轴条目
 ///
@@ -41,12 +43,7 @@ class TimelineItem extends StatelessWidget {
           // 年龄徽章
           Padding(
             padding: const EdgeInsets.only(left: 28, bottom: 6),
-            child: _buildPillBadge(
-              null,
-              ageAtPost,
-              const Color(0xFFFEF3C7),
-              const Color(0xFFB45309),
-            ),
+            child: PillBadge.orange(text: ageAtPost),
           ),
 
           // 时间线内容
@@ -60,16 +57,16 @@ class TimelineItem extends StatelessWidget {
                     width: 14,
                     height: 14,
                     decoration: BoxDecoration(
-                      color: Colors.orange.shade600,
+                      color: AppColors.primaryOrange,
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
+                      border: Border.all(color: AppColors.white, width: 2),
                     ),
                   ),
                   if (!isLast)
                     Container(
                       width: 2,
                       height: 160,
-                      color: Colors.orange.shade200.withValues(alpha: 0.5),
+                      color: AppColors.lightOrangeBg,
                     ),
                 ],
               ),
@@ -80,9 +77,9 @@ class TimelineItem extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: Colors.grey.shade200),
+                    color: AppColors.white,
+                    borderRadius: AppRadius.allSM,
+                    border: Border.all(color: AppColors.grey200),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,8 +87,8 @@ class TimelineItem extends StatelessWidget {
                       // 日期
                       Text(
                         post.date,
-                        style: TextStyle(
-                          color: Colors.grey.shade500,
+                        style: const TextStyle(
+                          color: AppColors.grey500,
                           fontSize: 10,
                           fontWeight: FontWeight.w600,
                         ),
@@ -101,7 +98,7 @@ class TimelineItem extends StatelessWidget {
                       if (post.imageUrl != null) ...[
                         const SizedBox(height: 8),
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: AppRadius.allXS,
                           child: Image.network(
                             post.imageUrl!,
                             height: 160,
@@ -117,7 +114,7 @@ class TimelineItem extends StatelessWidget {
                         post.content,
                         style: const TextStyle(
                           fontSize: 13,
-                          color: Colors.black87,
+                          color: AppColors.textDark,
                         ),
                       ),
 
@@ -127,7 +124,7 @@ class TimelineItem extends StatelessWidget {
                         child: Icon(
                           Icons.favorite_border,
                           size: 16,
-                          color: Colors.grey,
+                          color: AppColors.grey400,
                         ),
                       ),
                     ],
@@ -141,42 +138,4 @@ class TimelineItem extends StatelessWidget {
     );
   }
 
-  /// 构建徽章组件
-  Widget _buildPillBadge(
-    String? emoji,
-    String text,
-    Color bg,
-    Color textCol,
-  ) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: AppRadius.allMD,
-        boxShadow: [
-          BoxShadow(
-            color: textCol.withValues(alpha: 0.1),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          )
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (emoji != null) Text(emoji, style: const TextStyle(fontSize: 11)),
-          const SizedBox(width: 4),
-          Text(
-            text,
-            style: TextStyle(
-              fontWeight: FontWeight.w900,
-              fontSize: 10,
-              color: textCol,
-              letterSpacing: 0.3,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

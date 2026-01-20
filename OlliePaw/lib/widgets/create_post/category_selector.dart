@@ -11,6 +11,7 @@
 */
 import 'package:flutter/material.dart';
 import '../../core/theme/app_dimensions.dart';
+import '../../core/constants/app_colors.dart';
 
 /// 分类选择器
 ///
@@ -43,7 +44,7 @@ class CategorySelector extends StatelessWidget {
           style: TextStyle(
             fontSize: 11,
             fontWeight: FontWeight.w900,
-            color: Colors.grey,
+            color: AppColors.grey500,
             letterSpacing: 1,
           ),
         ),
@@ -60,10 +61,10 @@ class CategorySelector extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                   decoration: BoxDecoration(
-                    color: isSelected ? Colors.orange.shade100 : Colors.white,
+                    color: isSelected ? AppColors.lightOrangeBg : AppColors.white,
                     borderRadius: AppRadius.allMD,
                     border: Border.all(
-                      color: isSelected ? Colors.orange.shade300 : Colors.grey.shade200,
+                      color: isSelected ? AppColors.primaryOrange : AppColors.grey200,
                       width: 2,
                     ),
                   ),
@@ -82,7 +83,7 @@ class CategorySelector extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
-                            color: isSelected ? Colors.orange.shade800 : Colors.grey.shade700,
+                            color: isSelected ? AppColors.primaryOrange : AppColors.grey700,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),

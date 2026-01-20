@@ -51,8 +51,8 @@ class DatePickerHelper {
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
               primary: primaryColor ?? AppColors.primaryOrange,
-              onPrimary: Colors.white,
-              surface: Colors.white,
+              onPrimary: AppColors.white,
+              surface: AppColors.white,
             ),
           ),
           child: child!,
@@ -95,7 +95,7 @@ class DatePickerHelper {
       initialDate: initialDate,
       firstDate: firstDate,
       lastDate: lastDate,
-      primaryColor: Colors.blue,
+      primaryColor: AppColors.info,
     );
   }
 
@@ -114,7 +114,7 @@ class DatePickerHelper {
       initialDate: initialDate,
       firstDate: firstDate,
       lastDate: lastDate,
-      primaryColor: Colors.teal,
+      primaryColor: AppColors.success,
     );
   }
 

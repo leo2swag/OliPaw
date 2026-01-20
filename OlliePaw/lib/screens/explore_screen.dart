@@ -1,31 +1,41 @@
 /*
   文件：screens/explore_screen.dart
   说明：
-  - 探索页面，包含：
-    1) 搜索框：按宠物名称过滤推荐列表；
-    2) Fun Labs：有趣功能入口，如"成长预测"（调用 GeminiService）；
-    3) 推荐好友列表：可跳转到 Profile 页面。
+  - 社区页面（原探索页面），包含：
+    1) 广播对话框：大型滚动容器，内容向上循环播放
+    2) Nearby SOS：附近寻宠信息
+    3) Fun Labs：有趣功能入口
+    4) Suggested Pals：推荐好友列表
 
-  架构变更（v2.0）：
-  - 从 AppState 迁移到专用 Providers
-  - PetProvider: 获取当前宠物信息
-  - CurrencyProvider: 扣除 Treats 费用
+  架构变更（v3.2）：
+  - 改名为"社区"页面
+  - 广播改为大对话框，内容向上循环滚动
+  - 移除顶部FAB，将发布功能移到统一创建按钮
+  - 保留现有 Fun Labs 和 Suggested Pals
 */
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../providers/pet_provider.dart';
 import '../providers/currency_provider.dart';
+import '../providers/sos_provider.dart';
+import '../providers/broadcast_provider.dart';
 import '../utils/mock_data.dart';
 import '../models/types.dart';
 import '../services/gemini_service.dart';
+import '../services/location_service.dart';
 import '../widgets/common/loading_overlay.dart';
 import '../core/constants/app_colors.dart';
-import '../core/constants/ui_constants.dart';
+import '../core/constants/app_strings.dart';
 import '../core/constants/game_constants.dart';
+import '../core/theme/app_dimensions.dart';
+import '../utils/snackbar_helper.dart';
+import '../widgets/common/app_dialog.dart';
+import '../widgets/common/pet_avatar_info.dart';
+import '../widgets/common/fun_lab_card.dart';
 import 'profile_screen.dart';
 
-/// 探索页面：搜索、AI 小实验、推荐好友
+/// 社区页面：广播、SOS、Fun Labs、推荐好友
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
 
@@ -33,72 +43,101 @@ class ExploreScreen extends StatefulWidget {
   State<ExploreScreen> createState() => _ExploreScreenState();
 }
 
-/// 探索页面 State：管理搜索关键字与 AI 服务实例
 class _ExploreScreenState extends State<ExploreScreen> {
-  // 搜索关键字
-  // _ai：Gemini AI 服务，用于生成“成长预测”文案
   String _search = "";
   final GeminiService _ai = GeminiService();
+  final PageController _broadcastPageController = PageController();
+  int _currentBroadcastIndex = 0;
 
-  /// 汪声翻译：
-  /// - 消耗 10 Treats
-  /// - 展示可爱的对话框
+  @override
+  void initState() {
+    super.initState();
+    // 启动自动翻页
+    _startAutoPage();
+  }
+
+  @override
+  void dispose() {
+    _broadcastPageController.dispose();
+    super.dispose();
+  }
+
+  /// 自动翻页广播内容 - 每次只显示一条，自动切换
+  void _startAutoPage() {
+    Future.delayed(const Duration(seconds: 5), () {
+      if (!mounted || !_broadcastPageController.hasClients) return;
+
+      // 切换到下一页
+      _currentBroadcastIndex++;
+
+      _broadcastPageController.animateToPage(
+        _currentBroadcastIndex,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+      ).then((_) {
+        if (mounted) {
+          _startAutoPage(); // 继续下一轮
+        }
+      });
+    });
+  }
+
+  /// 汪声翻译
   void _showBarkTranslator(BuildContext context, Pet pet) async {
     final currencyProvider = context.read<CurrencyProvider>();
     if (!currencyProvider.spendTreats(GameBalance.barkTranslatorCost)) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Need ${GameBalance.barkTranslatorCost} Treats!")));
+      SnackBarHelper.showWarning(context, "${AppStrings.notEnoughTreats} Need ${GameBalance.barkTranslatorCost} Treats!");
       return;
     }
 
     final translation = await LoadingOverlay.show(
       context: context,
-      message: 'Translating bark...',
-      subtitle: 'Listening carefully 🐾',
+      message: AppStrings.translatingBark,
+      subtitle: AppStrings.listeningToDog,
       task: () => _ai.translatePetSound(pet),
     );
 
     if (context.mounted && translation != null) {
       showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-          backgroundColor: AppColors.categoryPlayBg,
-          title: const Text("🗣️ Bark Translator"),
+        builder: (ctx) => AppDialog(
+          icon: LucideIcons.mic,
+          iconColor: AppColors.primaryOrange,
+          title: AppStrings.barkTranslator,
           content: Text(translation),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text("Cute!"))
+            AppDialog.textButton(ctx, label: "Cute!", onPressed: () => Navigator.pop(ctx)),
           ],
         ),
       );
     }
   }
 
-  /// 触发"成长预测"功能：
-  /// - 消耗 20 Treats，不足则提示
-  /// - 展示加载框，请求 GeminiService 生成预测内容
-  /// - 完成后关闭加载框并展示结果对话框
+  /// 成长预测
   void _showTimeMachine(BuildContext context, Pet pet) async {
     final currencyProvider = context.read<CurrencyProvider>();
     if (!currencyProvider.spendTreats(GameBalance.growthPredictorCost)) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Need ${GameBalance.growthPredictorCost} Treats!")));
+      SnackBarHelper.showWarning(context, "${AppStrings.notEnoughTreats} Need ${GameBalance.growthPredictorCost} Treats!");
       return;
     }
 
     final prediction = await LoadingOverlay.show(
       context: context,
-      message: 'Predicting future...',
-      subtitle: 'Consulting the crystal ball 🔮',
+      message: AppStrings.predictingFuture,
+      subtitle: AppStrings.consultingCrystalBall,
       task: () => _ai.predictFutureSelf(pet),
     );
 
     if (context.mounted && prediction != null) {
       showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-          backgroundColor: AppColors.infoBg,
-          title: const Text("🔮 Future Revealed"),
+        builder: (ctx) => AppDialog(
+          icon: LucideIcons.hourglass,
+          iconColor: AppColors.info,
+          title: "Future Revealed",
           content: Text(prediction),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text("Close"))
+            AppDialog.textButton(ctx, label: AppStrings.close, onPressed: () => Navigator.pop(ctx)),
           ],
         ),
       );
@@ -106,9 +145,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   @override
-  /// 构建页面：
-  /// - 读取其他宠物并按关键字过滤
-  /// - 顶部为搜索与 Fun Labs，底部为推荐列表
   Widget build(BuildContext context) {
     final pets = MockData.otherPets.where((p) => p.name.toLowerCase().contains(_search.toLowerCase())).toList();
     final myPet = context.read<PetProvider>().currentPet;
@@ -117,156 +153,312 @@ class _ExploreScreenState extends State<ExploreScreen> {
       backgroundColor: AppColors.screenBg,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(UIDimensions.spacingM),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text("Discover", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
-                  Consumer<CurrencyProvider>(
-                    builder: (ctx, currencyProvider, _) => Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              // 页面标题
+              const Text("社区", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
+              const SizedBox(height: AppSpacing.lg),
+
+              // ========== 广播大对话框（向上循环滚动） ==========
+              const Text("📢 Community Broadcasts", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              const SizedBox(height: AppSpacing.sm),
+              Consumer<BroadcastProvider>(
+                builder: (ctx, broadcastProvider, _) {
+                  final broadcasts = broadcastProvider.nearbyBroadcasts;
+
+                  if (broadcasts.isEmpty) {
+                    return Container(
+                      height: 160,
+                      padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: AppColors.lightOrangeBg,
-                        borderRadius: BorderRadius.circular(UIDimensions.radiusL),
+                        color: AppColors.white,
+                        borderRadius: AppRadius.allXL,
+                        border: Border.all(color: AppColors.border),
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
+                      child: const Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(LucideIcons.messageSquare, size: 40, color: AppColors.textLight),
+                            SizedBox(height: 8),
+                            Text(
+                              "No broadcasts yet...",
+                              style: TextStyle(color: AppColors.textMedium, fontSize: 14),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+
+                  // 每次只显示一条广播 - 使用 PageView
+                  return Container(
+                    height: 130,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColors.primaryOrange.withValues(alpha: 0.1),
+                          AppColors.success.withValues(alpha: 0.1),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: AppRadius.allXL,
+                      border: Border.all(color: AppColors.primaryOrange.withValues(alpha: 0.3), width: 2),
+                    ),
+                    child: PageView.builder(
+                      controller: _broadcastPageController,
+                      scrollDirection: Axis.vertical,
+                      itemCount: broadcasts.length * 100, // 循环播放
+                      itemBuilder: (ctx, i) {
+                        final broadcast = broadcasts[i % broadcasts.length];
+                        return Container(
+                          margin: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(14),
+                          decoration: BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius: AppRadius.allLG,
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.grey300.withValues(alpha: 0.3),
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              // 类型图标
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: broadcast.typeColor.withValues(alpha: 0.1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    broadcast.typeIcon,
+                                    style: const TextStyle(fontSize: 20),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 14),
+                              // 内容
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      broadcast.title,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Text(
+                                      broadcast.content,
+                                      style: const TextStyle(
+                                        color: AppColors.textMedium,
+                                        fontSize: 13,
+                                        height: 1.3,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: AppSpacing.xxl),
+
+              // ========== Nearby SOS ==========
+              const Text("🚨 ${AppStrings.nearbySOS}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              const SizedBox(height: AppSpacing.sm),
+              Consumer<SOSProvider>(
+                builder: (ctx, sosProvider, _) {
+                  final nearbyPosts = sosProvider.nearbySOSPosts;
+
+                  if (nearbyPosts.isEmpty) {
+                    return Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: AppRadius.allLG,
+                      ),
+                      child: const Row(
                         children: [
-                          const Icon(LucideIcons.bone, size: 16, color: AppColors.darkOrange),
-                          const SizedBox(width: 4),
-                          Text(
-                            "${currencyProvider.treats}",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.darkOrange,
-                              fontSize: 13,
+                          Icon(LucideIcons.checkCircle, color: AppColors.success, size: 20),
+                          SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              "No lost pets nearby - all safe! 🎉",
+                              style: TextStyle(color: AppColors.textMedium, fontSize: 14),
                             ),
                           ),
                         ],
                       ),
+                    );
+                  }
+
+                  return SizedBox(
+                    height: 120,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: nearbyPosts.length,
+                      itemBuilder: (ctx, i) {
+                        final sos = nearbyPosts[i];
+                        final distance = LocationService().calculateDistance(
+                          LocationService.mockLocations['beijing_cbd']!,
+                          sos.lastSeenLocation,
+                        );
+
+                        return GestureDetector(
+                          onTap: () => Navigator.pushNamed(context, '/sos-detail', arguments: sos.id),
+                          child: Container(
+                            width: 240,
+                            margin: EdgeInsets.only(right: AppSpacing.sm, left: i == 0 ? 0 : 0),
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: AppRadius.allLG,
+                              border: Border.all(color: AppColors.error.withValues(alpha: 0.3), width: 2),
+                            ),
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: AppRadius.allXS,
+                                  child: Image.network(
+                                    sos.petPhotoUrl,
+                                    width: 70,
+                                    height: 70,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Container(
+                                        width: 70,
+                                        height: 70,
+                                        color: AppColors.screenBg,
+                                        child: const Icon(LucideIcons.dog, color: AppColors.textLight),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        sos.petName,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Text(
+                                        sos.petBreed,
+                                        style: const TextStyle(
+                                          color: AppColors.textMedium,
+                                          fontSize: 11,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        "${distance.toStringAsFixed(1)} km",
+                                        style: const TextStyle(
+                                          color: AppColors.textLight,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  ),
-                ],
+                  );
+                },
               ),
-              const SizedBox(height: UIDimensions.spacingM),
-              TextField(
-                onChanged: (val) => setState(() => _search = val),
-                decoration: InputDecoration(
-                  hintText: "Search for friends...",
-                  prefixIcon: const Icon(LucideIcons.search, color: AppColors.primaryOrange),
-                  filled: true,
-                  fillColor: AppColors.white,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide.none),
-                ),
-              ),
-              const SizedBox(height: UIDimensions.spacingL),
-              const Text("⚡ Fun Labs", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-              const SizedBox(height: UIDimensions.spacingS),
+              const SizedBox(height: AppSpacing.xxl),
+
+              // ========== Fun Labs ==========
+              const Text("⚡ ${AppStrings.funLabs}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              const SizedBox(height: AppSpacing.sm),
               Row(
                 children: [
-                  // Fun Lab：成长预测（AI）
                   Expanded(
-                    child: GestureDetector(
+                    child: FunLabCard.gradient(
+                      icon: LucideIcons.hourglass,
+                      title: AppStrings.growthPredictor,
                       onTap: () => _showTimeMachine(context, myPet),
-                      child: Container(
-                        height: UIDimensions.funLabCardHeight,
-                        padding: const EdgeInsets.all(UIDimensions.spacingM),
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(colors: [Colors.indigo, Colors.blue]),
-                          borderRadius: BorderRadius.circular(UIDimensions.radiusL),
-                          boxShadow: [BoxShadow(color: Colors.blue.withValues(alpha: 0.3), blurRadius: 10)],
-                        ),
-                        child: Stack(
-                          children: [
-                            const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Icon(LucideIcons.hourglass, color: AppColors.white),
-                                Text("Growth Predictor", style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: UIDimensions.spacingS, vertical: UIDimensions.spacingXS),
-                                decoration: BoxDecoration(
-                                  color: AppColors.white.withValues(alpha: 0.2),
-                                  borderRadius: BorderRadius.circular(UIDimensions.radiusS),
-                                ),
-                                child: const Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(LucideIcons.bone, size: 12, color: AppColors.white),
-                                    SizedBox(width: 4),
-                                    Text("${GameBalance.growthPredictorCost}", style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold)),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      gradient: LinearGradient(
+                        colors: [AppColors.info, AppColors.info.withValues(alpha: 0.7)],
                       ),
                     ),
                   ),
-                  const SizedBox(width: UIDimensions.spacingS),
-                  // 预留的 Fun Lab：汪声翻译（UI 占位，无逻辑）
+                  const SizedBox(width: AppSpacing.sm),
                   Expanded(
-                    child: GestureDetector(
+                    child: FunLabCard.outlined(
+                      icon: LucideIcons.mic,
+                      title: AppStrings.barkTranslator,
                       onTap: () => _showBarkTranslator(context, myPet),
-                      child: Container(
-                        height: UIDimensions.funLabCardHeight,
-                        padding: const EdgeInsets.all(UIDimensions.spacingM),
-                        decoration: BoxDecoration(
-                          color: AppColors.white,
-                          borderRadius: BorderRadius.circular(UIDimensions.radiusL),
-                          border: Border.all(color: AppColors.border),
-                          boxShadow: [BoxShadow(color: AppColors.primaryOrange.withValues(alpha: 0.15), blurRadius: 8)],
-                        ),
-                        child: Stack(
-                          children: [
-                            const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Icon(LucideIcons.mic, color: AppColors.primaryOrange),
-                                Text("Bark Translator", style: TextStyle(color: AppColors.textDark, fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: UIDimensions.spacingS, vertical: UIDimensions.spacingXS),
-                                decoration: BoxDecoration(
-                                  color: AppColors.primaryOrange.withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(UIDimensions.radiusS),
-                                ),
-                                child: const Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(LucideIcons.bone, size: 12, color: AppColors.primaryOrange),
-                                    SizedBox(width: 4),
-                                    Text("${GameBalance.barkTranslatorCost}", style: TextStyle(color: AppColors.darkOrange, fontWeight: FontWeight.bold)),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: UIDimensions.spacingL),
-              const Text("✨ Suggested Pals", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-              const SizedBox(height: UIDimensions.spacingS),
-              // 推荐好友列表：按名称过滤后的 otherPets
+              const SizedBox(height: AppSpacing.xxl),
+
+              // ========== Suggested Pals ==========
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("✨ ${AppStrings.suggestedPals}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                  // 搜索图标
+                  IconButton(
+                    icon: const Icon(LucideIcons.search, size: 20),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => AppDialog(
+                          icon: LucideIcons.search,
+                          iconColor: AppColors.info,
+                          title: "Search Friends",
+                          content: TextField(
+                            onChanged: (val) => setState(() => _search = val),
+                            decoration: const InputDecoration(hintText: "Enter pet name..."),
+                          ),
+                          actions: [
+                            AppDialog.textButton(ctx, label: AppStrings.close, onPressed: () => Navigator.pop(ctx)),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppSpacing.sm),
               Expanded(
                 child: ListView.builder(
                   itemCount: pets.length,
@@ -275,28 +467,17 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     return GestureDetector(
                       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileScreen(pet: pet))),
                       child: Container(
-                        margin: const EdgeInsets.only(bottom: UIDimensions.spacingS),
-                        padding: const EdgeInsets.all(UIDimensions.spacingS),
-                        decoration: BoxDecoration(color: AppColors.white, borderRadius: BorderRadius.circular(UIDimensions.radiusM)),
-                        child: Row(
-                          children: [
-                            CircleAvatar(backgroundImage: NetworkImage(pet.avatarUrl)),
-                            const SizedBox(width: UIDimensions.spacingS),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(pet.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                                  Text(pet.breed, style: const TextStyle(color: AppColors.textMedium, fontSize: 12)),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: UIDimensions.spacingS, vertical: 6),
-                              decoration: BoxDecoration(color: AppColors.lightOrangeBg, borderRadius: BorderRadius.circular(UIDimensions.radiusL)),
-                              child: const Text("View Profile", style: TextStyle(color: AppColors.primaryOrange, fontWeight: FontWeight.bold, fontSize: 12)),
-                            )
-                          ],
+                        margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+                        padding: const EdgeInsets.all(AppSpacing.sm),
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: AppRadius.allLG,
+                        ),
+                        child: PetAvatarInfo(
+                          avatarUrl: pet.avatarUrl,
+                          name: pet.name,
+                          subtitle: pet.breed,
+                          actionLabel: "View",
                         ),
                       ),
                     );

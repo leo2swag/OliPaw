@@ -11,6 +11,7 @@
 */
 import 'package:flutter/material.dart';
 import '../../core/theme/app_dimensions.dart';
+import '../../core/constants/app_colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../core/enums/media_type.dart';
@@ -49,10 +50,10 @@ class MediaPicker extends StatelessWidget {
             child: Container(
               height: 100,
               decoration: BoxDecoration(
-                color: isImageSelected ? Colors.orange.shade50 : Colors.white,
+                color: isImageSelected ? AppColors.lightOrangeBg : AppColors.white,
                 borderRadius: AppRadius.allLG,
                 border: Border.all(
-                  color: isImageSelected ? Colors.orange.shade300 : Colors.grey.shade200,
+                  color: isImageSelected ? AppColors.primaryOrange : AppColors.grey200,
                   width: 2,
                 ),
               ),
@@ -61,7 +62,7 @@ class MediaPicker extends StatelessWidget {
                 children: [
                   Icon(
                     isImageSelected ? LucideIcons.checkCircle : LucideIcons.image,
-                    color: isImageSelected ? Colors.orange.shade700 : Colors.grey.shade500,
+                    color: isImageSelected ? AppColors.primaryOrange : AppColors.grey500,
                     size: 28,
                   ),
                   const SizedBox(height: 6),
@@ -70,7 +71,7 @@ class MediaPicker extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
-                      color: isImageSelected ? Colors.orange.shade700 : Colors.grey.shade600,
+                      color: isImageSelected ? AppColors.primaryOrange : AppColors.grey600,
                     ),
                   ),
                 ],
@@ -86,10 +87,10 @@ class MediaPicker extends StatelessWidget {
             child: Container(
               height: 100,
               decoration: BoxDecoration(
-                color: isVideoSelected ? Colors.blue.shade50 : Colors.white,
+                color: isVideoSelected ? AppColors.info.withValues(alpha: 0.1) : AppColors.white,
                 borderRadius: AppRadius.allLG,
                 border: Border.all(
-                  color: isVideoSelected ? Colors.blue.shade300 : Colors.grey.shade200,
+                  color: isVideoSelected ? AppColors.info : AppColors.grey200,
                   width: 2,
                 ),
               ),
@@ -98,7 +99,7 @@ class MediaPicker extends StatelessWidget {
                 children: [
                   Icon(
                     isVideoSelected ? LucideIcons.checkCircle : LucideIcons.video,
-                    color: isVideoSelected ? Colors.blue.shade700 : Colors.grey.shade500,
+                    color: isVideoSelected ? AppColors.info : AppColors.grey500,
                     size: 28,
                   ),
                   const SizedBox(height: 6),
@@ -107,7 +108,7 @@ class MediaPicker extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
-                      color: isVideoSelected ? Colors.blue.shade700 : Colors.grey.shade600,
+                      color: isVideoSelected ? AppColors.info : AppColors.grey600,
                     ),
                   ),
                 ],

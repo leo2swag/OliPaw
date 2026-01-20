@@ -58,6 +58,7 @@
 
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
+import '../../core/constants/app_colors.dart';
 
 /// 聊天消息类型
 enum ChatMessageType {
@@ -247,7 +248,7 @@ class ChatBubble extends StatelessWidget {
 
     // 颜色配置
     final backgroundColor = isUser ? AppTheme.primaryOrange : AppTheme.grey100;
-    final textColor = isUser ? Colors.white : AppTheme.grey800;
+    final textColor = isUser ? AppColors.white : AppTheme.grey800;
 
     return Container(
       constraints: const BoxConstraints(
@@ -268,7 +269,7 @@ class ChatBubble extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.black.withValues(alpha: 0.05),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),

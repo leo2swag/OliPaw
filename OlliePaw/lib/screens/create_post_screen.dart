@@ -33,6 +33,7 @@ import '../widgets/create_post/mood_selector.dart';
 import '../widgets/create_post/post_input_field.dart';
 import '../widgets/create_post/media_picker.dart';
 import '../widgets/create_post/category_selector.dart';
+import '../utils/snackbar_helper.dart';
 
 /// 创建动态页面：编辑心情、文本，并可调用 AI 协助
 class CreatePostScreen extends StatefulWidget {
@@ -50,7 +51,6 @@ class CreatePostScreen extends StatefulWidget {
 /// - 组件化重构，分离关注点
 class _CreatePostScreenState extends State<CreatePostScreen> {
   final TextEditingController _textCtrl = TextEditingController();
-  final bool _isGenerating = false;
   String _selectedMood = 'Happy';
   String _selectedCategory = 'Pics';
   final ImagePicker _picker = ImagePicker();
@@ -94,20 +94,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
         // 自动生成 AI 文案
         if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Photo selected! Generating caption... 📸'),
-            backgroundColor: Colors.green,
-          ),
-        );
+        SnackBarHelper.showSuccess(context, 'Photo selected! Generating caption... 📸');
 
         _generateCaption();
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error picking image: $e')),
-        );
+        SnackBarHelper.showError(context, 'Error picking image: $e');
       }
     }
   }
@@ -127,20 +120,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
         // 自动生成 AI 文案
         if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Video selected! Generating caption... 🎥'),
-            backgroundColor: Colors.green,
-          ),
-        );
+        SnackBarHelper.showSuccess(context, 'Video selected! Generating caption... 🎥');
 
         _generateCaption();
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error picking video: $e')),
-        );
+        SnackBarHelper.showError(context, 'Error picking video: $e');
       }
     }
   }
@@ -154,9 +140,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
     // Spend treats check
     if (!context.read<CurrencyProvider>().spendTreats(5)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Need 5 Treats! 🦴"))
-      );
+      SnackBarHelper.showWarning(context, "Need 5 Treats! 🦴");
       return;
     }
 
@@ -185,7 +169,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         title: const Text("Create Post", style: TextStyle(fontWeight: FontWeight.w700)),
         elevation: 0,
         backgroundColor: AppColors.screenBg,
-        foregroundColor: Colors.black,
+        foregroundColor: AppColors.textDark,
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -214,7 +198,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             PostInputField(
               controller: _textCtrl,
               hintText: "What's $petName thinking?",
-              isGenerating: _isGenerating,
+              isGenerating: false, // TODO: Implement loading state for AI caption generation
               onGenerateCaption: _generateCaption,
             ),
             const SizedBox(height: 20),

@@ -7,7 +7,8 @@
   注意：增强 UI 设计，添加媒体上传功能
 */
 import 'package:flutter/material.dart';
-import '../../core/theme/app_dimensions.dart';
+import '../core/constants/app_colors.dart';
+import '../core/theme/app_dimensions.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,6 +17,7 @@ import '../models/types.dart';
 import '../services/gemini_service.dart';
 import '../providers/currency_provider.dart';
 import '../core/enums/media_type.dart';
+import '../utils/snackbar_helper.dart';
 
 /// AI 助手组件：与 AI 兽医对话
 class AiAssistant extends StatefulWidget {
@@ -73,20 +75,12 @@ class _AiAssistantState extends State<AiAssistant> {
           _selectedMedia = image;
         });
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Photo selected! You can now send it to PawPal 📸'),
-              backgroundColor: Colors.green,
-              duration: Duration(seconds: 2),
-            ),
-          );
+          SnackBarHelper.showSuccess(context, 'Photo selected! You can now send it to PawPal 📸');
         }
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error picking image: $e')),
-        );
+        SnackBarHelper.showError(context, 'Error picking image: $e');
       }
     }
   }
@@ -104,20 +98,12 @@ class _AiAssistantState extends State<AiAssistant> {
           _selectedMedia = video;
         });
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Video selected! You can now send it to PawPal 🎥'),
-              backgroundColor: Colors.green,
-              duration: Duration(seconds: 2),
-            ),
-          );
+          SnackBarHelper.showSuccess(context, 'Video selected! You can now send it to PawPal 🎥');
         }
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error picking video: $e')),
-        );
+        SnackBarHelper.showError(context, 'Error picking video: $e');
       }
     }
   }
@@ -129,7 +115,7 @@ class _AiAssistantState extends State<AiAssistant> {
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
         decoration: const BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(24),
             topRight: Radius.circular(24),
@@ -143,7 +129,7 @@ class _AiAssistantState extends State<AiAssistant> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: AppColors.grey300,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -157,10 +143,10 @@ class _AiAssistantState extends State<AiAssistant> {
               leading: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.orange.shade50,
+                  color: AppColors.lightOrangeBg,
                   borderRadius: AppRadius.allMD,
                 ),
-                child: const Icon(LucideIcons.image, color: Colors.orange),
+                child: const Icon(LucideIcons.image, color: AppColors.primaryOrange),
               ),
               title: const Text('Upload Photo', style: TextStyle(fontWeight: FontWeight.bold)),
               subtitle: const Text('Share a photo with PawPal'),
@@ -173,10 +159,10 @@ class _AiAssistantState extends State<AiAssistant> {
               leading: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.blue.shade50,
+                  color: AppColors.info.withValues(alpha: 0.1),
                   borderRadius: AppRadius.allMD,
                 ),
-                child: const Icon(LucideIcons.video, color: Colors.blue),
+                child: const Icon(LucideIcons.video, color: AppColors.info),
               ),
               title: const Text('Upload Video', style: TextStyle(fontWeight: FontWeight.bold)),
               subtitle: const Text('Share a video with PawPal'),
@@ -201,9 +187,7 @@ class _AiAssistantState extends State<AiAssistant> {
 
     final currencyProvider = context.read<CurrencyProvider>();
     if (!currencyProvider.spendTreats(_cost)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Not enough treats! 🦴"))
-      );
+      SnackBarHelper.showWarning(context, "Not enough treats! 🦴");
       return;
     }
 
@@ -241,10 +225,10 @@ class _AiAssistantState extends State<AiAssistant> {
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
+            gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Colors.indigo.shade400, Colors.purple.shade400],
+              colors: [AppColors.info, AppColors.challengePrimary],
             ),
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(30),
@@ -252,7 +236,7 @@ class _AiAssistantState extends State<AiAssistant> {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.indigo.withValues(alpha: 0.3),
+                color: AppColors.info.withValues(alpha: 0.3),
                 blurRadius: 16,
                 offset: const Offset(0, 6),
               ),
@@ -263,13 +247,13 @@ class _AiAssistantState extends State<AiAssistant> {
               Container(
                 padding: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(50),
+                  color: AppColors.white,
+                  borderRadius: AppRadius.allFull,
                 ),
                 child: const CircleAvatar(
-                  backgroundColor: Colors.indigo,
+                  backgroundColor: AppColors.info,
                   radius: 24,
-                  child: Icon(LucideIcons.bot, color: Colors.white, size: 24),
+                  child: Icon(LucideIcons.bot, color: AppColors.white, size: 24),
                 ),
               ),
               const SizedBox(width: 14),
@@ -282,14 +266,14 @@ class _AiAssistantState extends State<AiAssistant> {
                       style: TextStyle(
                         fontWeight: FontWeight.w900,
                         fontSize: 18,
-                        color: Colors.white,
+                        color: AppColors.white,
                       ),
                     ),
                     Text(
                       "Your AI Vet Assistant",
                       style: TextStyle(
                         fontSize: 12,
-                        color: Colors.white.withValues(alpha: 0.9),
+                        color: AppColors.white.withValues(alpha: 0.9),
                       ),
                     ),
                   ],
@@ -302,11 +286,11 @@ class _AiAssistantState extends State<AiAssistant> {
                     builder: (ctx, provider, _) => Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.white,
                         borderRadius: AppRadius.allXL,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.1),
+                            color: AppColors.black.withValues(alpha: 0.1),
                             blurRadius: 6,
                             offset: const Offset(0, 2),
                           ),
@@ -315,13 +299,13 @@ class _AiAssistantState extends State<AiAssistant> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(LucideIcons.bone, size: 16, color: Colors.orange),
+                          const Icon(LucideIcons.bone, size: 16, color: AppColors.primaryOrange),
                           const SizedBox(width: 4),
                           Text(
                             "${provider.treats}",
                             style: const TextStyle(
                               fontWeight: FontWeight.w900,
-                              color: Colors.brown,
+                              color: AppColors.textDark,
                               fontSize: 14,
                             ),
                           ),
@@ -333,7 +317,7 @@ class _AiAssistantState extends State<AiAssistant> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
+                      color: AppColors.white.withValues(alpha: 0.2),
                       borderRadius: AppRadius.allMD,
                     ),
                     child: Text(
@@ -341,7 +325,7 @@ class _AiAssistantState extends State<AiAssistant> {
                       style: const TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: AppColors.white,
                       ),
                     ),
                   ),
@@ -369,11 +353,11 @@ class _AiAssistantState extends State<AiAssistant> {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   decoration: BoxDecoration(
                     gradient: isUser
-                      ? LinearGradient(
-                          colors: [Colors.amber.shade400, Colors.orange.shade400],
+                      ? const LinearGradient(
+                          colors: [AppColors.warning, AppColors.primaryOrange],
                         )
                       : null,
-                    color: isUser ? null : Colors.white,
+                    color: isUser ? null : AppColors.white,
                     borderRadius: AppRadius.allXL.copyWith(
                       topRight: isUser ? Radius.zero : const Radius.circular(20),
                       topLeft: isUser ? const Radius.circular(20) : Radius.zero,
@@ -381,8 +365,8 @@ class _AiAssistantState extends State<AiAssistant> {
                     boxShadow: [
                       BoxShadow(
                         color: isUser
-                          ? Colors.orange.withValues(alpha: 0.3)
-                          : Colors.black.withValues(alpha: 0.08),
+                          ? AppColors.primaryOrange.withValues(alpha: 0.3)
+                          : AppColors.black.withValues(alpha: 0.08),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       )
@@ -391,7 +375,7 @@ class _AiAssistantState extends State<AiAssistant> {
                   child: Text(
                     msg.text,
                     style: TextStyle(
-                      color: isUser ? Colors.white : Colors.black87,
+                      color: isUser ? AppColors.white : AppColors.textDark,
                       fontSize: 15,
                     ),
                   ),
@@ -404,7 +388,7 @@ class _AiAssistantState extends State<AiAssistant> {
         if (_loading)
           Container(
             padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
@@ -412,14 +396,14 @@ class _AiAssistantState extends State<AiAssistant> {
                   height: 20,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: Colors.indigo.shade400,
+                    color: AppColors.info,
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Text(
                   "PawPal is thinking...",
                   style: TextStyle(
-                    color: Colors.indigo.shade400,
+                    color: AppColors.info,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -433,7 +417,7 @@ class _AiAssistantState extends State<AiAssistant> {
             margin: const EdgeInsets.symmetric(horizontal: 12),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: AppColors.grey100,
               borderRadius: AppRadius.allLG,
             ),
             child: Row(
@@ -450,11 +434,11 @@ class _AiAssistantState extends State<AiAssistant> {
                           fit: BoxFit.cover,
                         ),
                     color: _selectedMedia!.path.isVideo
-                      ? Colors.blue.shade100
+                      ? AppColors.info.withValues(alpha: 0.2)
                       : null,
                   ),
                   child: _selectedMedia!.path.isVideo
-                    ? const Icon(LucideIcons.video, color: Colors.blue)
+                    ? const Icon(LucideIcons.video, color: AppColors.info)
                     : null,
                 ),
                 const SizedBox(width: 12),
@@ -466,9 +450,9 @@ class _AiAssistantState extends State<AiAssistant> {
                         '${_selectedMedia!.path.mediaType.englishName} attached',
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text(
+                      const Text(
                         'Ready to send',
-                        style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                        style: TextStyle(fontSize: 12, color: AppColors.grey600),
                       ),
                     ],
                   ),
@@ -476,7 +460,7 @@ class _AiAssistantState extends State<AiAssistant> {
                 IconButton(
                   icon: const Icon(LucideIcons.x, size: 20),
                   onPressed: () => setState(() => _selectedMedia = null),
-                  color: Colors.grey.shade600,
+                  color: AppColors.grey600,
                 ),
               ],
             ),
@@ -486,10 +470,10 @@ class _AiAssistantState extends State<AiAssistant> {
         Container(
           padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
+                color: AppColors.black.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, -2),
               ),
@@ -503,12 +487,12 @@ class _AiAssistantState extends State<AiAssistant> {
                 icon: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.purple.shade400, Colors.indigo.shade400],
+                    gradient: const LinearGradient(
+                      colors: [AppColors.challengePrimary, AppColors.info],
                     ),
                     borderRadius: AppRadius.allMD,
                   ),
-                  child: const Icon(LucideIcons.paperclip, color: Colors.white, size: 20),
+                  child: const Icon(LucideIcons.paperclip, color: AppColors.white, size: 20),
                 ),
               ),
               const SizedBox(width: 8),
@@ -517,11 +501,11 @@ class _AiAssistantState extends State<AiAssistant> {
                   controller: _controller,
                   decoration: InputDecoration(
                     hintText: "Ask Dr. PawPal...",
-                    hintStyle: TextStyle(color: Colors.grey.shade400),
+                    hintStyle: const TextStyle(color: AppColors.grey400),
                     filled: true,
-                    fillColor: Colors.grey.shade100,
+                    fillColor: AppColors.grey100,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
+                      borderRadius: AppRadius.allMD,
                       borderSide: BorderSide.none,
                     ),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -536,19 +520,19 @@ class _AiAssistantState extends State<AiAssistant> {
                 child: Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.indigo.shade400, Colors.purple.shade400],
+                    gradient: const LinearGradient(
+                      colors: [AppColors.info, AppColors.challengePrimary],
                     ),
-                    borderRadius: BorderRadius.circular(50),
+                    borderRadius: AppRadius.allFull,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.indigo.withValues(alpha: 0.3),
+                        color: AppColors.info.withValues(alpha: 0.3),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
                     ],
                   ),
-                  child: const Icon(LucideIcons.send, color: Colors.white, size: 20),
+                  child: const Icon(LucideIcons.send, color: AppColors.white, size: 20),
                 ),
               ),
             ],

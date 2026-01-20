@@ -28,7 +28,13 @@
   - 移除重复的 date_utils.dart（已合并到 date_extensions.dart）
   - 添加 date_extensions 导出以便统一访问
   - 添加 date_picker_helper 以统一日期选择器样式
+
+  v3.3 更新：
+  - 添加 navigation_helper 以统一导航模式
 */
+
+// 导航工具（统一的导航操作）
+export 'navigation_helper.dart';
 
 // 日期扩展（统一的日期工具）
 export '../core/extensions/date_extensions.dart';

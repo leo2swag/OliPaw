@@ -6,6 +6,7 @@
   注意：本文件仅添加中文注释，不改变逻辑。
 */
 import 'package:flutter/material.dart';
+import '../../core/constants/app_colors.dart';
 import '../../core/theme/app_dimensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -13,6 +14,8 @@ import '../models/types.dart';
 import '../services/gemini_service.dart';
 import 'add_vaccine_dialog.dart';
 import 'add_weight_dialog.dart';
+import 'common/app_button.dart';
+import 'common/empty_state.dart';
 
 /// 健康追踪组件：展示宠物健康相关信息
 class HealthTracker extends StatefulWidget {
@@ -48,38 +51,6 @@ class _HealthTrackerState extends State<HealthTracker> {
     if (mounted) setState(() { _tip = tip; _loading = false; });
   }
 
-  /// 构建空状态视图
-  /// 说明：当疫苗或体重记录为空时显示
-  Widget _buildEmptyState(String title, String subtitle, IconData icon) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            Icon(icon, size: 48, color: Colors.grey.shade300),
-            const SizedBox(height: 12),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey.shade600,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              subtitle,
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey.shade500,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -89,22 +60,22 @@ class _HealthTrackerState extends State<HealthTracker> {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            gradient: const LinearGradient(colors: [Color(0xFF14B8A6), Color(0xFF10B981)]),
+            gradient: AppColors.healthGradient,
             borderRadius: AppRadius.allLG,
-            boxShadow: [BoxShadow(color: Colors.teal.withValues(alpha:0.3), blurRadius: 10, offset: const Offset(0, 4))],
+            boxShadow: [BoxShadow(color: AppColors.info.withValues(alpha:0.3), blurRadius: 10, offset: const Offset(0, 4))],
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(LucideIcons.sparkles, color: Colors.yellow, size: 24),
+              const Icon(LucideIcons.sparkles, color: AppColors.warning, size: 24),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Dr. AI's Daily Tip", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    const Text("Dr. AI's Daily Tip", style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 4),
-                    Text(_loading ? "Thinking..." : _tip, style: const TextStyle(color: Colors.white, fontSize: 13, height: 1.3)),
+                    Text(_loading ? "Thinking..." : _tip, style: const TextStyle(color: AppColors.white, fontSize: 13, height: 1.3)),
                   ],
                 ),
               ),
@@ -119,7 +90,11 @@ class _HealthTrackerState extends State<HealthTracker> {
           children: [
             const Text("Vaccine Records", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             // 添加疫苗按钮
-            ElevatedButton.icon(
+            AppButton.primary(
+              label: '添加',
+              icon: LucideIcons.plus,
+              size: AppButtonSize.small,
+              backgroundColor: AppColors.info,
               onPressed: () {
                 showAddVaccineDialog(
                   context: context,
@@ -130,24 +105,21 @@ class _HealthTrackerState extends State<HealthTracker> {
                   },
                 );
               },
-              icon: const Icon(LucideIcons.plus, size: 16),
-              label: const Text('添加', style: TextStyle(fontWeight: FontWeight.bold)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                shape: RoundedRectangleBorder(borderRadius: AppRadius.allMD),
-                elevation: 0,
-              ),
             ),
           ],
         ),
         const SizedBox(height: 12),
         Container(
           padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(color: Colors.white, borderRadius: AppRadius.allLG, border: Border.all(color: Colors.grey.shade100)),
+          decoration: BoxDecoration(color: AppColors.white, borderRadius: AppRadius.allLG, border: Border.all(color: AppColors.grey100)),
           child: _vaccines.isEmpty
-              ? _buildEmptyState('还没有疫苗记录', '点击上方按钮添加疫苗记录', LucideIcons.syringe)
+              ? const EmptyState(
+                  icon: LucideIcons.syringe,
+                  title: '还没有疫苗记录',
+                  subtitle: '点击上方按钮添加疫苗记录',
+                  iconSize: 48,
+                  iconColor: AppColors.grey300,
+                )
               : Column(
                   children: _vaccines.map((v) => _VaccineRow(vaccine: v)).toList(),
                 ),
@@ -160,7 +132,11 @@ class _HealthTrackerState extends State<HealthTracker> {
           children: [
             const Text("Weight History", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             // 添加体重按钮
-            ElevatedButton.icon(
+            AppButton.primary(
+              label: '记录',
+              icon: LucideIcons.plus,
+              size: AppButtonSize.small,
+              backgroundColor: AppColors.info,
               onPressed: () {
                 showAddWeightDialog(
                   context: context,
@@ -172,15 +148,6 @@ class _HealthTrackerState extends State<HealthTracker> {
                   },
                 );
               },
-              icon: const Icon(LucideIcons.plus, size: 16),
-              label: const Text('记录', style: TextStyle(fontWeight: FontWeight.bold)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                shape: RoundedRectangleBorder(borderRadius: AppRadius.allMD),
-                elevation: 0,
-              ),
             ),
           ],
         ),
@@ -188,9 +155,15 @@ class _HealthTrackerState extends State<HealthTracker> {
         Container(
           height: 200,
           padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(color: Colors.white, borderRadius: AppRadius.allLG, border: Border.all(color: Colors.grey.shade100)),
+          decoration: BoxDecoration(color: AppColors.white, borderRadius: AppRadius.allLG, border: Border.all(color: AppColors.grey100)),
           child: _weightHistory.isEmpty
-              ? _buildEmptyState('还没有体重记录', '点击上方按钮记录体重', LucideIcons.scale)
+              ? const EmptyState(
+                  icon: LucideIcons.scale,
+                  title: '还没有体重记录',
+                  subtitle: '点击上方按钮记录体重',
+                  iconSize: 48,
+                  iconColor: AppColors.grey300,
+                )
               : Builder(
                   builder: (context) {
                     // 计算智能 Y 轴间隔 - 确保最多显示 5 个标签
@@ -228,8 +201,8 @@ class _HealthTrackerState extends State<HealthTracker> {
                           drawVerticalLine: false,
                           horizontalInterval: yInterval,
                           getDrawingHorizontalLine: (value) {
-                            return FlLine(
-                              color: Colors.grey.shade200,
+                            return const FlLine(
+                              color: AppColors.grey200,
                               strokeWidth: 1,
                             );
                           },
@@ -252,8 +225,8 @@ class _HealthTrackerState extends State<HealthTracker> {
                                     padding: const EdgeInsets.only(top: 8.0),
                                     child: Text(
                                       _weightHistory[index].date,
-                                      style: TextStyle(
-                                        color: Colors.grey.shade600,
+                                      style: const TextStyle(
+                                        color: AppColors.textMedium,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 11,
                                       ),
@@ -275,8 +248,8 @@ class _HealthTrackerState extends State<HealthTracker> {
                                 if (yInterval == 0.5) {
                                   return Text(
                                     '${value.toStringAsFixed(1)}kg',
-                                    style: TextStyle(
-                                      color: Colors.grey.shade600,
+                                    style: const TextStyle(
+                                      color: AppColors.textMedium,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 10,
                                     ),
@@ -284,8 +257,8 @@ class _HealthTrackerState extends State<HealthTracker> {
                                 } else {
                                   return Text(
                                     '${value.toInt()}kg',
-                                    style: TextStyle(
-                                      color: Colors.grey.shade600,
+                                    style: const TextStyle(
+                                      color: AppColors.textMedium,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 10,
                                     ),
@@ -297,9 +270,9 @@ class _HealthTrackerState extends State<HealthTracker> {
                         ),
                         borderData: FlBorderData(
                           show: true,
-                          border: Border(
-                            bottom: BorderSide(color: Colors.grey.shade300, width: 1),
-                            left: BorderSide(color: Colors.grey.shade300, width: 1),
+                          border: const Border(
+                            bottom: BorderSide(color: AppColors.grey300, width: 1),
+                            left: BorderSide(color: AppColors.grey300, width: 1),
                           ),
                         ),
                         minY: minY,
@@ -308,8 +281,8 @@ class _HealthTrackerState extends State<HealthTracker> {
                           LineChartBarData(
                             spots: _weightHistory.asMap().entries.map((e) => FlSpot(e.key.toDouble(), e.value.weight)).toList(),
                             isCurved: true,
-                            gradient: LinearGradient(
-                              colors: [Colors.orange.shade400, Colors.amber.shade400],
+                            gradient: const LinearGradient(
+                              colors: [AppColors.primaryOrange, AppColors.warning],
                             ),
                             barWidth: 4,
                             dotData: FlDotData(
@@ -317,9 +290,9 @@ class _HealthTrackerState extends State<HealthTracker> {
                               getDotPainter: (spot, percent, barData, index) {
                                 return FlDotCirclePainter(
                                   radius: 5,
-                                  color: Colors.white,
+                                  color: AppColors.white,
                                   strokeWidth: 3,
-                                  strokeColor: Colors.orange.shade600,
+                                  strokeColor: AppColors.primaryOrange,
                                 );
                               },
                             ),
@@ -327,8 +300,8 @@ class _HealthTrackerState extends State<HealthTracker> {
                               show: true,
                               gradient: LinearGradient(
                                 colors: [
-                                  Colors.orange.withValues(alpha: 0.3),
-                                  Colors.amber.withValues(alpha: 0.1),
+                                  AppColors.primaryOrange.withValues(alpha: 0.3),
+                                  AppColors.warning.withValues(alpha: 0.1),
                                 ],
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
@@ -366,21 +339,21 @@ class _VaccineRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(vaccine.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text("Vet: ${vaccine.veterinarian}", style: TextStyle(color: Colors.grey.shade500, fontSize: 12)),
+              Text("Vet: ${vaccine.veterinarian}", style: const TextStyle(color: AppColors.grey500, fontSize: 12)),
             ],
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: isOverdue ? Colors.red.shade50 : Colors.green.shade50,
+              color: isOverdue ? AppColors.errorBg : AppColors.successBg,
               borderRadius: AppRadius.allSM,
-              border: Border.all(color: isOverdue ? Colors.red.shade100 : Colors.green.shade100),
+              border: Border.all(color: isOverdue ? AppColors.error : AppColors.success),
             ),
             child: Row(
               children: [
-                Icon(isOverdue ? LucideIcons.alertTriangle : LucideIcons.checkCircle, size: 12, color: isOverdue ? Colors.red : Colors.green),
+                Icon(isOverdue ? LucideIcons.alertTriangle : LucideIcons.checkCircle, size: 12, color: isOverdue ? AppColors.error : AppColors.success),
                 const SizedBox(width: 4),
-                Text(isOverdue ? "Overdue" : "Up to date", style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: isOverdue ? Colors.red : Colors.green)),
+                Text(isOverdue ? "Overdue" : "Up to date", style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: isOverdue ? AppColors.error : AppColors.success)),
               ],
             ),
           )

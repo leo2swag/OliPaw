@@ -36,6 +36,7 @@
 
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
+import '../../core/constants/app_colors.dart';
 
 /// 加载遮罩组件
 ///
@@ -64,7 +65,7 @@ class LoadingOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black54,
+      color: AppColors.black.withValues(alpha: 0.54),
       child: Center(
         child: Card(
           margin: const EdgeInsets.all(AppTheme.space2XL),
@@ -195,7 +196,7 @@ class LoadingOverlay extends StatelessWidget {
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) => Container(
-        color: Colors.black54,
+        color: AppColors.black.withValues(alpha: 0.54),
         child: Center(
           child: Card(
             margin: const EdgeInsets.all(AppTheme.space2XL),

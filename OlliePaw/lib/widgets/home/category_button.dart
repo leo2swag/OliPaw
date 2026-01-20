@@ -7,7 +7,8 @@
 */
 
 import 'package:flutter/material.dart';
-import '../../core/constants/ui_constants.dart';
+import '../../core/constants/app_colors.dart';
+import '../../core/theme/app_dimensions.dart';
 
 /// 类别按钮组件
 ///
@@ -46,30 +47,30 @@ class CategoryButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: UIDimensions.categoryButtonSize,
-        height: UIDimensions.categoryButtonSize,
+        width: AppSizes.categoryButtonSize,
+        height: AppSizes.categoryButtonSize,
         decoration: BoxDecoration(
-          color: isSelected ? bgColor : Colors.white,
+          color: isSelected ? bgColor : AppColors.white,
           border: Border.all(
-            color: isSelected ? textColor : Colors.grey.shade300,
-            width: 2,
+            color: isSelected ? textColor : AppColors.grey300,
+            width: AppSizes.borderWidthNormal,
           ),
-          borderRadius: BorderRadius.circular(UIDimensions.radiusL),
+          borderRadius: BorderRadius.circular(AppRadius.xl),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               emoji,
-              style: const TextStyle(fontSize: 32),
+              style: const TextStyle(fontSize: 15),
             ),
-            const SizedBox(height: UIDimensions.spacingXS),
+            const SizedBox(height: AppSpacing.xs),
             Text(
               label,
               style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: isSelected ? textColor : Colors.grey.shade700,
+                fontSize: 10,
+                fontWeight: FontWeight.w900,
+                color: isSelected ? textColor : AppColors.grey700,
               ),
             ),
           ],

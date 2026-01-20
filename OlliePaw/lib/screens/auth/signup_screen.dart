@@ -19,7 +19,7 @@ import '../../providers/auth_provider.dart';
 import '../../models/types.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/constants/app_colors.dart';
-import '../../core/constants/ui_constants.dart';
+import '../../core/theme/app_dimensions.dart';
 import '../../core/theme/app_input_decoration.dart';
 import '../../utils/snackbar_helper.dart';
 import '../../widgets/password_form_field.dart';
@@ -101,12 +101,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black87),
+          icon: const Icon(Icons.arrow_back, color: AppColors.textDark),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -126,23 +126,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     size: 64,
                     color: AppColors.primaryOrange,
                   ),
-                  const SizedBox(height: UIDimensions.spacingM),
+                  const SizedBox(height: AppSpacing.lg),
                   const Text(
                     'Create Account',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: AppColors.textDark,
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
+                  const Text(
                     'Join the OlliePaw community',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.grey.shade600,
+                      color: AppColors.grey600,
                     ),
                   ),
                   const SizedBox(height: 32),
@@ -153,7 +153,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: Colors.black87,
+                      color: AppColors.textDark,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -167,14 +167,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             decoration: BoxDecoration(
                               color: _selectedUserType == 'OWNER'
                                   ? AppColors.lightOrangeBg
-                                  : Colors.grey.shade50,
+                                  : AppColors.grey100,
                               border: Border.all(
                                 color: _selectedUserType == 'OWNER'
                                     ? AppColors.primaryOrange
                                     : AppColors.border,
                                 width: 2,
                               ),
-                              borderRadius: BorderRadius.circular(UIDimensions.radiusS),
+                              borderRadius: AppRadius.allMD,
                             ),
                             child: Column(
                               children: [
@@ -185,7 +185,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       ? AppColors.primaryOrange
                                       : AppColors.textMedium,
                                 ),
-                                const SizedBox(height: UIDimensions.spacingS),
+                                const SizedBox(height: AppSpacing.sm),
                                 Text(
                                   'Pet Owner',
                                   style: TextStyle(
@@ -195,7 +195,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         : AppColors.textDark,
                                   ),
                                 ),
-                                const SizedBox(height: UIDimensions.spacingXS),
+                                const SizedBox(height: AppSpacing.xs),
                                 const Text(
                                   'Share your pet\'s life',
                                   textAlign: TextAlign.center,
@@ -218,14 +218,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             decoration: BoxDecoration(
                               color: _selectedUserType == 'GUEST'
                                   ? AppColors.lightOrangeBg
-                                  : Colors.grey.shade50,
+                                  : AppColors.grey100,
                               border: Border.all(
                                 color: _selectedUserType == 'GUEST'
                                     ? AppColors.primaryOrange
                                     : AppColors.border,
                                 width: 2,
                               ),
-                              borderRadius: BorderRadius.circular(UIDimensions.radiusS),
+                              borderRadius: AppRadius.allMD,
                             ),
                             child: Column(
                               children: [
@@ -238,7 +238,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         : AppColors.textMedium,
                                   ),
                                 ),
-                                const SizedBox(height: UIDimensions.spacingS),
+                                const SizedBox(height: AppSpacing.sm),
                                 Text(
                                   'Guest',
                                   style: TextStyle(
@@ -248,7 +248,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         : AppColors.textDark,
                                   ),
                                 ),
-                                const SizedBox(height: UIDimensions.spacingXS),
+                                const SizedBox(height: AppSpacing.xs),
                                 const Text(
                                   'Explore and browse',
                                   textAlign: TextAlign.center,
@@ -264,7 +264,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: UIDimensions.spacingL),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // 名字输入
                   TextFormField(
@@ -277,7 +277,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     validator: AppConstants.validateName,
                   ),
-                  const SizedBox(height: UIDimensions.spacingM),
+                  const SizedBox(height: AppSpacing.lg),
 
                   // 邮箱输入
                   TextFormField(
@@ -291,7 +291,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     validator: AppConstants.validateEmail,
                   ),
-                  const SizedBox(height: UIDimensions.spacingM),
+                  const SizedBox(height: AppSpacing.lg),
 
                   // 密码输入
                   PasswordFormField(
@@ -300,7 +300,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     hintText: 'At least 6 characters',
                     validator: AppConstants.validatePassword,
                   ),
-                  const SizedBox(height: UIDimensions.spacingM),
+                  const SizedBox(height: AppSpacing.lg),
 
                   // 确认密码输入
                   PasswordFormField(
@@ -309,7 +309,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     hintText: 'Re-enter your password',
                     validator: (value) => AppConstants.validateConfirmPassword(value, _passwordController.text),
                   ),
-                  const SizedBox(height: UIDimensions.spacingL),
+                  const SizedBox(height: AppSpacing.xxl),
 
                   // 注册按钮
                   Consumer<AuthProvider>(
@@ -322,7 +322,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       );
                     },
                   ),
-                  const SizedBox(height: UIDimensions.spacingM),
+                  const SizedBox(height: AppSpacing.lg),
 
                   // 服务条款提示
                   const Text(

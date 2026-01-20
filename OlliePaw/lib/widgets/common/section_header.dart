@@ -37,6 +37,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../theme/app_theme.dart';
+import 'app_button.dart';
 
 /// Section Header 组件
 ///
@@ -88,25 +89,12 @@ class SectionHeader extends StatelessWidget {
 
         // 操作按钮（可选）
         if (actionLabel != null && onActionPressed != null)
-          ElevatedButton.icon(
+          AppButton.primary(
+            label: actionLabel!,
+            icon: actionIcon ?? LucideIcons.plus,
+            size: AppButtonSize.small,
+            backgroundColor: actionButtonColor ?? AppTheme.accentTeal,
             onPressed: onActionPressed,
-            icon: Icon(
-              actionIcon ?? LucideIcons.plus,
-              size: 16,
-            ),
-            label: Text(actionLabel!),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: actionButtonColor ?? AppTheme.accentTeal,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppTheme.spaceM,
-                vertical: AppTheme.spaceS,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppTheme.radiusM),
-              ),
-              elevation: 0,
-            ),
           ),
       ],
     );

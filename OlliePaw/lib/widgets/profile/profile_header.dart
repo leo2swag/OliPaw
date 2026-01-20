@@ -9,10 +9,10 @@
   - 使用工具方法处理年龄计算
 */
 import 'package:flutter/material.dart';
-import '../../core/constants/app_colors.dart';
-import '../../core/theme/app_dimensions.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../../core/constants/app_colors.dart';
 import '../../models/types.dart';
+import '../common/pill_badge.dart';
 
 /// 个人资料头部
 ///
@@ -40,7 +40,7 @@ class ProfileHeader extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             gradient: LinearGradient(
-              colors: [Colors.orange.shade300, Colors.orange.shade500],
+              colors: [AppColors.primaryOrange.withValues(alpha: 0.7), AppColors.primaryOrange],
             ),
           ),
           child: CircleAvatar(
@@ -72,68 +72,19 @@ class ProfileHeader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // 年龄徽章
-            _buildPillBadge(
-              "🎂",
-              ageText,
-              const Color(0xFFFEF3C7),
-              const Color(0xFFB45309),
-            ),
+            PillBadge.orange(emoji: "🎂", text: ageText),
 
             // 体重徽章（如果有体重记录）
             if (pet.weightHistory.isNotEmpty) ...[
               const SizedBox(width: 6),
-              _buildPillBadge(
-                null,
-                "${pet.weightHistory.last.weight} kg",
-                const Color(0xFFDBEAFE),
-                const Color(0xFF1E40AF),
+              PillBadge.blue(
                 icon: LucideIcons.scale,
+                text: "${pet.weightHistory.last.weight} kg",
               ),
             ]
           ],
         ),
       ],
-    );
-  }
-
-  /// 构建徽章组件
-  Widget _buildPillBadge(
-    String? emoji,
-    String text,
-    Color bg,
-    Color textCol, {
-    IconData? icon,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: AppRadius.allMD,
-        boxShadow: [
-          BoxShadow(
-            color: textCol.withValues(alpha: 0.1),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          )
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (emoji != null) Text(emoji, style: const TextStyle(fontSize: 11)),
-          if (icon != null) Icon(icon, size: 12, color: textCol),
-          const SizedBox(width: 4),
-          Text(
-            text,
-            style: TextStyle(
-              fontWeight: FontWeight.w900,
-              fontSize: 10,
-              color: textCol,
-              letterSpacing: 0.3,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

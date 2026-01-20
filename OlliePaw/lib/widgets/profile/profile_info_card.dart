@@ -9,6 +9,7 @@
 */
 import 'package:flutter/material.dart';
 import '../../core/theme/app_dimensions.dart';
+import '../../core/constants/app_colors.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../models/types.dart';
 
@@ -31,11 +32,11 @@ class ProfileInfoCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: AppRadius.allXL,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
+              color: AppColors.black.withValues(alpha: 0.04),
               blurRadius: 10,
             )
           ],
@@ -56,18 +57,18 @@ class ProfileInfoCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
+                const Icon(
                   LucideIcons.quote,
-                  color: Colors.orange.shade300,
+                  color: AppColors.primaryOrange,
                   size: 20,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     pet.bio,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontStyle: FontStyle.italic,
-                      color: Colors.grey.shade700,
+                      color: AppColors.grey700,
                     ),
                   ),
                 ),
@@ -107,6 +108,6 @@ class ProfileInfoCard extends StatelessWidget {
   Widget _buildDivider() => Container(
         width: 1,
         height: 30,
-        color: Colors.grey.shade200,
+        color: AppColors.grey200,
       );
 }

@@ -14,6 +14,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../core/constants/app_colors.dart';
+import 'snackbar_helper.dart';
 
 /// 照片选择辅助类
 /// 说明：封装 ImagePicker 的常用操作，提供统一的接口
@@ -42,24 +44,17 @@ class PhotoPickerHelper {
       );
 
       if (image != null && context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('照片已选择！ 📸'),
-            duration: Duration(seconds: 1),
-            backgroundColor: Colors.green,
-          ),
+        SnackBarHelper.showSuccess(
+          context,
+          '照片已选择！ 📸',
+          duration: const Duration(seconds: 1),
         );
       }
 
       return image;
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('选择照片失败: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        SnackBarHelper.showError(context, '选择照片失败: $e');
       }
       return null;
     }
@@ -87,24 +82,17 @@ class PhotoPickerHelper {
       );
 
       if (photo != null && context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('照片拍摄成功！ 📸'),
-            duration: Duration(seconds: 1),
-            backgroundColor: Colors.green,
-          ),
+        SnackBarHelper.showSuccess(
+          context,
+          '照片拍摄成功！ 📸',
+          duration: const Duration(seconds: 1),
         );
       }
 
       return photo;
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('拍照失败: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        SnackBarHelper.showError(context, '拍照失败: $e');
       }
       return null;
     }
@@ -126,24 +114,17 @@ class PhotoPickerHelper {
       );
 
       if (video != null && context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('视频已选择！ 🎥'),
-            duration: Duration(seconds: 1),
-            backgroundColor: Colors.green,
-          ),
+        SnackBarHelper.showSuccess(
+          context,
+          '视频已选择！ 🎥',
+          duration: const Duration(seconds: 1),
         );
       }
 
       return video;
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('选择视频失败: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        SnackBarHelper.showError(context, '选择视频失败: $e');
       }
       return null;
     }
@@ -167,7 +148,7 @@ class PhotoPickerHelper {
   }) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -186,7 +167,7 @@ class PhotoPickerHelper {
 
               // 拍照选项
               ListTile(
-                leading: const Icon(LucideIcons.camera, color: Colors.orange),
+                leading: const Icon(LucideIcons.camera, color: AppColors.primaryOrange),
                 title: const Text('拍照'),
                 onTap: () {
                   Navigator.pop(context);
@@ -196,7 +177,7 @@ class PhotoPickerHelper {
 
               // 从相册选择
               ListTile(
-                leading: const Icon(LucideIcons.image, color: Colors.blue),
+                leading: const Icon(LucideIcons.image, color: AppColors.info),
                 title: const Text('从相册选择'),
                 onTap: () {
                   Navigator.pop(context);
@@ -207,7 +188,7 @@ class PhotoPickerHelper {
               // 移除选项（如果已有照片）
               if (onRemoveTap != null)
                 ListTile(
-                  leading: const Icon(LucideIcons.trash2, color: Colors.red),
+                  leading: const Icon(LucideIcons.trash2, color: AppColors.error),
                   title: const Text('移除照片'),
                   onTap: () {
                     Navigator.pop(context);

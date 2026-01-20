@@ -11,13 +11,14 @@
   注意：本文件仅添加中文注释，不改变逻辑。
 */
 import 'package:flutter/material.dart';
-import '../../core/theme/app_dimensions.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../core/constants/app_colors.dart';
+import '../core/theme/app_dimensions.dart';
 import 'home_screen.dart';
 import 'explore_screen.dart';
 import 'care_screen.dart';
 import 'profile_screen.dart';
-import 'create_post_screen.dart';
+import '../widgets/common/unified_create_dialog.dart';
 
 /// 主布局：包含底部导航与中心悬浮按钮
 class MainLayout extends StatefulWidget {
@@ -43,9 +44,12 @@ class _MainLayoutState extends State<MainLayout> {
     const ProfileScreen(),
   ];
 
-  /// 处理中间 + 号按钮点击：使用 push 跳转至创建发布页面
+  /// 处理中间 + 号按钮点击：打开统一创建对话框
   void _onFabPressed() {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => const CreatePostScreen()));
+    showDialog(
+      context: context,
+      builder: (context) => const UnifiedCreateDialog(),
+    );
   }
 
   @override
@@ -60,18 +64,18 @@ class _MainLayoutState extends State<MainLayout> {
       floatingActionButton: Container(
         width: 60,
         height: 60,
-        margin: const EdgeInsets.only(top: 20),
+        margin: const EdgeInsets.only(top: AppSpacing.xl),
         decoration: BoxDecoration(
           borderRadius: AppRadius.allLG,
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.orange.shade400, Colors.orange.shade600],
+            colors: [AppColors.primaryOrange, AppColors.darkOrange],
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.orange.withValues(alpha: 0.4),
-              blurRadius: 12,
+              color: AppColors.primaryOrange.withValues(alpha: 0.4),
+              blurRadius: AppSpacing.md,
               offset: const Offset(0, 4),
             ),
           ],
@@ -81,18 +85,18 @@ class _MainLayoutState extends State<MainLayout> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           shape: RoundedRectangleBorder(borderRadius: AppRadius.allLG),
-          child: const Icon(LucideIcons.plus, color: Colors.white, size: 28),
+          child: const Icon(LucideIcons.plus, color: AppColors.white, size: AppSizes.iconXL),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         // 使用带凹口的矩形，配合中间的 FAB
         shape: const CircularNotchedRectangle(),
-        notchMargin: 8,
+        notchMargin: AppSpacing.sm,
         height: 70,
-        color: Colors.white,
+        color: AppColors.white,
         elevation: 8,
-        shadowColor: Colors.black.withValues(alpha: 0.1),
+        shadowColor: AppColors.black.withValues(alpha: 0.1),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -124,12 +128,12 @@ class _NavBarItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: isSelected ? Colors.orange : Colors.grey.shade400, size: 28),
+          Icon(icon, color: isSelected ? AppColors.primaryOrange : AppColors.grey400, size: AppSizes.iconXL),
           if (isSelected)
             Container(
-              margin: const EdgeInsets.only(top: 4),
+              margin: const EdgeInsets.only(top: AppSpacing.xs),
               width: 5, height: 5,
-              decoration: const BoxDecoration(color: Colors.orange, shape: BoxShape.circle),
+              decoration: const BoxDecoration(color: AppColors.primaryOrange, shape: BoxShape.circle),
             )
         ],
       ),
