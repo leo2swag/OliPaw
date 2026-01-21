@@ -11,6 +11,7 @@ import '../models/types.dart';
 import '../screens/create_post_screen.dart';
 import '../core/constants/app_colors.dart';
 import '../core/theme/app_dimensions.dart';
+import 'common/tap_container.dart';
 
 /// 每日挑战卡片：展示挑战信息，点击跳转发帖
 class ChallengeCard extends StatelessWidget {
@@ -21,17 +22,14 @@ class ChallengeCard extends StatelessWidget {
   @override
   /// 卡片布局：紧凑设计，突出任务内容
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return TapContainer(
       // 点击进入创建动态页面（鼓励完成挑战）
       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CreatePostScreen())),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm + 2, vertical: AppSpacing.sm),
-        decoration: BoxDecoration(
-          gradient: AppColors.challengeGradient,
-          borderRadius: AppRadius.allLG,
-          boxShadow: [BoxShadow(color: AppColors.challengePrimary.withValues(alpha: 0.25), blurRadius: AppSpacing.sm, offset: const Offset(0, 3))],
-        ),
-        child: Row(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm + 2, vertical: AppSpacing.sm),
+      gradient: AppColors.challengeGradient,
+      borderRadius: AppRadius.allLG,
+      boxShadow: [BoxShadow(color: AppColors.challengePrimary.withValues(alpha: 0.25), blurRadius: AppSpacing.sm, offset: const Offset(0, 3))],
+      child: Row(
           children: [
             // 任务图标
             Container(
@@ -89,7 +87,6 @@ class ChallengeCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 }

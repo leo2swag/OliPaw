@@ -12,6 +12,7 @@
 */
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
+import '../core/constants/app_strings.dart';
 import '../core/theme/app_dimensions.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -52,7 +53,7 @@ class _CareScreenState extends State<CareScreen> with SingleTickerProviderStateM
       appBar: AppBar(
         backgroundColor: AppColors.screenBg,
         elevation: 0,
-        title: const Text("Care Center", style: TextStyle(fontWeight: FontWeight.w900, color: AppColors.black)),
+        title: const Text(AppStrings.careCenter, style: TextStyle(fontWeight: FontWeight.w900, color: AppColors.black)),
         centerTitle: false,
       ),
       body: Column(
@@ -101,7 +102,7 @@ class _CareScreenState extends State<CareScreen> with SingleTickerProviderStateM
                     children: [
                       Icon(LucideIcons.heartPulse, size: 18),
                       SizedBox(width: 8),
-                      Text("Health Track"),
+                      Text(AppStrings.healthTrack),
                     ],
                   ),
                 ),
@@ -112,7 +113,7 @@ class _CareScreenState extends State<CareScreen> with SingleTickerProviderStateM
                     children: [
                       Icon(LucideIcons.bot, size: 18),
                       SizedBox(width: 8),
-                      Text("PawPal AI"),
+                      Text(AppStrings.pawpalAi),
                     ],
                   ),
                 ),

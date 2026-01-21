@@ -88,9 +88,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       );
 
       if (image != null) {
-        setState(() {
-          _selectedMedia = image;
-        });
+        setState(() => _selectedMedia = image);
 
         // 自动生成 AI 文案
         if (!mounted) return;
@@ -114,9 +112,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       );
 
       if (video != null) {
-        setState(() {
-          _selectedMedia = video;
-        });
+        setState(() => _selectedMedia = video);
 
         // 自动生成 AI 文案
         if (!mounted) return;

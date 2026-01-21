@@ -8,6 +8,7 @@
 */
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
+import '../core/constants/app_strings.dart';
 import '../core/theme/app_dimensions.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
@@ -114,12 +115,9 @@ class _AiAssistantState extends State<AiAssistant> {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
+          borderRadius: AppRadius.topXXL,
         ),
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -130,12 +128,12 @@ class _AiAssistantState extends State<AiAssistant> {
               height: 4,
               decoration: BoxDecoration(
                 color: AppColors.grey300,
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: AppRadius.allXS,
               ),
             ),
             const SizedBox(height: 20),
             const Text(
-              'Upload Media',
+              AppStrings.uploadMedia,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
             ),
             const SizedBox(height: 20),
@@ -148,8 +146,8 @@ class _AiAssistantState extends State<AiAssistant> {
                 ),
                 child: const Icon(LucideIcons.image, color: AppColors.primaryOrange),
               ),
-              title: const Text('Upload Photo', style: TextStyle(fontWeight: FontWeight.bold)),
-              subtitle: const Text('Share a photo with PawPal'),
+              title: const Text(AppStrings.uploadPhoto, style: TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: const Text(AppStrings.sharePhotoWithPawpal),
               onTap: () {
                 Navigator.pop(context);
                 _pickImage();
@@ -164,8 +162,8 @@ class _AiAssistantState extends State<AiAssistant> {
                 ),
                 child: const Icon(LucideIcons.video, color: AppColors.info),
               ),
-              title: const Text('Upload Video', style: TextStyle(fontWeight: FontWeight.bold)),
-              subtitle: const Text('Share a video with PawPal'),
+              title: const Text(AppStrings.uploadVideo, style: TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: const Text(AppStrings.shareVideoWithPawpal),
               onTap: () {
                 Navigator.pop(context);
                 _pickVideo();
@@ -230,17 +228,8 @@ class _AiAssistantState extends State<AiAssistant> {
               end: Alignment.bottomRight,
               colors: [AppColors.info, AppColors.challengePrimary],
             ),
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.info.withValues(alpha: 0.3),
-                blurRadius: 16,
-                offset: const Offset(0, 6),
-              ),
-            ],
+            borderRadius: AppRadius.bottomLG,
+            boxShadow: AppColors.floatingShadow,
           ),
           child: Row(
             children: [
@@ -262,7 +251,7 @@ class _AiAssistantState extends State<AiAssistant> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "PawPal AI",
+                      AppStrings.pawpalAi,
                       style: TextStyle(
                         fontWeight: FontWeight.w900,
                         fontSize: 18,
@@ -270,7 +259,7 @@ class _AiAssistantState extends State<AiAssistant> {
                       ),
                     ),
                     Text(
-                      "Your AI Vet Assistant",
+                      AppStrings.aiVetAssistant,
                       style: TextStyle(
                         fontSize: 12,
                         color: AppColors.white.withValues(alpha: 0.9),
@@ -338,7 +327,7 @@ class _AiAssistantState extends State<AiAssistant> {
         // 聊天消息列表
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.all(16),
+            padding: AppSpacing.allLG,
             itemCount: _messages.length,
             itemBuilder: (ctx, i) {
               final msg = _messages[i];
@@ -401,7 +390,7 @@ class _AiAssistantState extends State<AiAssistant> {
                 ),
                 SizedBox(width: 12),
                 Text(
-                  "PawPal is thinking...",
+                  AppStrings.pawpalThinking,
                   style: TextStyle(
                     color: AppColors.info,
                     fontWeight: FontWeight.bold,
@@ -451,7 +440,7 @@ class _AiAssistantState extends State<AiAssistant> {
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const Text(
-                        'Ready to send',
+                        AppStrings.readyToSend,
                         style: TextStyle(fontSize: 12, color: AppColors.grey600),
                       ),
                     ],
@@ -500,7 +489,7 @@ class _AiAssistantState extends State<AiAssistant> {
                 child: TextField(
                   controller: _controller,
                   decoration: InputDecoration(
-                    hintText: "Ask Dr. PawPal...",
+                    hintText: AppStrings.askDrPawpal,
                     hintStyle: const TextStyle(color: AppColors.grey400),
                     filled: true,
                     fillColor: AppColors.grey100,

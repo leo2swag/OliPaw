@@ -243,10 +243,10 @@ class _SOSCreateScreenState extends State<SOSCreateScreen> {
   /// 紧急横幅
   Widget _buildEmergencyBanner() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: AppSpacing.allLG,
       decoration: BoxDecoration(
         color: AppColors.errorBg,
-        borderRadius: BorderRadius.circular(AppRadius.md),
+        borderRadius: AppRadius.allMD,
         border: Border.all(color: AppColors.error),
       ),
       child: const Row(
@@ -272,17 +272,17 @@ class _SOSCreateScreenState extends State<SOSCreateScreen> {
   /// 宠物信息卡片
   Widget _buildPetInfoCard(Pet pet) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: AppSpacing.allLG,
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
+        borderRadius: AppRadius.allLG,
         boxShadow: AppColors.cardShadow,
       ),
       child: Row(
         children: [
           // 宠物照片
           ClipRRect(
-            borderRadius: BorderRadius.circular(AppRadius.md),
+            borderRadius: AppRadius.allMD,
             child: pet.gallery.isNotEmpty
                 ? Image.network(
                     pet.gallery.first,
@@ -367,7 +367,7 @@ class _SOSCreateScreenState extends State<SOSCreateScreen> {
         Container(
           decoration: BoxDecoration(
             color: AppColors.white,
-            borderRadius: BorderRadius.circular(AppRadius.md),
+            borderRadius: AppRadius.allMD,
             boxShadow: AppColors.lightShadow,
           ),
           child: Column(
@@ -405,11 +405,7 @@ class _SOSCreateScreenState extends State<SOSCreateScreen> {
                             color: AppColors.primaryOrange,
                           )
                         : null,
-                    onTap: () {
-                      setState(() {
-                        _selectedLocationKey = location.key;
-                      });
-                    },
+                    onTap: () => setState(() => _selectedLocationKey = location.key),
                   );
                 }).toList(),
               );
@@ -437,10 +433,10 @@ class _SOSCreateScreenState extends State<SOSCreateScreen> {
         InkWell(
           onTap: _selectLastSeenTime,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: AppSpacing.allLG,
             decoration: BoxDecoration(
               color: AppColors.white,
-              borderRadius: BorderRadius.circular(AppRadius.md),
+              borderRadius: AppRadius.allMD,
               boxShadow: AppColors.lightShadow,
             ),
             child: Row(
@@ -494,7 +490,7 @@ class _SOSCreateScreenState extends State<SOSCreateScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
             color: AppColors.white,
-            borderRadius: BorderRadius.circular(AppRadius.md),
+            borderRadius: AppRadius.allMD,
             boxShadow: AppColors.lightShadow,
           ),
           child: Row(
@@ -535,10 +531,10 @@ class _SOSCreateScreenState extends State<SOSCreateScreen> {
   /// 发布须知
   Widget _buildNoticeCard() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: AppSpacing.allLG,
       decoration: BoxDecoration(
         color: AppColors.infoBg,
-        borderRadius: BorderRadius.circular(AppRadius.md),
+        borderRadius: AppRadius.allMD,
       ),
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,

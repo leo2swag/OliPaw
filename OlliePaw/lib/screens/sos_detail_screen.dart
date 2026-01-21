@@ -327,10 +327,10 @@ class _SOSDetailScreenState extends State<SOSDetailScreen> {
 
     return Container(
       margin: const EdgeInsets.all(AppSpacing.lg),
-      padding: const EdgeInsets.all(16),
+      padding: AppSpacing.allLG,
       decoration: BoxDecoration(
         color: bannerColor.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(AppRadius.md),
+        borderRadius: AppRadius.allMD,
         border: Border.all(color: bannerColor),
       ),
       child: Row(
@@ -376,14 +376,14 @@ class _SOSDetailScreenState extends State<SOSDetailScreen> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
+        borderRadius: AppRadius.allLG,
         boxShadow: AppColors.cardShadow,
       ),
       child: Column(
         children: [
           // 宠物照片
           ClipRRect(
-            borderRadius: BorderRadius.circular(AppRadius.md),
+            borderRadius: AppRadius.allMD,
             child: Image.network(
               sos.petPhotoUrl,
               width: double.infinity,
@@ -448,10 +448,10 @@ class _SOSDetailScreenState extends State<SOSDetailScreen> {
 
           // 悬赏信息
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: AppSpacing.allLG,
             decoration: BoxDecoration(
               color: AppColors.warning.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(AppRadius.md),
+              borderRadius: AppRadius.allMD,
               border: Border.all(
                 color: AppColors.warning.withValues(alpha: 0.3),
               ),
@@ -552,10 +552,10 @@ class _SOSDetailScreenState extends State<SOSDetailScreen> {
   Widget _buildOwnerActions(SOSPost sos) {
     return Container(
       margin: const EdgeInsets.all(AppSpacing.lg),
-      padding: const EdgeInsets.all(16),
+      padding: AppSpacing.allLG,
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppRadius.md),
+        borderRadius: AppRadius.allMD,
         boxShadow: AppColors.lightShadow,
       ),
       child: Column(
@@ -598,10 +598,10 @@ class _SOSDetailScreenState extends State<SOSDetailScreen> {
   Widget _buildClueSubmission() {
     return Container(
       margin: const EdgeInsets.all(AppSpacing.lg),
-      padding: const EdgeInsets.all(16),
+      padding: AppSpacing.allLG,
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppRadius.md),
+        borderRadius: AppRadius.allMD,
         boxShadow: AppColors.lightShadow,
       ),
       child: Column(
@@ -656,7 +656,7 @@ class _SOSDetailScreenState extends State<SOSDetailScreen> {
         padding: const EdgeInsets.all(32),
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderRadius: AppRadius.allMD,
         ),
         child: const Center(
           child: Column(
@@ -722,10 +722,10 @@ class _SOSDetailScreenState extends State<SOSDetailScreen> {
   ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      padding: AppSpacing.allLG,
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppRadius.md),
+        borderRadius: AppRadius.allMD,
         boxShadow: AppColors.lightShadow,
         border: clue.helpful
             ? Border.all(color: AppColors.success, width: 2)

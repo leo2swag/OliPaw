@@ -83,13 +83,7 @@ class _FeedCardState extends State<FeedCard> with SingleTickerProviderStateMixin
         border: Border.all(
           color: widget.post.isAd ? AppColors.warning : AppColors.grey100,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.black.withValues(alpha:0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          )
-        ],
+        boxShadow: AppColors.lightShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

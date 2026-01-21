@@ -258,7 +258,7 @@ class BroadcastCard extends StatelessWidget {
         padding: AppSpacing.allLG,
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderRadius: AppRadius.allMD,
           border: Border.all(color: color.withValues(alpha: 0.3)),
           boxShadow: AppColors.lightShadow,
         ),
@@ -273,7 +273,7 @@ class BroadcastCard extends StatelessWidget {
                   padding: AppSpacing.allSM,
                   decoration: BoxDecoration(
                     color: color.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(AppRadius.xs),
+                    borderRadius: AppRadius.allXS,
                   ),
                   child: Text(
                     broadcast.typeIcon,

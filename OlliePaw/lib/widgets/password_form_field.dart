@@ -76,11 +76,7 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
                 ? Icons.visibility_outlined
                 : Icons.visibility_off_outlined,
           ),
-          onPressed: () {
-            setState(() {
-              _obscureText = !_obscureText;
-            });
-          },
+          onPressed: () => setState(() => _obscureText = !_obscureText),
         ),
       ),
       validator: widget.validator,

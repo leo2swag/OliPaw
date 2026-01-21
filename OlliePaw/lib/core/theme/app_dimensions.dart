@@ -309,6 +309,12 @@ class AppRadius {
         topRight: Radius.circular(xxl),
       );
 
+  /// 仅顶部圆角 - XXXL (用于底部弹窗)
+  static BorderRadius get topXXXL => const BorderRadius.only(
+        topLeft: Radius.circular(xxxl),
+        topRight: Radius.circular(xxxl),
+      );
+
   /// 仅底部圆角 - MD
   static BorderRadius get bottomMD => const BorderRadius.only(
         bottomLeft: Radius.circular(md),

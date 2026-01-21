@@ -22,7 +22,6 @@ export 'treats_badge.dart';
 export 'pill_badge.dart';
 
 // 布局组件
-export 'section_header.dart';
 export 'empty_state.dart';
 export 'pet_avatar_info.dart';
 export 'fun_lab_card.dart';
@@ -33,8 +32,9 @@ export 'app_dialog.dart';
 // 按钮组件
 export 'app_button.dart';
 
-// 聊天组件
-export 'chat_bubble.dart';
+// 容器组件
+export 'tap_container.dart';
+export 'app_card.dart';
 
 // 加载组件
 export 'loading_overlay.dart';

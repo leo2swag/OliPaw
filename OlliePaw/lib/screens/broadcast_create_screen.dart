@@ -185,7 +185,7 @@ class _BroadcastCreateScreenState extends State<BroadcastCreateScreen> {
                       filled: true,
                       fillColor: AppColors.white,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.md),
+                        borderRadius: AppRadius.allMD,
                         borderSide: BorderSide.none,
                       ),
                       counterText: '',
@@ -212,7 +212,7 @@ class _BroadcastCreateScreenState extends State<BroadcastCreateScreen> {
                       filled: true,
                       fillColor: AppColors.white,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.md),
+                        borderRadius: AppRadius.allMD,
                         borderSide: BorderSide.none,
                       ),
                     ),
@@ -278,10 +278,10 @@ class _BroadcastCreateScreenState extends State<BroadcastCreateScreen> {
           onTap: () => setState(() => _selectedType = type),
           child: Container(
             margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(16),
+            padding: AppSpacing.allLG,
             decoration: BoxDecoration(
               color: AppColors.white,
-              borderRadius: BorderRadius.circular(AppRadius.md),
+              borderRadius: AppRadius.allMD,
               border: Border.all(
                 color: isSelected ? color : AppColors.grey200,
                 width: isSelected ? 2 : 1,
@@ -296,7 +296,7 @@ class _BroadcastCreateScreenState extends State<BroadcastCreateScreen> {
                   height: 48,
                   decoration: BoxDecoration(
                     color: color.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(AppRadius.md),
+                    borderRadius: AppRadius.allMD,
                   ),
                   alignment: Alignment.center,
                   child: Text(
@@ -372,7 +372,7 @@ class _BroadcastCreateScreenState extends State<BroadcastCreateScreen> {
               padding: const EdgeInsets.symmetric(vertical: 12),
               decoration: BoxDecoration(
                 color: isSelected ? AppColors.primaryOrange : AppColors.white,
-                borderRadius: BorderRadius.circular(AppRadius.md),
+                borderRadius: AppRadius.allMD,
                 border: Border.all(
                   color: isSelected ? AppColors.primaryOrange : AppColors.grey200,
                 ),
@@ -416,7 +416,7 @@ class _BroadcastCreateScreenState extends State<BroadcastCreateScreen> {
               padding: const EdgeInsets.symmetric(vertical: 12),
               decoration: BoxDecoration(
                 color: isSelected ? AppColors.primaryOrange : AppColors.white,
-                borderRadius: BorderRadius.circular(AppRadius.md),
+                borderRadius: AppRadius.allMD,
                 border: Border.all(
                   color: isSelected ? AppColors.primaryOrange : AppColors.grey200,
                 ),
@@ -442,10 +442,10 @@ class _BroadcastCreateScreenState extends State<BroadcastCreateScreen> {
     final hasEnough = currencyProvider.treats >= cost;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: AppSpacing.allLG,
       decoration: BoxDecoration(
         color: hasEnough ? AppColors.infoBg : AppColors.errorBg,
-        borderRadius: BorderRadius.circular(AppRadius.md),
+        borderRadius: AppRadius.allMD,
       ),
       child: Row(
         children: [

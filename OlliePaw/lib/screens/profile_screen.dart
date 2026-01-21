@@ -86,25 +86,15 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   }
 
   Future<void> _handleLogout(BuildContext context) async {
-    // Small delay to ensure any modal animations complete
     await Future.delayed(const Duration(milliseconds: 300));
-
     if (!context.mounted) return;
 
-    final userProvider = context.read<AuthProvider>();
     final authProvider = context.read<AuthProvider>();
-
-    // Perform logout - await both to ensure clean state
-    await userProvider.logout();
+    await authProvider.logout();
     await authProvider.signOut();
 
-    // Navigate to login screen
     if (!context.mounted) return;
-
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      '/login',
-      (route) => false, // Remove all previous routes
-    );
+    Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
   }
 
   void _showSettings(BuildContext context) {
@@ -118,9 +108,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       backgroundColor: Colors.transparent,
       builder: (ctx) => Container(
         height: MediaQuery.of(context).size.height * 0.85,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+          borderRadius: AppRadius.topXXXL,
         ),
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -281,7 +271,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
                   if (!_isOwner)
                     Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: AppSpacing.allLG,
                       child: _isFollowing
                           ? AppButton.outlined(
                               label: AppStrings.following,
@@ -297,7 +287,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
                   // Tabs
                   Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: AppSpacing.allLG,
                     child: Container(
                       padding: const EdgeInsets.all(2),
                       decoration: BoxDecoration(color: AppColors.grey100, borderRadius: AppRadius.allXL),
@@ -360,7 +350,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                       subtitle: '${AppStrings.follow} ${_displayPet!.name} to unlock their moments',
                     )
                   : GridView.builder(
-                      padding: const EdgeInsets.all(16),
+                      padding: AppSpacing.allLG,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 8, mainAxisSpacing: 8),
                       itemCount: MockData.moments.length,
                       itemBuilder: (ctx, i) => ClipRRect(borderRadius: AppRadius.allMD, child: Image.network(MockData.moments[i].mediaUrl, fit: BoxFit.cover)),

@@ -82,67 +82,74 @@ class _ExploreScreenState extends State<ExploreScreen> {
     });
   }
 
-  /// 汪声翻译
-  void _showBarkTranslator(BuildContext context, Pet pet) async {
+  /// 通用 AI 功能展示
+  void _showAIFeature({
+    required BuildContext context,
+    required Pet pet,
+    required int cost,
+    required String loadingMessage,
+    required String loadingSubtitle,
+    required Future<String?> Function() task,
+    required IconData icon,
+    required Color iconColor,
+    required String title,
+    String buttonLabel = "OK",
+  }) async {
     final currencyProvider = context.read<CurrencyProvider>();
-    if (!currencyProvider.spendTreats(GameBalance.barkTranslatorCost)) {
-      SnackBarHelper.showWarning(context, "${AppStrings.notEnoughTreats} Need ${GameBalance.barkTranslatorCost} Treats!");
+    if (!currencyProvider.spendTreats(cost)) {
+      SnackBarHelper.showWarning(context, "${AppStrings.notEnoughTreats} Need $cost Treats!");
       return;
     }
 
-    final translation = await LoadingOverlay.show(
+    final result = await LoadingOverlay.show(
       context: context,
-      message: AppStrings.translatingBark,
-      subtitle: AppStrings.listeningToDog,
-      task: () => _ai.translatePetSound(pet),
+      message: loadingMessage,
+      subtitle: loadingSubtitle,
+      task: task,
     );
 
-    if (context.mounted && translation != null) {
+    if (context.mounted && result != null) {
       showDialog(
         context: context,
         builder: (ctx) => AppDialog(
-          icon: LucideIcons.mic,
-          iconColor: AppColors.primaryOrange,
-          title: AppStrings.barkTranslator,
-          content: Text(translation),
+          icon: icon,
+          iconColor: iconColor,
+          title: title,
+          content: Text(result),
           actions: [
-            AppDialog.textButton(ctx, label: "Cute!", onPressed: () => Navigator.pop(ctx)),
+            AppDialog.textButton(ctx, label: buttonLabel, onPressed: () => Navigator.pop(ctx)),
           ],
         ),
       );
     }
   }
+
+  /// 汪声翻译
+  void _showBarkTranslator(BuildContext context, Pet pet) => _showAIFeature(
+    context: context,
+    pet: pet,
+    cost: GameBalance.barkTranslatorCost,
+    loadingMessage: AppStrings.translatingBark,
+    loadingSubtitle: AppStrings.listeningToDog,
+    task: () => _ai.translatePetSound(pet),
+    icon: LucideIcons.mic,
+    iconColor: AppColors.primaryOrange,
+    title: AppStrings.barkTranslator,
+    buttonLabel: AppStrings.cute,
+  );
 
   /// 成长预测
-  void _showTimeMachine(BuildContext context, Pet pet) async {
-    final currencyProvider = context.read<CurrencyProvider>();
-    if (!currencyProvider.spendTreats(GameBalance.growthPredictorCost)) {
-      SnackBarHelper.showWarning(context, "${AppStrings.notEnoughTreats} Need ${GameBalance.growthPredictorCost} Treats!");
-      return;
-    }
-
-    final prediction = await LoadingOverlay.show(
-      context: context,
-      message: AppStrings.predictingFuture,
-      subtitle: AppStrings.consultingCrystalBall,
-      task: () => _ai.predictFutureSelf(pet),
-    );
-
-    if (context.mounted && prediction != null) {
-      showDialog(
-        context: context,
-        builder: (ctx) => AppDialog(
-          icon: LucideIcons.hourglass,
-          iconColor: AppColors.info,
-          title: "Future Revealed",
-          content: Text(prediction),
-          actions: [
-            AppDialog.textButton(ctx, label: AppStrings.close, onPressed: () => Navigator.pop(ctx)),
-          ],
-        ),
-      );
-    }
-  }
+  void _showTimeMachine(BuildContext context, Pet pet) => _showAIFeature(
+    context: context,
+    pet: pet,
+    cost: GameBalance.growthPredictorCost,
+    loadingMessage: AppStrings.predictingFuture,
+    loadingSubtitle: AppStrings.consultingCrystalBall,
+    task: () => _ai.predictFutureSelf(pet),
+    icon: LucideIcons.hourglass,
+    iconColor: AppColors.info,
+    title: AppStrings.futureRevealed,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -158,11 +165,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 页面标题
-              const Text("社区", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
+              const Text(AppStrings.community, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
               const SizedBox(height: AppSpacing.lg),
 
               // ========== 广播大对话框（向上循环滚动） ==========
-              const Text("📢 Community Broadcasts", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              const Text(AppStrings.communityBroadcasts, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               const SizedBox(height: AppSpacing.sm),
               Consumer<BroadcastProvider>(
                 builder: (ctx, broadcastProvider, _) {
@@ -184,7 +191,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             Icon(LucideIcons.messageSquare, size: 40, color: AppColors.textLight),
                             SizedBox(height: 8),
                             Text(
-                              "No broadcasts yet...",
+                              AppStrings.noBroadcasts,
                               style: TextStyle(color: AppColors.textMedium, fontSize: 14),
                             ),
                           ],
@@ -215,18 +222,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       itemBuilder: (ctx, i) {
                         final broadcast = broadcasts[i % broadcasts.length];
                         return Container(
-                          margin: const EdgeInsets.all(16),
+                          margin: AppSpacing.allLG,
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
                             color: AppColors.white,
                             borderRadius: AppRadius.allLG,
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.grey300.withValues(alpha: 0.3),
-                                blurRadius: 4,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
+                            boxShadow: AppColors.softShadow,
                           ),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -295,7 +296,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
                   if (nearbyPosts.isEmpty) {
                     return Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: AppSpacing.allLG,
                       decoration: BoxDecoration(
                         color: AppColors.white,
                         borderRadius: AppRadius.allLG,
@@ -306,7 +307,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           SizedBox(width: 12),
                           Expanded(
                             child: Text(
-                              "No lost pets nearby - all safe! 🎉",
+                              AppStrings.noLostPetsNearby,
                               style: TextStyle(color: AppColors.textMedium, fontSize: 14),
                             ),
                           ),
@@ -444,10 +445,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         builder: (ctx) => AppDialog(
                           icon: LucideIcons.search,
                           iconColor: AppColors.info,
-                          title: "Search Friends",
+                          title: AppStrings.searchFriends,
                           content: TextField(
                             onChanged: (val) => setState(() => _search = val),
-                            decoration: const InputDecoration(hintText: "Enter pet name..."),
+                            decoration: const InputDecoration(hintText: AppStrings.enterPetName),
                           ),
                           actions: [
                             AppDialog.textButton(ctx, label: AppStrings.close, onPressed: () => Navigator.pop(ctx)),

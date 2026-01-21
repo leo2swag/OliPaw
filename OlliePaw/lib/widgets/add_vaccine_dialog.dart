@@ -106,9 +106,7 @@ class _AddVaccineDialogState extends State<AddVaccineDialog> {
     );
 
     if (picked != null && picked != _dueDate) {
-      setState(() {
-        _dueDate = picked;
-      });
+      setState(() => _dueDate = picked);
     }
   }
 

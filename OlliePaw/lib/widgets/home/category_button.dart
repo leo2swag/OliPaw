@@ -55,7 +55,7 @@ class CategoryButton extends StatelessWidget {
             color: isSelected ? textColor : AppColors.grey300,
             width: AppSizes.borderWidthNormal,
           ),
-          borderRadius: BorderRadius.circular(AppRadius.xl),
+          borderRadius: AppRadius.allXL,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

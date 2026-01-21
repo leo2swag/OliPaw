@@ -18,6 +18,7 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/theme/app_dimensions.dart';
+import 'tap_container.dart';
 
 /// Fun Labs 功能卡片
 ///
@@ -92,32 +93,28 @@ class FunLabCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return TapContainer(
       onTap: onTap,
-      child: Container(
-        height: height,
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        decoration: BoxDecoration(
-          gradient: gradient,
-          color: gradient == null ? backgroundColor : null,
-          borderRadius: AppRadius.allXL,
-          border: borderColor != null ? Border.all(color: borderColor!) : null,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Icon(icon, color: iconColor),
-            Text(
-              title,
-              style: TextStyle(
-                color: textColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
+      height: height,
+      padding: AppSpacing.allLG,
+      gradient: gradient,
+      color: gradient == null ? backgroundColor : null,
+      borderRadius: AppRadius.allXL,
+      border: borderColor != null ? Border.all(color: borderColor!) : null,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Icon(icon, color: iconColor),
+          Text(
+            title,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

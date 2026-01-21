@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../core/theme/app_dimensions.dart';
 import '../../core/constants/app_colors.dart';
+import '../common/app_card.dart';
 
 /// 帖子输入框
 ///
@@ -40,13 +41,9 @@ class PostInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: AppRadius.allLG,
-        border: Border.all(color: AppColors.grey200),
-      ),
+    return AppCard.flat(
+      borderRadius: AppRadius.allLG,
+      border: Border.all(color: AppColors.grey200),
       child: Column(
         children: [
           TextField(

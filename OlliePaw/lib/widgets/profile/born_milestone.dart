@@ -10,6 +10,7 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/theme/app_dimensions.dart';
+import '../common/app_card.dart';
 
 /// 出生里程碑
 ///
@@ -42,13 +43,11 @@ class BornMilestone extends StatelessWidget {
 
         // 出生卡片
         Expanded(
-          child: Container(
+          child: AppCard.flat(
             padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: AppColors.celebrationBg,
-              borderRadius: AppRadius.allSM,
-              border: Border.all(color: AppColors.celebrationBorder),
-            ),
+            color: AppColors.celebrationBg,
+            borderRadius: AppRadius.allSM,
+            border: Border.all(color: AppColors.celebrationBorder),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

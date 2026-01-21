@@ -28,6 +28,7 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/theme/app_dimensions.dart';
+import 'tap_container.dart';
 
 /// 宠物头像信息组件
 ///
@@ -109,21 +110,17 @@ class PetAvatarInfo extends StatelessWidget {
 
         // 操作按钮
         if (actionLabel != null)
-          GestureDetector(
+          TapContainer(
             onTap: onActionTap,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(
-                color: actionBgColor,
-                borderRadius: AppRadius.allXL,
-              ),
-              child: Text(
-                actionLabel!,
-                style: TextStyle(
-                  color: actionTextColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                ),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            color: actionBgColor,
+            borderRadius: AppRadius.allXL,
+            child: Text(
+              actionLabel!,
+              style: TextStyle(
+                color: actionTextColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
               ),
             ),
           ),

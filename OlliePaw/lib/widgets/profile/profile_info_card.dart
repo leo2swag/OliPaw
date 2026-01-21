@@ -12,6 +12,7 @@ import '../../core/theme/app_dimensions.dart';
 import '../../core/constants/app_colors.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../models/types.dart';
+import '../common/app_card.dart';
 
 /// 个人资料信息卡片
 ///
@@ -29,18 +30,9 @@ class ProfileInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: AppRadius.allXL,
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.04),
-              blurRadius: 10,
-            )
-          ],
-        ),
+      child: AppCard.soft(
+        padding: AppSpacing.allXL,
+        borderRadius: AppRadius.allXL,
         child: Column(
           children: [
             // 品种和性别

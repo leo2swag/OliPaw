@@ -7,6 +7,7 @@
 */
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_strings.dart';
 import '../../core/theme/app_dimensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -28,7 +29,7 @@ class HealthTracker extends StatefulWidget {
 
 class _HealthTrackerState extends State<HealthTracker> {
   /// 顶部 AI 提示文案与加载态
-  String _tip = "Analyzing breed data...";
+  String _tip = AppStrings.analyzingBreedData;
   bool _loading = true;
   final GeminiService _ai = GeminiService();
 
@@ -54,15 +55,15 @@ class _HealthTrackerState extends State<HealthTracker> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: AppSpacing.allLG,
       children: [
         // AI 提示卡片
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: AppSpacing.allLG,
           decoration: BoxDecoration(
             gradient: AppColors.healthGradient,
             borderRadius: AppRadius.allLG,
-            boxShadow: [BoxShadow(color: AppColors.info.withValues(alpha:0.3), blurRadius: 10, offset: const Offset(0, 4))],
+            boxShadow: AppColors.infoShadow,
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,9 +74,9 @@ class _HealthTrackerState extends State<HealthTracker> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Dr. AI's Daily Tip", style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold)),
+                    const Text(AppStrings.drAiDailyTip, style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 4),
-                    Text(_loading ? "Thinking..." : _tip, style: const TextStyle(color: AppColors.white, fontSize: 13, height: 1.3)),
+                    Text(_loading ? AppStrings.thinking : _tip, style: const TextStyle(color: AppColors.white, fontSize: 13, height: 1.3)),
                   ],
                 ),
               ),
@@ -88,7 +89,7 @@ class _HealthTrackerState extends State<HealthTracker> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text("Vaccine Records", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            const Text(AppStrings.vaccineRecords, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             // 添加疫苗按钮
             AppButton.primary(
               label: '添加',
@@ -98,11 +99,7 @@ class _HealthTrackerState extends State<HealthTracker> {
               onPressed: () {
                 showAddVaccineDialog(
                   context: context,
-                  onVaccineAdded: (vaccine) {
-                    setState(() {
-                      _vaccines.add(vaccine);
-                    });
-                  },
+                  onVaccineAdded: (vaccine) => setState(() => _vaccines.add(vaccine)),
                 );
               },
             ),
@@ -110,7 +107,7 @@ class _HealthTrackerState extends State<HealthTracker> {
         ),
         const SizedBox(height: 12),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: AppSpacing.allLG,
           decoration: BoxDecoration(color: AppColors.white, borderRadius: AppRadius.allLG, border: Border.all(color: AppColors.grey100)),
           child: _vaccines.isEmpty
               ? const EmptyState(
@@ -130,7 +127,7 @@ class _HealthTrackerState extends State<HealthTracker> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text("Weight History", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            const Text(AppStrings.weightHistory, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             // 添加体重按钮
             AppButton.primary(
               label: '记录',
@@ -141,11 +138,7 @@ class _HealthTrackerState extends State<HealthTracker> {
                 showAddWeightDialog(
                   context: context,
                   lastWeight: _weightHistory.isNotEmpty ? _weightHistory.last.weight : null,
-                  onWeightAdded: (record) {
-                    setState(() {
-                      _weightHistory.add(record);
-                    });
-                  },
+                  onWeightAdded: (record) => setState(() => _weightHistory.add(record)),
                 );
               },
             ),
@@ -154,7 +147,7 @@ class _HealthTrackerState extends State<HealthTracker> {
         const SizedBox(height: 12),
         Container(
           height: 200,
-          padding: const EdgeInsets.all(16),
+          padding: AppSpacing.allLG,
           decoration: BoxDecoration(color: AppColors.white, borderRadius: AppRadius.allLG, border: Border.all(color: AppColors.grey100)),
           child: _weightHistory.isEmpty
               ? const EmptyState(
@@ -339,7 +332,7 @@ class _VaccineRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(vaccine.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text("Vet: ${vaccine.veterinarian}", style: const TextStyle(color: AppColors.grey500, fontSize: 12)),
+              Text("${AppStrings.vet}: ${vaccine.veterinarian}", style: const TextStyle(color: AppColors.grey500, fontSize: 12)),
             ],
           ),
           Container(
@@ -353,7 +346,7 @@ class _VaccineRow extends StatelessWidget {
               children: [
                 Icon(isOverdue ? LucideIcons.alertTriangle : LucideIcons.checkCircle, size: 12, color: isOverdue ? AppColors.error : AppColors.success),
                 const SizedBox(width: 4),
-                Text(isOverdue ? "Overdue" : "Up to date", style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: isOverdue ? AppColors.error : AppColors.success)),
+                Text(isOverdue ? AppStrings.overdue : AppStrings.upToDate, style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: isOverdue ? AppColors.error : AppColors.success)),
               ],
             ),
           )

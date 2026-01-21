@@ -12,6 +12,7 @@ import '../../models/types.dart';
 import '../../core/theme/app_dimensions.dart';
 import '../../core/constants/app_colors.dart';
 import '../common/pill_badge.dart';
+import '../common/app_card.dart';
 
 /// 时间轴条目
 ///
@@ -74,13 +75,10 @@ class TimelineItem extends StatelessWidget {
 
               // 帖子卡片
               Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: AppRadius.allSM,
-                    border: Border.all(color: AppColors.grey200),
-                  ),
+                child: AppCard.flat(
+                  padding: AppSpacing.allMD,
+                  borderRadius: AppRadius.allSM,
+                  border: Border.all(color: AppColors.grey200),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

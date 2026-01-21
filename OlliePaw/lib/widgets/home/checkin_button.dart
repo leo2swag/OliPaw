@@ -57,7 +57,7 @@ class CheckInButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
             decoration: BoxDecoration(
               color: isCheckedIn ? AppColors.checkedInBg : AppColors.primaryOrange,
-              borderRadius: BorderRadius.circular(AppRadius.xl),
+              borderRadius: AppRadius.allXL,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,

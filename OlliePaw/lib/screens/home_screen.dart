@@ -38,9 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
   // 选中的筛选分类（可多选）
   final Set<PostCategory> _selected = {};
 
-  // 性能优化: 缓存筛选结果，避免每次 build 都重新计算
+  // 缓存筛选结果
   List<Post>? _cachedFilteredPosts;
-  Set<PostCategory>? _lastSelectedFilter;
 
   /// 切换筛选分类
   void _toggleCategory(PostCategory category) {
@@ -75,30 +74,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  /// 构建筛选后的帖子列表（性能优化 - 带缓存）
+  /// 构建筛选后的帖子列表
   List<Widget> _buildFilteredPosts() {
-    // 检查缓存是否有效
-    final filterChanged = _lastSelectedFilter == null ||
-                         !_setEquals(_lastSelectedFilter!, _selected);
-
-    if (_cachedFilteredPosts == null || filterChanged) {
-      // 重新计算筛选结果
-      _cachedFilteredPosts = MockData.posts
-          .where((p) => _selected.isEmpty || _selected.contains(p.category))
-          .toList();
-      _lastSelectedFilter = Set.from(_selected);
-    }
-
+    _cachedFilteredPosts ??= MockData.posts
+        .where((p) => _selected.isEmpty || _selected.contains(p.category))
+        .toList();
     return _cachedFilteredPosts!.map((post) => FeedCard(post: post)).toList();
-  }
-
-  /// 辅助方法: 比较两个 Set 是否相等
-  bool _setEquals<T>(Set<T> a, Set<T> b) {
-    if (a.length != b.length) return false;
-    for (var item in a) {
-      if (!b.contains(item)) return false;
-    }
-    return true;
   }
 
   @override

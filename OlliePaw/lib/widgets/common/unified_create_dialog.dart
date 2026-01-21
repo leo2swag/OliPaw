@@ -35,7 +35,7 @@ class _UnifiedCreateDialogState extends State<UnifiedCreateDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppRadius.xxl),
+        borderRadius: AppRadius.allXXL,
       ),
       child: Container(
         padding: AppSpacing.allXXL,
@@ -94,7 +94,7 @@ class _UnifiedCreateDialogState extends State<UnifiedCreateDialog> {
                       foregroundColor: AppColors.white,
                       padding: AppSpacing.verticalMD,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppRadius.lg),
+                        borderRadius: AppRadius.allLG,
                       ),
                     ),
                     child: const Text(AppStrings.continue_),
@@ -151,7 +151,7 @@ class _UnifiedCreateDialogState extends State<UnifiedCreateDialog> {
         padding: AppSpacing.allLG,
         decoration: BoxDecoration(
           color: isSelected ? color.withValues(alpha: 0.1) : AppColors.white,
-          borderRadius: BorderRadius.circular(AppRadius.lg),
+          borderRadius: AppRadius.allLG,
           border: Border.all(
             color: isSelected ? color : AppColors.border,
             width: isSelected ? AppSizes.borderWidthNormal : AppSizes.borderWidthThin,
@@ -239,7 +239,7 @@ class _UnifiedCreateDialogState extends State<UnifiedCreateDialog> {
       padding: AppSpacing.allMD,
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
+        borderRadius: AppRadius.allLG,
         border: Border.all(color: AppColors.border),
       ),
       child: Row(

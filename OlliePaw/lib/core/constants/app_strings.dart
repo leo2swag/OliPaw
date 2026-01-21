@@ -180,6 +180,7 @@ class AppStrings {
   static const String health = 'Health';
   static const String healthRecords = 'Health Records';
   static const String vaccinations = 'Vaccinations';
+  static const String vaccineRecords = 'Vaccine Records';
   static const String addVaccine = 'Add Vaccine';
   static const String vaccineName = 'Vaccine Name';
   static const String vaccineDate = 'Vaccine Date';
@@ -190,6 +191,11 @@ class AppStrings {
   static const String weightHistory = 'Weight History';
   static const String vetVisits = 'Vet Visits';
   static const String medications = 'Medications';
+  static const String careCenter = 'Care Center';
+  static const String healthTrack = 'Health Track';
+  static const String overdue = 'Overdue';
+  static const String upToDate = 'Up to date';
+  static const String vet = 'Vet';
 
   // ========================================
   // 社区功能 (Community Features)
@@ -201,6 +207,9 @@ class AppStrings {
   static const String suggestedPals = 'Suggested Pals';
   static const String seeAll = 'See All';
   static const String nearby = 'Nearby';
+  static const String searchFriends = 'Search Friends';
+  static const String enterPetName = 'Enter pet name...';
+  static const String noLostPetsNearby = 'No lost pets nearby - all safe! 🎉';
 
   // ========================================
   // 签到 & 奖励 (Check-in & Rewards)
@@ -299,10 +308,25 @@ class AppStrings {
   static const String askQuestion = 'Ask a question...';
   static const String generatingCaption = 'Generating caption...';
   static const String analyzing = 'Analyzing...';
+  static const String analyzingBreedData = 'Analyzing breed data...';
+  static const String thinking = 'Thinking...';
   static const String predictingFuture = 'Predicting future...';
   static const String consultingCrystalBall = 'Consulting the crystal ball 🔮';
   static const String translatingBark = 'Translating bark...';
   static const String listeningToDog = 'Listening to your dog 🎧';
+  static const String futureRevealed = 'Future Revealed';
+  static const String cute = 'Cute!';
+  static const String drAiDailyTip = "Dr. AI's Daily Tip";
+  static const String pawpalAi = 'PawPal AI';
+  static const String aiVetAssistant = 'Your AI Vet Assistant';
+  static const String uploadMedia = 'Upload Media';
+  static const String uploadPhoto = 'Upload Photo';
+  static const String uploadVideo = 'Upload Video';
+  static const String sharePhotoWithPawpal = 'Share a photo with PawPal';
+  static const String shareVideoWithPawpal = 'Share a video with PawPal';
+  static const String pawpalThinking = 'PawPal is thinking...';
+  static const String readyToSend = 'Ready to send';
+  static const String askDrPawpal = 'Ask Dr. PawPal...';
 
   // ========================================
   // 欢迎语 (Greetings)
